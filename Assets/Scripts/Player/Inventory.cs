@@ -39,4 +39,12 @@ public class Inventory : MonoBehaviour
         GameManager.Instance.AddSales(revenue);
         return revenue;
     }
+
+    public int GetRemainingStockCost()
+    {
+        int total = 0;
+        for (int i = 0; i < 5; i++)
+            total += _stock[i] * _costPrice[i];
+        return total;
+    }
 }
