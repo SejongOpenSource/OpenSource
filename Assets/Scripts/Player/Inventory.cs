@@ -18,11 +18,25 @@ public class Inventory : MonoBehaviour
 
     public int GetStock(ProductType type) => _stock[(int)type];
 
+    // 판매가: Onigiri, Ramen, Drink, Lunchbox, Umbrella — TradeData 완성 후 교체
+    private readonly int[] _sellPrice = { 1200, 1300, 1000, 5500, 3500 };
+
     public bool Order(ProductType type, int quantity)
     {
         int cost = _costPrice[(int)type] * quantity;
         if (!_storeManager.SpendMoney(cost)) return false;
         _stock[(int)type] += quantity;
         return true;
+    }
+
+    public int Sell(ProductType type, int quantity)
+    {
+        int actualSold = Mathf.Min(quantity, _stock[(int)type]);
+        _stock[(int)type] -= actualSold;
+
+        int revenue = _sellPrice[(int)type] * actualSold;
+        _storeManager.AddMoney(revenue);
+        GameManager.Instance.AddSales(revenue);
+        return revenue;
     }
 }
