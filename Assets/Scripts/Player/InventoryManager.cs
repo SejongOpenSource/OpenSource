@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [Header("아이템 데이터 (Inspector에서 5개 연결)")]
-    public ItemData[] Items = new ItemData[5];
-    public StoreManager StoreManager;
+    [Header("아이템 데이터 (Inspector에서 연결)")]
+    public ItemData[] Items = new ItemData[System.Enum.GetNames(typeof(ItemType)).Length];
 
-    private int[] _stock = new int[5];        // 실제 재고
-    private int[] _pendingOrder = new int[5]; // 발주 대기 수량
+    private int[] _stock = new int[System.Enum.GetNames(typeof(ItemType)).Length];        // 실제 재고
+    private int[] _pendingOrder = new int[System.Enum.GetNames(typeof(ItemType)).Length]; // 발주 대기 수량
 
     // 영업 결과에 따른 재고 차감
     public void UpdateStock(ItemType type, int count)
@@ -39,7 +38,7 @@ public class InventoryManager : MonoBehaviour
         int penalty = 0;
         for (int i = 0; i < _stock.Length; i++)
         {
-            penalty += _stock[i] * Items[i].cost;
+            if (Items[i] != null) penalty += _stock[i] * Items[i].cost;
         }
         return penalty;
     }
@@ -47,16 +46,20 @@ public class InventoryManager : MonoBehaviour
     // 상권 배율 적용한 실제 판매가 계산
     public int GetEffectivePrice(ItemType type, DistrictData district)
     {
-        float[] multipliers = {
-            district.onigiriMult,
-            district.noodleMult,
-            district.drinkMult,
-            district.bentoMult,
-            district.umbrellaMult
+        int i = (int)type;
+        if (Items[i] == null) return 0;
+
+        float multiplier = type switch
+        {
+            ItemType.Onigiri  => district.onigiriMult,
+            ItemType.Noodle   => district.noodleMult,
+            ItemType.Drink    => district.drinkMult,
+            ItemType.Bento    => district.bentoMult,
+            ItemType.Umbrella => district.umbrellaMult,
+            _                 => 1f
         };
 
-        int i = (int)type;
-        return Mathf.RoundToInt(Items[i].price * multipliers[i]);
+        return Mathf.RoundToInt(Items[i].price * multiplier);
     }
 
     // 현재 재고 조회 (UI 연결용)
