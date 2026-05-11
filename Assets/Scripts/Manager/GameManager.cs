@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
     [HideInInspector] public TurnManager turnManager;
+    [HideInInspector] public Inventory inventory;
+    [HideInInspector] public SalesSimulationManager salesSimulationManager;
 
     private void Awake()
     {
@@ -20,6 +22,8 @@ public class GameManager : MonoBehaviour
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
         turnManager = GetComponent<TurnManager>();
+        inventory = GetComponent<Inventory>();
+        salesSimulationManager = GetComponent<SalesSimulationManager>();
     }
 
     public void AddSales(int amount) => TotalSales += amount;

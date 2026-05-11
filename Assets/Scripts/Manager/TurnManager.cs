@@ -22,9 +22,11 @@ public class TurnManager : MonoBehaviour
         {
             case TurnPhase.Upgrade:
                 CurrentPhase = TurnPhase.Order;
+                GameManager.Instance.weatherSystem.GenerateWeather();
                 break;
             case TurnPhase.Order:
                 CurrentPhase = TurnPhase.Simulation;
+                SalesSimulationManager.Instance.StartSimulation();
                 break;
             case TurnPhase.Simulation:
                 CurrentPhase = TurnPhase.Result;

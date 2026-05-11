@@ -13,6 +13,11 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         _storeManager = GetComponent<StoreManager>();
+        
+        if (products.Length != System.Enum.GetNames(typeof(ProductType)).Length)
+        {
+            Debug.LogError($"products 배열의 길이({products.Length})가 ProductType 열거형의 요소 수({System.Enum.GetNames(typeof(ProductType)).Length})와 일치하지 않습니다.");
+        }
     }
 
     public int GetStock(ProductType type) => _stock[(int)type];
