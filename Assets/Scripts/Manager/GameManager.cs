@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
-    [HideInInspector] public TurnManager turnManager;
     [HideInInspector] public Inventory inventory;
     [HideInInspector] public SalesSimulationManager salesSimulationManager;
 
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
-        turnManager = GetComponent<TurnManager>();
         inventory = GetComponent<Inventory>();
         salesSimulationManager = GetComponent<SalesSimulationManager>();
     }
