@@ -6,7 +6,7 @@ public class Inventory : MonoBehaviour
 {
     public TradeData[] products; // Inspector에서 5종 ScriptableObject 할당
 
-    private int[] _stock = new int[5];
+    private int[] _stock = new int[System.Enum.GetValues(typeof(ProductType)).Length];
 
     private StoreManager _storeManager;
 
