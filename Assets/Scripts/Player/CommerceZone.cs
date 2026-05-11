@@ -23,7 +23,7 @@ public class CommerceZone : MonoBehaviour
     public void UpgradeCommerceZone(Commerce c)
     {
         // 1. 중복 체크: 이미 동일한 상권인 경우 불필요한 비용 지출 방지
-        if (storeManager.currentZone == c) 
+        if (storeManager.currentZone == c && storeManager.currentDistrictData != null) 
         {
             Debug.Log($"이미 {c} 상권이 적용 중입니다.");
             return; 
@@ -40,9 +40,7 @@ public class CommerceZone : MonoBehaviour
         if (storeManager.SpendMoney(targetData.investmentCost))
         {
             // 4. 데이터 갱신: 현재 적용된 상권 타입과 데이터 참조(Reference) 업데이트
-            storeManager.currentZone = c;
-            storeManager.currentDistrictData = targetData;
-            
+            storeManager.SetDistrict(c, targetData);
             Debug.Log($"{c} 상권으로 업그레이드 완료!");
         }
     }

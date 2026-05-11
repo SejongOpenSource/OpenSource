@@ -7,7 +7,7 @@ public class StoreManager : MonoBehaviour
     public int currentMoney { get; private set; } = 500000; // 현재 보유 금액
     public int currentDebt { get; private set; } = 0; // 현재 대출금
     public Commerce currentZone = Commerce.Resident;
-    public DistrictData currentDistrictData;
+    public DistrictData currentDistrictData { get; private set; }
     public event Action<int> OnPaymentSuccess; 
     public event Action OnPaymentFailed;
 
@@ -31,10 +31,17 @@ public class StoreManager : MonoBehaviour
         currentMoney += amount;
     }
 
+    // 부채 업데이트
     public void UpdateDebt(int amount)
     {
         currentDebt += amount;
         if (currentDebt < 0) currentDebt = 0;
     }
-    
+
+    // 상권 업데이트
+    public void SetDistrict(Commerce zone, DistrictData data)
+    {
+        currentZone = zone;
+        currentDistrictData = data;
+    }
 }
