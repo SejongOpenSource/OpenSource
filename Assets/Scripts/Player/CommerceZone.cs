@@ -1,41 +1,64 @@
 using UnityEngine;
 
+// 상권의 종류를 정의하는 열거형
 public enum Commerce { Resident, Academy, Campus, Business, Tourist }
 
 public class CommerceZone : MonoBehaviour
 {
-    public StoreManager storeManager;
+    [Header("참조 설정")]
+    public StoreManager storeManager; // 자본금 및 현재 상태를 관리하는 매니저
     
-    [Header("상권 데이터")]
-    public DistrictData residentData;
-    public DistrictData  academyData;
-    public DistrictData  campusData;
-    public DistrictData  businessData;
-    public DistrictData  touristData;
+    [Header("상권 데이터 (ScriptableObject)")]
+    [Tooltip("각 상권의 비용, 방문객 수, 가중치 정보가 담긴 데이터들")]
+    public DistrictData residentData; // 주택가
+    public DistrictData academyData;  // 학원가
+    public DistrictData campusData;   // 대학교
+    public DistrictData businessData; // 오피스
+    public DistrictData touristData;  // 관광지
     
+    /// <summary>
+    /// 상권을 업그레이드(교체)하는 메인 함수
+    /// </summary>
+    /// <param name="c">변경하려는 대상 상권 타입</param>
     public void UpgradeCommerceZone(Commerce c)
     {
+        // 1. 중복 체크: 이미 동일한 상권인 경우 불필요한 비용 지출 방지
+        if (storeManager.currentZone == c) 
+        {
+            Debug.Log($"이미 {c} 상권이 적용 중입니다.");
+            return; 
+        }
+
+        // 2. 데이터 매핑: 선택한 상권 타입에 맞는 데이터 오브젝트(SO)를 가져옴
         DistrictData targetData = GetDistrictData(c); 
 
+        // 데이터가 비어있으면(Null) 로직 중단
         if (targetData == null) return;
 
+        // 3. 결제 시도: StoreManager를 통해 자본금 확인 및 차감 시도
+        // 결제에 성공(true 반환)했을 때만 상권 데이터 교체 진행
         if (storeManager.SpendMoney(targetData.investmentCost))
         {
+            // 4. 데이터 갱신: 현재 적용된 상권 타입과 데이터 참조(Reference) 업데이트
             storeManager.currentZone = c;
+            storeManager.currentDistrictData = targetData;
             
-            // 요소 값 변경 로직 추가
+            Debug.Log($"{c} 상권으로 업그레이드 완료!");
         }
     }
 
+    /// <summary>
+    /// 상권 타입(Enum)에 맞는 데이터 오브젝트(SO)를 반환하는 헬퍼 함수
+    /// </summary>
     private DistrictData GetDistrictData(Commerce c)
     {
         return c switch
         {
             Commerce.Resident => residentData,
-            Commerce.Academy => academyData,
-            Commerce.Campus => campusData,
+            Commerce.Academy  => academyData,
+            Commerce.Campus   => campusData,
             Commerce.Business => businessData,
-            Commerce.Tourist => touristData,
+            Commerce.Tourist  => touristData,
             _ => null
         };
     }
