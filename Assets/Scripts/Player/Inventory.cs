@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour
     public int GetRemainingStockCost()
     {
         int total = 0;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < _stock.Length; i++)
             total += _stock[i] * products[i].costPrice;
         return total;
     }
