@@ -11,6 +11,18 @@ public class StoreManager : MonoBehaviour
     public event Action<int> OnPaymentSuccess; 
     public event Action OnPaymentFailed;
 
+    
+    /*
+     // 당일 영업을 위한 초기화
+    public void InitializeDay(GameData gameData)
+    {
+        _refData = gameData;
+        
+        // 날씨에 따른 방문객 수 계산 등 당일 로직 수행
+        // _refData.morningWeather 등을 활용
+    }
+     */
+    
     // [소비] 보유 금액이 충분하면 차감 후 true 반환
     public bool SpendMoney(int amount)
     {
