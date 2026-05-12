@@ -43,25 +43,6 @@ public class InventoryManager : MonoBehaviour
         return penalty;
     }
 
-    // 상권 배율 적용한 실제 판매가 계산
-    public int GetEffectivePrice(ItemType type, DistrictData district)
-    {
-        int i = (int)type;
-        if (Items[i] == null) return 0;
-
-        float multiplier = type switch
-        {
-            ItemType.Onigiri  => district.onigiriMult,
-            ItemType.Noodle   => district.noodleMult,
-            ItemType.Drink    => district.drinkMult,
-            ItemType.Bento    => district.bentoMult,
-            ItemType.Umbrella => district.umbrellaMult,
-            _                 => 1f
-        };
-
-        return Mathf.RoundToInt(Items[i].price * multiplier);
-    }
-
     // 현재 재고 조회 (UI 연결용)
     public int GetStock(ItemType type) => _stock[(int)type];
 
