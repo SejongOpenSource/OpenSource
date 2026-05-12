@@ -6,11 +6,13 @@ public class StoreManager : MonoBehaviour
     [Header("자산 관리")]
     public int currentMoney { get; private set; } = 500000; // 현재 보유 금액
     public int currentDebt { get; private set; } = 0; // 현재 대출금
+    public int currentVisitor;
     public Commerce currentZone = Commerce.Resident;
     public DistrictData currentDistrictData { get; private set; }
     public event Action<int> OnPaymentSuccess; 
     public event Action OnPaymentFailed;
-
+    
+    
     
     /*
      // 당일 영업을 위한 초기화
