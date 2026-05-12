@@ -13,15 +13,21 @@ public class CustomerManager : MonoBehaviour
 
     public int CalculateDailyVisitors()
     {
-        switch (storeManager.currentZone)
+        float currnetVisitor = CalculateZoneWeight(storeManager.currentZone);
+        return CalculateWeatherVisitor(currnetVisitor);
+    }
+
+    public float CalculateZoneWeight(Commerce zone)
+    {
+        switch (zone)
         {
             // GameData 업데이트 시 CSV GameData 내부 
             case Commerce.Academy:
-                return baseVisitor + (int)(baseVisitor * 0.25);
+                return baseVisitor + baseVisitor * 0.25f;
             case Commerce.Campus:
-                return baseVisitor + (int)(baseVisitor * 0.5); 
+                return baseVisitor + baseVisitor * 0.5f; 
             case Commerce.Business:
-                return baseVisitor + (int)(baseVisitor * 0.75);
+                return baseVisitor + baseVisitor * 0.75f;
             case Commerce.Tourist:
                 return baseVisitor + baseVisitor;
             default:
@@ -29,20 +35,19 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    public int CalculateWeatherVisitor()
+    public int CalculateWeatherVisitor(float currentVisitor)
     {
         WeatherSystem weather = GetComponent<WeatherSystem>(); //  => GameData로 변경
         Weather morningWeather = weather.morningWeather;
         Weather afternoonweather = weather.afternoonWeather;
         
-        int currnetVisitor = CalculateDailyVisitors();
-        float morningVisitor = CalculateWeatherVisitorWeight(morningWeather,currnetVisitor / 2f);
-        float afternoonVisitor = CalculateWeatherVisitorWeight(afternoonweather,currnetVisitor / 2f);
+        float morningVisitor = CalculateWeatherVisitorWeight(morningWeather,currentVisitor / 2f);
+        float afternoonVisitor = CalculateWeatherVisitorWeight(afternoonweather,currentVisitor / 2f);
         
         return (int)(morningVisitor + afternoonVisitor);
     }
 
-    public float CalculateWeatherVisitorWeight(Weather weather, float visitor)
+    private float CalculateWeatherVisitorWeight(Weather weather, float visitor)
     {
         switch (weather)
         {
@@ -57,4 +62,10 @@ public class CustomerManager : MonoBehaviour
             default: return visitor;
         }
     }
+    
+    public int SalesRevenue()
+    {
+        return 0;
+    }
+    
 }
