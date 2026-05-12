@@ -5,7 +5,7 @@ using UnityEngine;
 public class DistrictDataManager : ScriptableObject
 {
 
-    public List<DistrictData> districts;
+    [SerializeField] private List<DistrictData> districts;
     private Dictionary<string, DistrictData> districtDict = new Dictionary<string, DistrictData>();
 
     public void Initialize()
