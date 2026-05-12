@@ -4,7 +4,7 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     public StoreManager storeManager;
-    private int baseVisittor = 20;
+    private int baseVisitor = 20;
 
     private void Start()
     {
@@ -15,16 +15,22 @@ public class CustomerManager : MonoBehaviour
     {
         switch (storeManager.currentZone)
         {
+            // GameData 업데이트 시 CSV GameData 내부 
             case Commerce.Academy:
-                return baseVisittor + baseVisitor * 0.25;
+                return baseVisitor + (int)(baseVisitor * 0.25);
             case Commerce.Campus:
-                return baseVisittor + baseVisitor * 0.5; 
+                return baseVisitor + (int)(baseVisitor * 0.5); 
             case Commerce.Business:
-                return baseVisittor + baseVisitor * 0.75;
+                return baseVisitor + (int)(baseVisitor * 0.75);
             case Commerce.Tourist:
-                return baseVisittor + baseVisitor;
+                return baseVisitor + baseVisitor;
             default:
                 return baseVisitor;
         }
+    }
+
+    public int CalculateWeatherVisitor()
+    {
+        return baseVisitor;
     }
 }
