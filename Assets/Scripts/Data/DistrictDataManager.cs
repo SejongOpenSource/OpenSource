@@ -11,16 +11,22 @@ public class DistrictDataManager : ScriptableObject
     public void Initialize()
     {
         districtDict.Clear();
+        if (districts == null) return;
         foreach (var data in districts)
         {
-            if (data != null) districtDict[data.districtName] = data;
+            if (data != null && !string.IsNullOrEmpty(data.districtName)) districtDict[data.districtName] = data;
             else Debug.LogError("District data doesn't exist");
         }
     }
 
-    public DistrictData GetDistrict(string name)
+    public DistrictData GetDistrict(string districtName)
     {
-        districtDict.TryGetValue(name, out DistrictData result);
+        if (string.IsNullOrEmpty(districtName))
+        {
+            Debug.LogError("District name is null or empty");
+            return null;
+        }
+        districtDict.TryGetValue(districtName, out DistrictData result);
         return result;
     }
 }
