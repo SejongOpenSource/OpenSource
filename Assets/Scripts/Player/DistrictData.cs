@@ -4,7 +4,6 @@ using UnityEngine;
 public class DistrictData : ScriptableObject
 {
     public string districtName;      // 상권 이름
-    public Commerce zone;            // 상권 타입
     public int investmentCost;       // 투자 비용
     public float visitorBonus;       // 방문객 증가율 (예: 0.2f)
     
