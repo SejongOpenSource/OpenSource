@@ -14,11 +14,6 @@ public class SalesAlgorithm : MonoBehaviour
     public void RunSimulation(int totalVisitors)
     {
         int dailyTotalRevenue = 0;
-        Dictionary<ItemType, int> salesCount = new Dictionary<ItemType, int>();
-        
-        // Initialize sales count
-        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
-            salesCount[type] = 0;
 
         DistrictData district = DataManager.Instance.districtDataManager.GetDistrict(StoreManager.Instance.currentZone);
         Weather morning = WeatherSystem.Instance.morningWeather;
@@ -32,12 +27,10 @@ public class SalesAlgorithm : MonoBehaviour
                 // Check stock in InventoryManager
                 if (InventoryManager.Instance.GetStock(chosenItem.Value) > 0)
                 {
-                    ItemData itemData = DataManager.Instance.itemDataManager.GetItem(chosenItem.Value);
                     int price = InventoryManager.Instance.GetEffectivePrice(chosenItem.Value, district);
                     
-                    InventoryManager.Instance.UpdateStock(chosenItem.Value, 1);
+                    InventoryManager.Instance.UpdateStock(chosenItem.Value, -1);
                     dailyTotalRevenue += price;
-                    salesCount[chosenItem.Value]++;
                 }
             }
         }
