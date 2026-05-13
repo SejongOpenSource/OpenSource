@@ -51,49 +51,46 @@ public class SalesAlgorithm : MonoBehaviour
 
     private ItemType? PickItem(DistrictData district, Weather morning, Weather afternoon)
     {
-        // 기본 확률 (각 20%)
-        float[] probabilities = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+        Dictionary<ItemType, float> probabilities = new Dictionary<ItemType, float>();
+        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
+            probabilities[type] = 0.2f;
 
-        // 상권 가중치 적용
         if (district != null)
         {
-            probabilities[0] *= district.onigiriMult;
-            probabilities[1] *= district.noodleMult;
-            probabilities[2] *= district.drinkMult;
-            probabilities[3] *= district.bentoMult;
-            probabilities[4] *= district.umbrellaMult;
+            probabilities[ItemType.Onigiri] *= district.onigiriMult;
+            probabilities[ItemType.Noodle] *= district.noodleMult;
+            probabilities[ItemType.Drink] *= district.drinkMult;
+            probabilities[ItemType.Bento] *= district.bentoMult;
+            probabilities[ItemType.Umbrella] *= district.umbrellaMult;
         }
 
-        // 날씨 가중치 적용 (Simplified for backend logic)
         ApplyWeatherProductWeights(probabilities, morning, true);
         ApplyWeatherProductWeights(probabilities, afternoon, false);
 
-        // Roulette wheel selection
         float totalProb = 0;
-        foreach (float p in probabilities) totalProb += p;
+        foreach (float p in probabilities.Values) totalProb += p;
 
         float roll = Random.Range(0f, totalProb);
         float cumulative = 0;
         
-        for (int i = 0; i < probabilities.Length; i++)
+        foreach (var kvp in probabilities)
         {
-            cumulative += probabilities[i];
-            if (roll <= cumulative) return (ItemType)i;
+            cumulative += kvp.Value;
+            if (roll <= cumulative) return kvp.Key;
         }
 
         return null;
     }
 
-    private void ApplyWeatherProductWeights(float[] probs, Weather weather, bool isMorning)
+    private void ApplyWeatherProductWeights(Dictionary<ItemType, float> probs, Weather weather, bool isMorning)
     {
-        // Example logic
         switch (weather)
         {
             case Weather.Rainy:
-                probs[4] *= 2.0f; // Umbrella
+                probs[ItemType.Umbrella] *= 2.0f;
                 break;
             case Weather.Heatwave:
-                probs[2] *= 1.5f; // Drink
+                probs[ItemType.Drink] *= 1.5f;
                 break;
         }
     }
