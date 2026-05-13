@@ -16,6 +16,8 @@ public class WeatherData : ScriptableObject
 
     // 외부에서 읽어갈 때 쓰는 프로퍼티
     public WeatherType Type => weatherType;
+    public string WeatherName => weatherName;
+    public float VisitorMultiplier => visitorMultiplier;
     public float Weight => weight;
-    public List<WeatherType> NextWeatherOptions => nextWeatherOptions;
+    public IReadOnlyList<WeatherType> NextWeatherOptions => nextWeatherOptions;
 }

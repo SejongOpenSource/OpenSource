@@ -47,19 +47,17 @@ public class WeatherSystem : MonoBehaviour
             
             case WeatherType.Sunny:
                 return GetRandomFrom(WeatherType.Heatwave, WeatherType.Cloudy, WeatherType.Rainy, WeatherType.Snowy);
-            
             default:
-                return (WeatherType)Random.Range(0, 5);
+                throw new System.ArgumentOutOfRangeException(nameof(morning), $"Not expected weather type: {morning}");
         }
     }
     
     // 가능한 날씨 선택
     private WeatherType GetRandomFrom(params WeatherType[] options)
     {
-        if (options.Length == 0)
+        if (options == null || options.Length == 0)
         {
-            Debug.Log("날씨 오류 발생!!!");
-            return WeatherType.Sunny;
+            throw new System.ArgumentException("Cannot select from an empty list of options.", nameof(options));
         }
         return options[Random.Range(0, options.Length)];
     }
