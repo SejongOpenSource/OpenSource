@@ -6,7 +6,7 @@ public class StoreManager : MonoBehaviour
     [Header("자산 관리")]
     public int currentMoney { get; private set; } = 500000; // 현재 보유 금액
     public int currentDebt { get; private set; } = 0; // 현재 대출금
-    public DistrictType currentZone = DistrictType.Resident;
+    public DistrictType currentZone { get; private set; } = DistrictType.Resident;
     public DistrictData currentDistrictData { get; private set; }
     public event Action<int> OnPaymentSuccess; 
     public event Action OnPaymentFailed;

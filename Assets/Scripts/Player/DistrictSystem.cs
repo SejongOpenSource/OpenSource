@@ -19,7 +19,7 @@ public class DistrictSystem : MonoBehaviour
         }
 
         // 2. 데이터 매핑: 선택한 상권 타입에 맞는 데이터 오브젝트(SO)를 가져옴
-        DistrictData targetData = DistrictData.CreateInstance<DistrictData>(); // => DataManager.DistrctDataManager로 변경
+        DistrictData targetData = DistrictData.CreateInstance<DistrictData>(); // => DataManager.DistrictDataManager로 변경
 
         // 데이터가 비어있으면(Null) 로직 중단
         if (targetData == null) return;
