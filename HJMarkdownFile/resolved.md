@@ -10,4 +10,9 @@
 - Key file: Assets/Scripts/Player/InventoryManager.cs, Assets/Scripts/Manager/GameManager.cs
 - Date: 2026-05-14
 
+## [Q-004] DistrictDataManager Consolidation ✓
+- Conclusion: 중복된 DistrictDataManager(Manager 폴더)를 제거하고 ScriptableObject 버전(Data 폴더)으로 통합. Commerce Enum 중복 제거 및 DataManager 연동 방식 변경(GetComponent -> Inspector 할당).
+- Key file: Assets/Scripts/Data/DistrictDataManager.cs, Assets/Scripts/Manager/DataManager.cs, Assets/Scripts/Player/DistrictData.cs
+- Date: 2026-05-14
+
 ---
