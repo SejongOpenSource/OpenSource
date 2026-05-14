@@ -46,6 +46,24 @@ public class InventoryManager : MonoBehaviour
         if (_stock[i] < 0) _stock[i] = 0;
     }
 
+    // 판매: 요청 수량만큼 재고가 있을 때만 차감하고, 실제 판매된 수량을 반환한다. 부족하면 경고만 하고 0.
+    public int TrySell(ItemType type, int amount)
+    {
+        if (amount <= 0)
+            return 0;
+
+        int i = (int)type;
+        int available = _stock[i];
+        if (available < amount)
+        {
+            Debug.LogWarning($"재고 부족: {type} — 요청 {amount}개, 보유 {available}개");
+            return 0;
+        }
+
+        _stock[i] = available - amount;
+        return amount;
+    }
+
     // 발주 수량 임시 저장
     public void SetOrder(ItemType type, int count)
     {
