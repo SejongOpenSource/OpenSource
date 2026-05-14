@@ -4,7 +4,9 @@ This project is a Unity-based convenience store management simulation focusing o
 
 ## ⚠️ Core Mandate: Role Limitation
 - **Scope**: Focus EXCLUSIVELY on backend system logic, manager classes, and data structures.
-- **Out of Scope**: UI implementation, visual object management (Prefabs/Sprites), and visual integration. These are handled by the user.
+- **Out of Scope**: 
+    - UI implementation, visual object management (Prefabs/Sprites), and visual integration.
+    - **Strictly Excluded**: `saleAlgorithm`, `CustomerManager`.
 - **Task Focus**: Prioritize the task assigned in `HJMarkdownFile/focus.md`. Avoid speculative suggestions or unrequested "next steps".
 
 ## Project Overview
