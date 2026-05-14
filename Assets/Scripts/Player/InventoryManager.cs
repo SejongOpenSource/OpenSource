@@ -5,8 +5,15 @@ public class InventoryManager : MonoBehaviour
     [Header("아이템 데이터 (Inspector에서 연결)")]
     public ItemData[] Items = new ItemData[System.Enum.GetNames(typeof(ItemType)).Length];
 
-    private int[] _stock = new int[System.Enum.GetNames(typeof(ItemType)).Length];        // 실제 재고
-    private int[] _pendingOrder = new int[System.Enum.GetNames(typeof(ItemType)).Length]; // 발주 대기 수량
+    private int[] _stock;
+    private int[] _pendingOrder;
+
+    private void Awake()
+    {
+        int n = System.Enum.GetNames(typeof(ItemType)).Length;
+        _stock = new int[n];
+        _pendingOrder = new int[n];
+    }
 
     // 영업 결과에 따른 재고 차감
     public void UpdateStock(ItemType type, int count)
