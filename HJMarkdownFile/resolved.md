@@ -10,6 +10,11 @@
 - Key file: Assets/Scripts/Player/InventoryManager.cs, Assets/Scripts/Manager/GameManager.cs
 - Date: 2026-05-14
 
+## [Q-003] TradeData ScriptableObject ✓
+- Conclusion: TradeData.cs (ScriptableObject) 구현 완료. 상품 5종(삼각김밥, 컵라면, 음료수, 도시락, 우산)에 대한 .asset 파일 생성 및 InventoryManager/ItemDataManager 연동 완료.
+- Key file: Assets/Scripts/Player/TradeData.cs, Assets/Data/TradeData/*.asset, Assets/Scripts/Player/InventoryManager.cs
+- Date: 2026-05-14
+
 ## [Q-004] DistrictDataManager Consolidation ✓
 - Conclusion: 중복된 DistrictDataManager(Manager 폴더)를 제거하고 ScriptableObject 버전(Data 폴더)으로 통합. Commerce Enum 중복 제거 및 DataManager 연동 방식 변경(GetComponent -> Inspector 할당).
 - Key file: Assets/Scripts/Data/DistrictDataManager.cs, Assets/Scripts/Manager/DataManager.cs, Assets/Scripts/Player/DistrictData.cs
