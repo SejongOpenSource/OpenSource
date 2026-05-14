@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance { get; private set; }
+
     [Header("아이템 데이터 (Inspector에서 연결)")]
     public ItemData[] Items = new ItemData[System.Enum.GetNames(typeof(ItemType)).Length];
 
@@ -10,9 +12,23 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
         int n = System.Enum.GetNames(typeof(ItemType)).Length;
         _stock = new int[n];
         _pendingOrder = new int[n];
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     // 영업 결과에 따른 재고 차감
