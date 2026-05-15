@@ -28,16 +28,6 @@ public class InventoryManager : MonoBehaviour
             Instance = null;
     }
 
-    // CalculateStockPenalty 매서드 구현에 필요한 매서드
-    private bool TryGetItemData(ItemType type, out ItemData data)
-    {
-        data = null;
-        if (DataManager.Instance == null || DataManager.Instance.itemDataManager == null)
-            return false;
-        data = DataManager.Instance.itemDataManager.GetItem(type);
-        return data != null;
-    }
-
     // 영업 결과에 따른 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
@@ -84,14 +74,17 @@ public class InventoryManager : MonoBehaviour
     // 여기서 만들어야하는 이유는 확인 필요.
     public int CalculateStockPenalty()
     {
+        if (DataManager.Instance == null || DataManager.Instance.itemDataManager == null)
+            return 0;
+
         int penalty = 0;
-        // ItemType 열거형에 정의된 모든 값을 한 번씩 돈다. (enum 값 = _stock 인덱스와 1:1)
-        // 재고 수량은 _stock[(int)type], 원가 등 메타는 DataManager → ItemData에서 조회한다.
+        var itemDataManager = DataManager.Instance.itemDataManager;
+
         foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
         {
-            if (!TryGetItemData(type, out var item))
-                continue;
-            penalty += GetStock(type) * item.cost;
+            ItemData item = itemDataManager.GetItem(type);
+            if (item != null)
+                penalty += GetStock(type) * item.cost;
         }
         return penalty;
     }
