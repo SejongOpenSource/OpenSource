@@ -110,4 +110,10 @@ public class LoanPanelController : MonoBehaviour
 
         UpdateLoanTexts();
     }
+
+    public int GetSelectedLoanAmount()
+    {
+        // OrderPanelController에서 현재 선택된 대출 금액을 가져갈 때 사용
+        return selectedLoanAmount;
+    }
 }
