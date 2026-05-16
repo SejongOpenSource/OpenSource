@@ -16,10 +16,8 @@ public class LoanPanelController : MonoBehaviour
     public Text expectedInterestValueText;
 
     // 실제 대출 실행 로직이 있는 Loan 스크립트
+    // 현재는 실제 대출 확정 전이면 비워둬도 됨
     public Loan loan;
-
-    // 이자율. Loan.cs와 동일하게 3% 사용
-    public float interestRate = 0.03f;
 
     // 현재 선택된 대출 금액
     public int selectedLoanAmount = 0;
@@ -32,7 +30,7 @@ public class LoanPanelController : MonoBehaviour
             loanSlider.onValueChanged.AddListener(OnLoanSliderChanged);
 
             // 슬라이더 초기값을 현재 선택 금액으로 저장
-            selectedLoanAmount = (int)loanSlider.value;
+            selectedLoanAmount = Mathf.RoundToInt(loanSlider.value);
         }
 
         // 처음 화면 텍스트 갱신
@@ -41,8 +39,8 @@ public class LoanPanelController : MonoBehaviour
 
     private void OnLoanSliderChanged(float value)
     {
-        // 슬라이더 값은 float이므로 int로 변환해서 저장
-        selectedLoanAmount = (int)value;
+        // 슬라이더 값은 float이므로 반올림해서 int로 저장
+        selectedLoanAmount = Mathf.RoundToInt(value);
 
         // 슬라이더 값이 바뀔 때마다 텍스트 갱신
         UpdateLoanTexts();
@@ -58,16 +56,20 @@ public class LoanPanelController : MonoBehaviour
             loanAmountValueText.text = selectedLoanAmount.ToString("N0") + "원";
         }
 
+        // Loan.cs에 정의된 공통 이자율 사용
+        float currentInterestRate = Loan.InterestRate;
+
         // 이자율 표시
         if (interestRateValueText != null)
         {
-            interestRateValueText.text = "3% / 회차";
+            int ratePercent = Mathf.RoundToInt(currentInterestRate * 100f);
+            interestRateValueText.text = ratePercent + "% / 회차";
         }
 
         // 예상 이자 표시
         if (expectedInterestValueText != null)
         {
-            int expectedInterest = (int)(selectedLoanAmount * interestRate);
+            int expectedInterest = Mathf.RoundToInt(selectedLoanAmount * currentInterestRate);
             expectedInterestValueText.text = expectedInterest.ToString("N0") + "원 / 회차";
         }
     }
