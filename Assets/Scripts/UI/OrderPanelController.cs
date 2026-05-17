@@ -55,6 +55,12 @@ public class OrderPanelController : MonoBehaviour
 
     private void ConfirmOrder()
     {
+        if (GameManager.Instance == null || InventoryManager.Instance == null)
+        {
+            Debug.LogError("ConfirmOrder: GameManager 또는 InventoryManager 초기화되지 않음");
+            return;
+        }
+
         int totalCost = 0;
         for (int i = 0; i < productRows.Length; i++)
         {
@@ -62,20 +68,23 @@ public class OrderPanelController : MonoBehaviour
             totalCost += productRows[i].GetOrderCost();
         }
 
-        // 대출 먼저 처리
+        int loanAmount = 0;
         if (loanPanelController != null)
-        {
-            int loanAmount = loanPanelController.GetSelectedLoanAmount();
-            if (loanAmount > 0)
-                GameManager.Instance.loan.TakeOutLoan(loanAmount);
-        }
+            loanAmount = loanPanelController.GetSelectedLoanAmount();
 
-        // 발주 비용 차감
-        if (!GameManager.Instance.storeManager.SpendMoney(totalCost))
+        // 대출 포함 잔액으로 발주 가능 여부 사전 검증
+        int availableMoney = GameManager.Instance.storeManager.currentMoney + loanAmount;
+        if (availableMoney < totalCost)
         {
-            Debug.LogWarning("발주 실패: 자본금 부족");
+            Debug.LogWarning($"발주 실패: 자본금 부족 (보유+대출: {availableMoney:N0}원, 필요: {totalCost:N0}원)");
             return;
         }
+
+        // 검증 통과 후 대출 실행
+        if (loanAmount > 0)
+            GameManager.Instance.loan.TakeOutLoan(loanAmount);
+
+        GameManager.Instance.storeManager.SpendMoney(totalCost);
 
         // 발주 확정
         for (int i = 0; i < productRows.Length; i++)
