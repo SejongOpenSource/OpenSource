@@ -28,6 +28,27 @@ public class InventoryManager : MonoBehaviour
             Instance = null;
     }
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        int n = System.Enum.GetNames(typeof(ItemType)).Length;
+        _stock = new int[n];
+        _pendingOrder = new int[n];
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     // 영업 시뮬레이션 결과 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
@@ -36,22 +57,25 @@ public class InventoryManager : MonoBehaviour
         if (_stock[i] < 0) _stock[i] = 0;
     }
 
-    // UI 직접 판매: 재고 충분 시 차감 후 판매 수량 반환, 부족 시 0 반환
+    // 판매: 요청 수량만큼 재고가 있을 때만 차감하고, 실제 판매된 수량을 반환한다. 부족하면 경고만 하고 0.
     public int TrySell(ItemType type, int amount)
     {
-        if (amount <= 0) return 0;
+        if (amount <= 0)
+            return 0;
 
         int i = (int)type;
-        if (_stock[i] < amount)
+        int available = _stock[i];
+        if (available < amount)
         {
-            Debug.LogWarning($"재고 부족: {type} — 요청 {amount}개, 보유 {_stock[i]}개");
+            Debug.LogWarning($"재고 부족: {type} — 요청 {amount}개, 보유 {available}개");
             return 0;
         }
 
-        _stock[i] -= amount;
+        _stock[i] = available - amount;
         return amount;
     }
 
+    // 발주 수량 임시 저장
     public void SetOrder(ItemType type, int count)
     {
         _pendingOrder[(int)type] = count;
@@ -66,17 +90,21 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // 게임 종료 시 남은 재고 원가 합산 (점수 차감용) || 해당 매서드를 GameManager에서 호출하여 점수 계산에 사용.
+    // 여기서 만들어야하는 이유는 확인 필요.
     public int CalculateStockPenalty()
     {
         if (DataManager.Instance == null || DataManager.Instance.itemDataManager == null)
             return 0;
 
         int penalty = 0;
-        for (int i = 0; i < _stock.Length; i++)
+        var itemDataManager = DataManager.Instance.itemDataManager;
+
+        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
         {
-            ItemData item = DataManager.Instance.itemDataManager.GetItem((ItemType)i);
+            ItemData item = itemDataManager.GetItem(type);
             if (item != null)
-                penalty += _stock[i] * item.cost;
+                penalty += GetStock(type) * item.cost;
         }
         return penalty;
     }
