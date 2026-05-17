@@ -5,44 +5,45 @@ public class SalesAlgorithm : MonoBehaviour
 {
     public static SalesAlgorithm Instance { get; private set; }
 
+    [SerializeField] private InventoryManager inventoryManager;
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+        if (inventoryManager == null)
+            inventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     public void RunSimulation(int totalVisitors)
     {
         int dailyTotalRevenue = 0;
 
-        DistrictData district = DataManager.Instance.districtDataManager.GetDistrict(StoreManager.Instance.currentZone);
-        Weather morning = WeatherSystem.Instance.morningWeather;
-        Weather afternoon = WeatherSystem.Instance.afternoonWeather;
+        DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
+        WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
+        WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
 
         for (int i = 0; i < totalVisitors; i++)
         {
             ItemType? chosenItem = PickItem(district, morning, afternoon);
             if (chosenItem.HasValue)
             {
-                // Check stock in InventoryManager
-                if (InventoryManager.Instance.GetStock(chosenItem.Value) > 0)
+                if (inventoryManager != null && inventoryManager.GetStock(chosenItem.Value) > 0)
                 {
-                    int price = InventoryManager.Instance.GetEffectivePrice(chosenItem.Value, district);
-                    
-                    InventoryManager.Instance.UpdateStock(chosenItem.Value, -1);
+                    int price = DataManager.Instance.GetItem(chosenItem.Value)?.price ?? 0;
+                    inventoryManager.UpdateStock(chosenItem.Value, 1);
                     dailyTotalRevenue += price;
                 }
             }
         }
 
-        // Apply results
-        StoreManager.Instance.AddMoney(dailyTotalRevenue);
+        GameManager.Instance.storeManager.AddMoney(dailyTotalRevenue);
         GameManager.Instance.AddSales(dailyTotalRevenue);
-        
+
         Debug.Log($"오늘의 총 매출: {dailyTotalRevenue}원");
     }
 
-    private ItemType? PickItem(DistrictData district, Weather morning, Weather afternoon)
+    private ItemType? PickItem(DistrictData district, WeatherType morning, WeatherType afternoon)
     {
         Dictionary<ItemType, float> probabilities = new Dictionary<ItemType, float>();
         foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
@@ -75,14 +76,14 @@ public class SalesAlgorithm : MonoBehaviour
         return null;
     }
 
-    private void ApplyWeatherProductWeights(Dictionary<ItemType, float> probs, Weather weather, bool isMorning)
+    private void ApplyWeatherProductWeights(Dictionary<ItemType, float> probs, WeatherType weather, bool isMorning)
     {
         switch (weather)
         {
-            case Weather.Rainy:
+            case WeatherType.Rainy:
                 probs[ItemType.Umbrella] *= 2.0f;
                 break;
-            case Weather.Heatwave:
+            case WeatherType.Heatwave:
                 probs[ItemType.Drink] *= 1.5f;
                 break;
         }
