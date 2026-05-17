@@ -42,7 +42,12 @@ public class GameManager : MonoBehaviour
 
     private bool CheckWin()
     {
-        if (SalesAlgorithm.Instance == null || SalesAlgorithm.Instance.TotalSales < TargetSales) return false;
+        if (SalesAlgorithm.Instance == null)
+        {
+            Debug.LogError("SalesAlgorithm 인스턴스를 찾을 수 없습니다.");
+            return false;
+        }
+        if (SalesAlgorithm.Instance.TotalSales < TargetSales) return false;
         Debug.Log("승리!");
         return true;
     }
