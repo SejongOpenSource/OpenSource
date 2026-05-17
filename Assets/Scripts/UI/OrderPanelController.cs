@@ -18,24 +18,16 @@ public class OrderPanelController : MonoBehaviour
 
     private void Start()
     {
-        // 각 상품 Row에 OrderPanelController 연결
         for (int i = 0; i < productRows.Length; i++)
         {
-            if (productRows[i] == null)
-            {
-                continue;
-            }
-
+            if (productRows[i] == null) continue;
             productRows[i].orderPanelController = this;
+            productRows[i].SetupRow();
         }
 
-        // 영업 시작하기 버튼 클릭 이벤트 연결
         if (startSalesButton != null)
-        {
-            startSalesButton.onClick.AddListener(CollectOrderDataForTest);
-        }
+            startSalesButton.onClick.AddListener(ConfirmOrder);
 
-        // 처음 주문 합계 표시
         UpdateOrderTotalText();
     }
 
@@ -61,37 +53,45 @@ public class OrderPanelController : MonoBehaviour
         }
     }
 
-    private void CollectOrderDataForTest()
+    private void ConfirmOrder()
     {
-        Debug.Log("=== 영업 시작하기 버튼 클릭 ===");
-
-        // 상품별 발주 수량 확인
+        int totalCost = 0;
         for (int i = 0; i < productRows.Length; i++)
         {
-            if (productRows[i] == null)
-            {
-                continue;
-            }
-
-            ItemType itemType = productRows[i].GetItemType();
-            int quantity = productRows[i].GetOrderQuantity();
-
-            Debug.Log(itemType + " 발주 수량: " + quantity);
+            if (productRows[i] == null) continue;
+            totalCost += productRows[i].GetOrderCost();
         }
 
-        // 선택한 외상/대출 금액 확인
+        // 대출 먼저 처리
         if (loanPanelController != null)
         {
             int loanAmount = loanPanelController.GetSelectedLoanAmount();
-            Debug.Log("선택 대출 금액: " + loanAmount);
-        }
-        else
-        {
-            Debug.Log("LoanPanelController가 연결되지 않았습니다.");
+            if (loanAmount > 0)
+                GameManager.Instance.loan.TakeOutLoan(loanAmount);
         }
 
-        // TODO:
-        // ItemData, OrderSystem, InventoryManager 연동 방식이 확정되면
-        // 여기에서 실제 발주 확정 로직을 호출한다.
+        // 발주 비용 차감
+        if (!GameManager.Instance.storeManager.SpendMoney(totalCost))
+        {
+            Debug.LogWarning("발주 실패: 자본금 부족");
+            return;
+        }
+
+        // 발주 확정
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null) continue;
+            InventoryManager.Instance.SetOrder(productRows[i].GetItemType(), productRows[i].GetOrderQuantity());
+        }
+        InventoryManager.Instance.FinalizeOrder();
+
+        // 재고 UI 갱신
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null) continue;
+            productRows[i].RefreshStock();
+        }
+
+        Debug.Log($"발주 확정 완료. 지출: {totalCost:N0}원");
     }
 }

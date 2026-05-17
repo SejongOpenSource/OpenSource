@@ -56,54 +56,34 @@ public class OrderProductRowUI : MonoBehaviour
         UpdateTotalPriceText();
     }
 
-    public void SetupRow(InventoryManager inventoryManager)
+    public void SetupRow()
     {
-        // InventoryManager가 없으면 상품 정보를 가져올 수 없음
-        if (inventoryManager == null)
-        {
-            return;
-        }
-
-        int itemIndex = (int)itemType;
-
-        // Items 배열이 없거나 인덱스가 잘못되면 중단
-        if (inventoryManager.Items == null || itemIndex < 0 || itemIndex >= inventoryManager.Items.Length)
-        {
-            return;
-        }
-
-        ItemData itemData = inventoryManager.Items[itemIndex];
-
-        // 해당 상품 데이터가 연결되지 않았으면 중단
+        ItemData itemData = DataManager.Instance?.GetItem(itemType);
         if (itemData == null)
         {
+            Debug.LogWarning($"OrderProductRowUI: ItemData not found for {itemType}");
             return;
         }
 
-        // ItemData에서 원가 저장
         itemCost = itemData.cost;
 
-        // 상품명 표시
         if (productNameText != null)
-        {
             productNameText.text = itemData.itemName;
-        }
 
-        // 현재 재고 표시
         if (stockText != null)
-        {
-            stockText.text = inventoryManager.GetStock(itemType).ToString();
-        }
+            stockText.text = (InventoryManager.Instance?.GetStock(itemType) ?? 0).ToString();
 
-        // 원가 표시
         if (costText != null)
-        {
             costText.text = itemCost.ToString("N0") + "원";
-        }
 
-        // 수량과 금액 표시 갱신
         UpdateQuantityText();
         UpdateTotalPriceText();
+    }
+
+    public void RefreshStock()
+    {
+        if (stockText != null)
+            stockText.text = (InventoryManager.Instance?.GetStock(itemType) ?? 0).ToString();
     }
 
     private void IncreaseQuantity()
