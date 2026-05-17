@@ -2,13 +2,33 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [Header("아이템 데이터 (Inspector에서 연결)")]
-    public ItemData[] Items = new ItemData[System.Enum.GetNames(typeof(ItemType)).Length];
+    public static InventoryManager Instance { get; private set; }
 
-    private int[] _stock = new int[System.Enum.GetNames(typeof(ItemType)).Length];        // 실제 재고
-    private int[] _pendingOrder = new int[System.Enum.GetNames(typeof(ItemType)).Length]; // 발주 대기 수량
+    private int[] _stock;
+    private int[] _pendingOrder;
 
-    // 영업 결과에 따른 재고 차감
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        int n = System.Enum.GetNames(typeof(ItemType)).Length;
+        _stock = new int[n];
+        _pendingOrder = new int[n];
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
+    // 영업 시뮬레이션 결과 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
         int i = (int)type;
@@ -16,13 +36,27 @@ public class InventoryManager : MonoBehaviour
         if (_stock[i] < 0) _stock[i] = 0;
     }
 
-    // 발주 수량 임시 저장
+    // UI 직접 판매: 재고 충분 시 차감 후 판매 수량 반환, 부족 시 0 반환
+    public int TrySell(ItemType type, int amount)
+    {
+        if (amount <= 0) return 0;
+
+        int i = (int)type;
+        if (_stock[i] < amount)
+        {
+            Debug.LogWarning($"재고 부족: {type} — 요청 {amount}개, 보유 {_stock[i]}개");
+            return 0;
+        }
+
+        _stock[i] -= amount;
+        return amount;
+    }
+
     public void SetOrder(ItemType type, int count)
     {
         _pendingOrder[(int)type] = count;
     }
 
-    // 발주 확정 → 임시 수량을 실제 재고로 전환
     public void FinalizeOrder()
     {
         for (int i = 0; i < _stock.Length; i++)
@@ -32,20 +66,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // 게임 종료 시 남은 재고 원가 합산 (점수 차감용)
     public int CalculateStockPenalty()
     {
+        if (DataManager.Instance == null || DataManager.Instance.itemDataManager == null)
+            return 0;
+
         int penalty = 0;
-        for (int i = 0; i < _stock.Length; i++)
+        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
         {
-            if (Items[i] != null) penalty += _stock[i] * Items[i].cost;
+            ItemData item = DataManager.Instance.itemDataManager.GetItem(type);
+            if (item != null)
+                penalty += GetStock(type) * item.cost;
         }
         return penalty;
     }
 
-    // 현재 재고 조회 (UI 연결용)
     public int GetStock(ItemType type) => _stock[(int)type];
 
-    // 발주 대기 수량 조회 (UI 연결용)
     public int GetPendingOrder(ItemType type) => _pendingOrder[(int)type];
 }
