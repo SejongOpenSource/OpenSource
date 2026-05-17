@@ -38,7 +38,7 @@ public class TurnManager : MonoBehaviour
                 CurrentPhase = TurnPhase.Upgrade;
                 break;
         }
-        
+
         OnPhaseChanged?.Invoke(CurrentPhase);
     }
 }
