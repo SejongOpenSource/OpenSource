@@ -14,13 +14,15 @@ public class CustomerManager : MonoBehaviour
 
     public int CalculateVisitors()
     {
-        DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
-        float districtBonus = district != null ? district.visitorBonus : 0f;
+        float districtBonus = (GameManager.Instance.storeManager?.currentDistrictData != null)
+            ? GameManager.Instance.storeManager.currentDistrictData.visitorBonus : 0f;
 
-        WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
-        WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
-        float weatherMod = (DataManager.Instance.GetWeatherModifier(morning)
-                          + DataManager.Instance.GetWeatherModifier(afternoon)) / 2f;
+        float weatherMod = 1f;
+        if (GameManager.Instance.weatherSystem != null && DataManager.Instance != null)
+        {
+            weatherMod = (DataManager.Instance.GetWeatherModifier(GameManager.Instance.weatherSystem.morningWeather)
+                        + DataManager.Instance.GetWeatherModifier(GameManager.Instance.weatherSystem.afternoonWeather)) / 2f;
+        }
 
         return Mathf.RoundToInt(baseVisitors * (1f + districtBonus) * weatherMod);
     }
