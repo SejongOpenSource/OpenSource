@@ -30,6 +30,8 @@ public class TurnManager : MonoBehaviour
                 CurrentPhase = TurnPhase.Simulation;
                 break;
             case TurnPhase.Simulation:
+                GameManager.Instance.weatherSystem.GenerateWeather();
+                SalesAlgorithm.Instance.RunSimulation();
                 CurrentPhase = TurnPhase.Result;
                 break;
             case TurnPhase.Result:
