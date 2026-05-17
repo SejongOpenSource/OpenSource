@@ -1,48 +1,24 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class WeatherData
+public class WeatherDataManager : MonoBehaviour
 {
-    public Weather weatherType;
-    public float modifier;
-}
+    [Header("Weather Modifiers")]
+    public float sunnyModifier = 1.0f;
+    public float rainyModifier = 0.9f;
+    public float heatwaveModifier = 1.05f;
+    public float cloudyModifier = 0.8f;
+    public float snowyModifier = 0.7f;
 
-[CreateAssetMenu(fileName = "WeatherDataManager", menuName = "GameData/WeatherDataManager")]
-public class WeatherDataManager : ScriptableObject
-{
-    [Header("Weather Data List")]
-    [SerializeField] private List<WeatherData> weatherDataList = new List<WeatherData>();
-
-    private Dictionary<Weather, WeatherData> weatherDict;
-
-    public void Initialize()
+    public float GetModifier(WeatherType weather)
     {
-        weatherDict = new Dictionary<Weather, WeatherData>();
-        foreach (var data in weatherDataList)
+        return weather switch
         {
-            if (data == null) continue;
-            if (!weatherDict.ContainsKey(data.weatherType))
-                weatherDict[data.weatherType] = data;
-            else
-                Debug.LogWarning($"[WeatherDataManager] 중복 날씨 타입 무시됨: {data.weatherType}");
-        }
-    }
-
-    public WeatherData GetWeather(Weather type)
-    {
-        if (weatherDict == null) Initialize();
-        if (weatherDict.TryGetValue(type, out WeatherData data))
-            return data;
-
-        Debug.LogError($"[WeatherDataManager] 유효하지 않은 날씨 타입: {type}");
-        return null;
-    }
-
-    public float GetModifier(Weather type)
-    {
-        WeatherData data = GetWeather(type);
-        return data != null ? data.modifier : 1.0f;
+            WeatherType.Sunny => sunnyModifier,
+            WeatherType.Rainy => rainyModifier,
+            WeatherType.Heatwave => heatwaveModifier,
+            WeatherType.Cloudy => cloudyModifier,
+            WeatherType.Snowy => snowyModifier,
+            _ => 1.0f
+        };
     }
 }
