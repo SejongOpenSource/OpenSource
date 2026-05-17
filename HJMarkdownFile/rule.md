@@ -8,6 +8,10 @@ Before touching any code, check these 4 principles:
 3. **Surgical Changes** — Modify only lines directly tied to the request. Match existing style.
 4. **Goal-Driven Execution** — For multi-step tasks, present a brief plan before implementing.
 
+### 🚫 Scope Exclusions
+- **Do NOT touch, modify, or reference**: `saleAlgorithm`, `CustomerManager`.
+- These are strictly off-limits for LLM intervention.
+
 ---
 
 ## Response Style — Token Efficiency

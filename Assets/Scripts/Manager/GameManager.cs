@@ -1,22 +1,19 @@
 using UnityEngine;
 
-public enum TurnPhase { Upgrade, Order, Simulation, Result }
-
+[RequireComponent(typeof(StoreManager))]
+[RequireComponent(typeof(Loan))]
+[RequireComponent(typeof(WeatherSystem))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public TurnPhase CurrentPhase { get; private set; } = TurnPhase.Upgrade;
-    public int CurrentTurn { get; private set; } = 1;
-    public int MaxTurns { get; private set; } = 30;
     public int TotalSales { get; private set; } = 0;
     public int TargetSales { get; private set; } = 5000000;
 
+    // Sub-systems registry (Singletons are preferred, but this composition is also fine as per current code)
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
-
-    public void AddSales(int amount) => TotalSales += amount;
 
     private void Awake()
     {
@@ -25,32 +22,26 @@ public class GameManager : MonoBehaviour
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
+
+        if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
+        if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
+        if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
     }
 
-    public void AdvancePhase()
+    public void AddSales(int amount) => TotalSales += amount;
+
+    // TurnManager에서 Result 페이즈 종료 시 호출
+    public bool OnTurnEnd(int currentTurn, int maxTurns)
     {
-        switch (CurrentPhase)
-        {
-            case TurnPhase.Upgrade:
-                CurrentPhase = TurnPhase.Order;
-                break;
-            case TurnPhase.Order:
-                CurrentPhase = TurnPhase.Simulation;
-                break;
-            case TurnPhase.Simulation:
-                CurrentPhase = TurnPhase.Result;
-                break;
-            case TurnPhase.Result:
-                if (CheckWin() || CheckLose()) return;
-                CurrentTurn++;
-                CurrentPhase = TurnPhase.Upgrade;
-                break;
-        }
+        if (CheckWin()) return true;
+        if (CheckLose(currentTurn, maxTurns)) return true;
+        return false;
     }
 
     public int CalculateScore(int remainingStockCost, int remainingDebt)
     {
-        return (MaxTurns - CurrentTurn) * 10000 - remainingStockCost - remainingDebt;
+        return (TurnManager.Instance.MaxTurns - TurnManager.Instance.CurrentTurn) * 10000 
+               - remainingStockCost - remainingDebt;
     }
 
     private bool CheckWin()
@@ -60,9 +51,9 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool CheckLose()
+    private bool CheckLose(int currentTurn, int maxTurns)
     {
-        if (CurrentTurn < MaxTurns) return false;
+        if (currentTurn < maxTurns) return false;
         Debug.Log("패배!");
         return true;
     }

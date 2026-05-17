@@ -13,7 +13,7 @@ public class WeatherData
 public class WeatherDataManager : ScriptableObject
 {
     [Header("Weather Data List")]
-    public List<WeatherData> weatherDataList = new List<WeatherData>();
+    [SerializeField] private List<WeatherData> weatherDataList = new List<WeatherData>();
 
     private Dictionary<Weather, WeatherData> weatherDict;
 
@@ -22,6 +22,7 @@ public class WeatherDataManager : ScriptableObject
         weatherDict = new Dictionary<Weather, WeatherData>();
         foreach (var data in weatherDataList)
         {
+            if (data == null) continue;
             if (!weatherDict.ContainsKey(data.weatherType))
                 weatherDict[data.weatherType] = data;
             else
