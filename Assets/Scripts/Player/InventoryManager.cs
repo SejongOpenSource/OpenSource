@@ -72,11 +72,11 @@ public class InventoryManager : MonoBehaviour
             return 0;
 
         int penalty = 0;
-        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
+        for (int i = 0; i < _stock.Length; i++)
         {
-            ItemData item = DataManager.Instance.itemDataManager.GetItem(type);
+            ItemData item = DataManager.Instance.itemDataManager.GetItem((ItemType)i);
             if (item != null)
-                penalty += GetStock(type) * item.cost;
+                penalty += _stock[i] * item.cost;
         }
         return penalty;
     }
