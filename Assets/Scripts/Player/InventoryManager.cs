@@ -28,27 +28,6 @@ public class InventoryManager : MonoBehaviour
             Instance = null;
     }
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        int n = System.Enum.GetNames(typeof(ItemType)).Length;
-        _stock = new int[n];
-        _pendingOrder = new int[n];
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-            Instance = null;
-    }
-
     // 영업 시뮬레이션 결과 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
