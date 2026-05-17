@@ -18,20 +18,20 @@ public class SalesAlgorithm : MonoBehaviour
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
         WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
         WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
-        InventoryManager inventory = GameManager.Instance.inventoryManager;
+        InventoryManager inventory = InventoryManager.Instance;
 
         for (int i = 0; i < totalVisitors; i++)
         {
             ItemType? chosenItem = PickItem(district, morning, afternoon);
-            if (chosenItem.HasValue)
-            {
-                if (inventory != null && inventory.GetStock(chosenItem.Value) > 0)
-                {
-                    int price = DataManager.Instance.GetItem(chosenItem.Value)?.price ?? 0;
-                    inventory.UpdateStock(chosenItem.Value, 1);
-                    dailyTotalRevenue += price;
-                }
-            }
+            if (!chosenItem.HasValue) continue;
+
+            if (inventory == null || inventory.GetStock(chosenItem.Value) <= 0) continue;
+
+            ItemData item = DataManager.Instance.GetItem(chosenItem.Value);
+            if (item == null) continue;
+
+            inventory.UpdateStock(chosenItem.Value, 1);
+            dailyTotalRevenue += item.price;
         }
 
         GameManager.Instance.storeManager.AddMoney(dailyTotalRevenue);

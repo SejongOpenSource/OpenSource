@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(StoreManager))]
 [RequireComponent(typeof(Loan))]
 [RequireComponent(typeof(WeatherSystem))]
-[RequireComponent(typeof(InventoryManager))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -14,7 +13,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
-    [HideInInspector] public InventoryManager inventoryManager;
 
     private void Awake()
     {
@@ -23,12 +21,10 @@ public class GameManager : MonoBehaviour
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
-        inventoryManager = GetComponent<InventoryManager>();
 
         if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
-        if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager component is missing!");
     }
 
     public void AddSales(int amount) => TotalSales += amount;
