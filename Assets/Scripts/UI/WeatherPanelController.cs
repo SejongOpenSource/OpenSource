@@ -63,24 +63,23 @@ public class WeatherPanelController : MonoBehaviour
         }
     }
 
-    private Sprite GetWeatherSprite(Weather weather)
+    private Sprite GetWeatherSprite(WeatherType weather)
     {
-        // Weather enum 값에 맞는 스프라이트 반환
         switch (weather)
         {
-            case Weather.Sunny:
+            case WeatherType.Sunny:
                 return sunnySprite;
 
-            case Weather.Rainy:
+            case WeatherType.Rainy:
                 return rainySprite;
 
-            case Weather.Heatwave:
+            case WeatherType.Heatwave:
                 return heatwaveSprite;
 
-            case Weather.Cloudy:
+            case WeatherType.Cloudy:
                 return cloudySprite;
 
-            case Weather.Snowy:
+            case WeatherType.Snowy:
                 return snowySprite;
 
             default:
