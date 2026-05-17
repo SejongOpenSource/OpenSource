@@ -9,15 +9,15 @@ public class WeatherDataManager : MonoBehaviour
     public float cloudyModifier = 0.8f;
     public float snowyModifier = 0.7f;
 
-    public float GetModifier(Weather weather)
+    public float GetModifier(WeatherType weather)
     {
         return weather switch
         {
-            Weather.Sunny => sunnyModifier,
-            Weather.Rainy => rainyModifier,
-            Weather.Heatwave => heatwaveModifier,
-            Weather.Cloudy => cloudyModifier,
-            Weather.Snowy => snowyModifier,
+            WeatherType.Sunny => sunnyModifier,
+            WeatherType.Rainy => rainyModifier,
+            WeatherType.Heatwave => heatwaveModifier,
+            WeatherType.Cloudy => cloudyModifier,
+            WeatherType.Snowy => snowyModifier,
             _ => 1.0f
         };
     }

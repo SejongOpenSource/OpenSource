@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public int TotalSales { get; private set; } = 0;
     public int TargetSales { get; private set; } = 5000000;
 
-    // Sub-systems registry (Singletons are preferred, but this composition is also fine as per current code)
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
