@@ -5,14 +5,10 @@ public class SalesAlgorithm : MonoBehaviour
 {
     public static SalesAlgorithm Instance { get; private set; }
 
-    [SerializeField] private InventoryManager inventoryManager;
-
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-        if (inventoryManager == null)
-            inventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     public void RunSimulation(int totalVisitors)
@@ -22,16 +18,17 @@ public class SalesAlgorithm : MonoBehaviour
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
         WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
         WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
+        InventoryManager inventory = GameManager.Instance.inventoryManager;
 
         for (int i = 0; i < totalVisitors; i++)
         {
             ItemType? chosenItem = PickItem(district, morning, afternoon);
             if (chosenItem.HasValue)
             {
-                if (inventoryManager != null && inventoryManager.GetStock(chosenItem.Value) > 0)
+                if (inventory != null && inventory.GetStock(chosenItem.Value) > 0)
                 {
                     int price = DataManager.Instance.GetItem(chosenItem.Value)?.price ?? 0;
-                    inventoryManager.UpdateStock(chosenItem.Value, 1);
+                    inventory.UpdateStock(chosenItem.Value, 1);
                     dailyTotalRevenue += price;
                 }
             }
