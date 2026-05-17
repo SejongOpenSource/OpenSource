@@ -8,7 +8,7 @@ public class GameHUD : MonoBehaviour
     public Text turnText;
     public Text phaseText;
     public Text weatherText;
-    public Text totalSalesText;
+    // totalSalesText: sales 이슈 완료 후 재연결 예정
 
     private void Update()
     {
@@ -22,9 +22,6 @@ public class GameHUD : MonoBehaviour
         // 자산 정보
         if (moneyText != null)
             moneyText.text = $"자산: {GameManager.Instance.storeManager.currentMoney:N0}원";
-
-        if (totalSalesText != null)
-            totalSalesText.text = $"누적 매출: {GameManager.Instance.TotalSales:N0}원 / {GameManager.Instance.TargetSales:N0}원";
 
         // 턴 및 페이즈 정보
         if (TurnManager.Instance != null)

@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
                 break;
             case TurnPhase.Order:
                 CurrentPhase = TurnPhase.Simulation;
-                SalesSimulationManager.Instance.StartSimulation();
+                // TODO: SalesSimulationManager 연결 예정 (별도 이슈)
                 break;
             case TurnPhase.Simulation:
                 CurrentPhase = TurnPhase.Result;
