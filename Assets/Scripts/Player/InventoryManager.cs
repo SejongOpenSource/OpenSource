@@ -28,7 +28,28 @@ public class InventoryManager : MonoBehaviour
             Instance = null;
     }
 
-    // 영업 결과에 따른 재고 차감
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        int n = System.Enum.GetNames(typeof(ItemType)).Length;
+        _stock = new int[n];
+        _pendingOrder = new int[n];
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
+    // 영업 시뮬레이션 결과 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
         int i = (int)type;
@@ -60,7 +81,6 @@ public class InventoryManager : MonoBehaviour
         _pendingOrder[(int)type] = count;
     }
 
-    // 발주 확정 → 임시 수량을 실제 재고로 전환
     public void FinalizeOrder()
     {
         for (int i = 0; i < _stock.Length; i++)
@@ -89,9 +109,7 @@ public class InventoryManager : MonoBehaviour
         return penalty;
     }
 
-    // 현재 재고 조회 (UI 연결용)
     public int GetStock(ItemType type) => _stock[(int)type];
 
-    // 발주 대기 수량 조회 (UI 연결용)
     public int GetPendingOrder(ItemType type) => _pendingOrder[(int)type];
 }

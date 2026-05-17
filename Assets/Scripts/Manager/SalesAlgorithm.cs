@@ -5,6 +5,9 @@ public class SalesAlgorithm : MonoBehaviour
 {
     public static SalesAlgorithm Instance { get; private set; }
 
+    private static readonly ItemType[] _itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
+    private readonly Dictionary<ItemType, float> _probabilities = new Dictionary<ItemType, float>();
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -42,29 +45,29 @@ public class SalesAlgorithm : MonoBehaviour
 
     private ItemType? PickItem(DistrictData district, WeatherType morning, WeatherType afternoon)
     {
-        Dictionary<ItemType, float> probabilities = new Dictionary<ItemType, float>();
-        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
-            probabilities[type] = 0.2f;
+        _probabilities.Clear();
+        foreach (ItemType type in _itemTypes)
+            _probabilities[type] = 0.2f;
 
         if (district != null)
         {
-            probabilities[ItemType.Onigiri] *= district.onigiriMult;
-            probabilities[ItemType.Noodle] *= district.noodleMult;
-            probabilities[ItemType.Drink] *= district.drinkMult;
-            probabilities[ItemType.Bento] *= district.bentoMult;
-            probabilities[ItemType.Umbrella] *= district.umbrellaMult;
+            _probabilities[ItemType.Onigiri] *= district.onigiriMult;
+            _probabilities[ItemType.Noodle] *= district.noodleMult;
+            _probabilities[ItemType.Drink] *= district.drinkMult;
+            _probabilities[ItemType.Bento] *= district.bentoMult;
+            _probabilities[ItemType.Umbrella] *= district.umbrellaMult;
         }
 
-        ApplyWeatherProductWeights(probabilities, morning, true);
-        ApplyWeatherProductWeights(probabilities, afternoon, false);
+        ApplyWeatherProductWeights(_probabilities, morning, true);
+        ApplyWeatherProductWeights(_probabilities, afternoon, false);
 
         float totalProb = 0;
-        foreach (float p in probabilities.Values) totalProb += p;
+        foreach (float p in _probabilities.Values) totalProb += p;
 
         float roll = Random.Range(0f, totalProb);
         float cumulative = 0;
-        
-        foreach (var kvp in probabilities)
+
+        foreach (var kvp in _probabilities)
         {
             cumulative += kvp.Value;
             if (roll <= cumulative) return kvp.Key;
