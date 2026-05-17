@@ -18,8 +18,15 @@ public class SalesAlgorithm : MonoBehaviour
 
     public void AddSales(int amount) => TotalSales += amount;
 
-    public void RunSimulation(int totalVisitors)
+    public void RunSimulation()
     {
+        if (CustomerManager.Instance == null)
+        {
+            Debug.LogError("CustomerManager 인스턴스를 찾을 수 없습니다.");
+            return;
+        }
+
+        int totalVisitors = CustomerManager.Instance.CalculateVisitors();
         int dailyTotalRevenue = 0;
 
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
