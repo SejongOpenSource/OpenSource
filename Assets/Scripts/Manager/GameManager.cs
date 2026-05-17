@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     // TurnManager에서 Result 페이즈 종료 시 호출
     public bool OnTurnEnd(int currentTurn, int maxTurns)
     {
+        if (CheckWin()) return true;
         if (CheckLose(currentTurn, maxTurns)) return true;
         return false;
     }
@@ -37,6 +38,13 @@ public class GameManager : MonoBehaviour
     {
         return (TurnManager.Instance.MaxTurns - TurnManager.Instance.CurrentTurn) * 10000
                - remainingStockCost - remainingDebt;
+    }
+
+    private bool CheckWin()
+    {
+        if (SalesAlgorithm.Instance == null || SalesAlgorithm.Instance.TotalSales < TargetSales) return false;
+        Debug.Log("승리!");
+        return true;
     }
 
     private bool CheckLose(int currentTurn, int maxTurns)
