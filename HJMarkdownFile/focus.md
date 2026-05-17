@@ -1,10 +1,19 @@
 # Focus
 
-## Current Status
-- Inventory.cs 구현 완료 (발주, 판매, 재고 가치 계산)
-- TradeData ScriptableObject 및 Asset 5종 생성 완료
-- SalesSimulationManager 구현 및 TurnManager 연동 완료
+## [Q-003] TradeData ScriptableObject
+- Source: 서현진 담당 파일
+- Context: 상품 5종 (삼각김밥/컵라면/음료수/도시락/우산) 원가·판매가 데이터
+- Question: TradeData.cs (ScriptableObject) 구현 및 .asset 파일 5종 생성
+- Related files: Inventory.cs, ItemData.cs
 
-## Next Steps
-- [ ] UI 연동 (재고 현황 표시, 발주 버튼, 상권 업그레이드 패널 등)
-- [ ] 2D 씬 연동 (손님 스폰 및 이동 시각화)
+## Goal
+상품 5종의 데이터를 관리하는 ScriptableObject 시스템을 완성하고, 실제 데이터(.asset)를 생성하여 InventoryManager에 연결 가능한 상태로 만들기.
+
+## Spec (기획서 기준)
+| 상품 | 원가 | 판매가 |
+|------|------|--------|
+| 삼각김밥 | 800 | 1,200 |
+| 컵라면 | 700 | 1,300 |
+| 음료수 | 500 | 1,000 |
+| 도시락 | 3,500 | 5,500 |
+| 우산 | 2,000 | 3,500 |

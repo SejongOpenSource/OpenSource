@@ -10,6 +10,9 @@ public class TurnManager : MonoBehaviour
     public int CurrentTurn { get; private set; } = 1;
     public int MaxTurns { get; private set; } = 30;
 
+    // Phase 변경 시 발생하는 이벤트 (UI 등에서 구독 가능)
+    public System.Action<TurnPhase> OnPhaseChanged;
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
@@ -22,11 +25,9 @@ public class TurnManager : MonoBehaviour
         {
             case TurnPhase.Upgrade:
                 CurrentPhase = TurnPhase.Order;
-                GameManager.Instance.weatherSystem.GenerateWeather();
                 break;
             case TurnPhase.Order:
                 CurrentPhase = TurnPhase.Simulation;
-                // TODO: SalesSimulationManager 연결 예정 (별도 이슈)
                 break;
             case TurnPhase.Simulation:
                 CurrentPhase = TurnPhase.Result;
@@ -37,5 +38,7 @@ public class TurnManager : MonoBehaviour
                 CurrentPhase = TurnPhase.Upgrade;
                 break;
         }
+
+        OnPhaseChanged?.Invoke(CurrentPhase);
     }
 }

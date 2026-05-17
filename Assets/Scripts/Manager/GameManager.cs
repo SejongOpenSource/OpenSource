@@ -1,5 +1,8 @@
 using UnityEngine;
 
+[RequireComponent(typeof(StoreManager))]
+[RequireComponent(typeof(Loan))]
+[RequireComponent(typeof(WeatherSystem))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -17,9 +20,13 @@ public class GameManager : MonoBehaviour
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
+
+        if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
+        if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
+        if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
     }
 
-    // TurnManager가 Result 페이즈 완료 시 호출. 게임 종료면 true 반환.
+    // TurnManager에서 Result 페이즈 종료 시 호출
     public bool OnTurnEnd(int currentTurn, int maxTurns)
     {
         if (CheckLose(currentTurn, maxTurns)) return true;

@@ -5,14 +5,14 @@
 - Key file: Assets/Scripts/Manager/GameManager.cs
 - Date: 2026-05-06
 
-## [Q-003] TradeData & Inventory Implementation ✓
-- Conclusion: TradeData ScriptableObject 정의 및 5종 상품 Asset(삼각김밥, 컵라면, 음료수, 도시락, 우산) 생성 완료. Inventory.cs에서 발주(Order), 판매(Sell), 재고 원가 계산 로직 구현 및 데이터 검증 로직 추가.
-- Key files: Assets/Scripts/Data/TradeData.cs, Assets/Scripts/Player/Inventory.cs, Assets/Data/Products/*.asset
-- Date: 2026-05-11
+## [Q-002] InventoryManager.cs ✓
+- Conclusion: 상품 5종 재고 관리, 발주 시 StoreManager.SpendMoney 연동, 판매 시 GameManager.AddSales 및 StoreManager.AddMoney 연동, 잔여 재고 원가 합산(Penalty) 기능 구현.
+- Key file: Assets/Scripts/Player/InventoryManager.cs, Assets/Scripts/Manager/GameManager.cs
+- Date: 2026-05-14
 
-## [Q-004] Sales Simulation Logic ✓
-- Conclusion: SalesSimulationManager 구현 완료. 날씨(오전/오후)와 상권 데이터(DistrictData) 가중치를 적용하여 방문객 수 및 상품별 판매 확률 계산. TurnManager 연동을 통해 단계별 자동 실행(날씨 생성 -> 시뮬레이션).
-- Key files: Assets/Scripts/Manager/SalesSimulationManager.cs, Assets/Scripts/Manager/TurnManager.cs, Assets/Scripts/Manager/GameManager.cs
-- Date: 2026-05-11
+## [Q-004] DistrictDataManager Consolidation ✓
+- Conclusion: 중복된 DistrictDataManager(Manager 폴더)를 제거하고 ScriptableObject 버전(Data 폴더)으로 통합. Commerce Enum 중복 제거 및 DataManager 연동 방식 변경(GetComponent -> Inspector 할당).
+- Key file: Assets/Scripts/Data/DistrictDataManager.cs, Assets/Scripts/Manager/DataManager.cs, Assets/Scripts/Player/DistrictData.cs
+- Date: 2026-05-14
 
 ---
