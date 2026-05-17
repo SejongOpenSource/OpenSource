@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// 상권의 종류를 정의하는 열거형
-public enum Commerce { Resident, Academy, Campus, Business, Tourist }
-
 public class CommerceZone : MonoBehaviour
 {
     [Header("참조 설정")]
