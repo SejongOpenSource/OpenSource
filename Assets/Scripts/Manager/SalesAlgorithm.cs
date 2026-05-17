@@ -5,6 +5,8 @@ public class SalesAlgorithm : MonoBehaviour
 {
     public static SalesAlgorithm Instance { get; private set; }
 
+    public int TotalSales { get; private set; } = 0;
+
     private static readonly ItemType[] _itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
     private readonly Dictionary<ItemType, float> _probabilities = new Dictionary<ItemType, float>();
 
@@ -13,6 +15,8 @@ public class SalesAlgorithm : MonoBehaviour
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
     }
+
+    public void AddSales(int amount) => TotalSales += amount;
 
     public void RunSimulation(int totalVisitors)
     {
@@ -38,7 +42,7 @@ public class SalesAlgorithm : MonoBehaviour
         }
 
         GameManager.Instance.storeManager.AddMoney(dailyTotalRevenue);
-        GameManager.Instance.AddSales(dailyTotalRevenue);
+        AddSales(dailyTotalRevenue);
 
         Debug.Log($"오늘의 총 매출: {dailyTotalRevenue}원");
     }
