@@ -29,4 +29,9 @@ public class DistrictDataManager : ScriptableObject
         districtDict.TryGetValue(districtName, out DistrictData result);
         return result;
     }
+
+    public DistrictData GetDistrict(Commerce zone)
+    {
+        return districts.Find(d => d != null && d.zone == zone);
+    }
 }

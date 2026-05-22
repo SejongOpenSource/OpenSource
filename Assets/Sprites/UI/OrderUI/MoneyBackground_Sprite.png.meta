@@ -1,0 +1,1417 @@
+fileFormatVersion: 2
+guid: 3c90b7b9795bb3e4bac22c91071d4779
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9137005020811482020
+    second: MoneyBackground_Sprite_0
+  - first:
+      213: 1647527756357776198
+    second: MoneyBackground_Sprite_1
+  - first:
+      213: -8149060877158859308
+    second: MoneyBackground_Sprite_2
+  - first:
+      213: -1496688497578643511
+    second: MoneyBackground_Sprite_3
+  - first:
+      213: 1378510663863407511
+    second: MoneyBackground_Sprite_4
+  - first:
+      213: -8904323290748058308
+    second: MoneyBackground_Sprite_5
+  - first:
+      213: -1364565897811836495
+    second: MoneyBackground_Sprite_6
+  - first:
+      213: 8460151096274312307
+    second: MoneyBackground_Sprite_7
+  - first:
+      213: 7239422488210909213
+    second: MoneyBackground_Sprite_8
+  - first:
+      213: -1080364905883885193
+    second: MoneyBackground_Sprite_9
+  - first:
+      213: -5158575240119335834
+    second: MoneyBackground_Sprite_10
+  - first:
+      213: 7508361366080219120
+    second: MoneyBackground_Sprite_11
+  - first:
+      213: -420185113878015389
+    second: MoneyBackground_Sprite_12
+  - first:
+      213: -8573525927397348656
+    second: MoneyBackground_Sprite_13
+  - first:
+      213: 7699252137104772773
+    second: MoneyBackground_Sprite_14
+  - first:
+      213: 7805251448545974092
+    second: MoneyBackground_Sprite_15
+  - first:
+      213: 6448847313453746704
+    second: MoneyBackground_Sprite_16
+  - first:
+      213: 1833768485903198201
+    second: MoneyBackground_Sprite_17
+  - first:
+      213: 4288983375146882963
+    second: MoneyBackground_Sprite_18
+  - first:
+      213: -1505377933710301600
+    second: MoneyBackground_Sprite_19
+  - first:
+      213: -5050249993616799117
+    second: MoneyBackground_Sprite_20
+  - first:
+      213: -3906634247082414403
+    second: MoneyBackground_Sprite_21
+  - first:
+      213: -2925733312505856405
+    second: MoneyBackground_Sprite_22
+  - first:
+      213: -8328117431170263999
+    second: MoneyBackground_Sprite_23
+  - first:
+      213: -1290155718449778929
+    second: MoneyBackground_Sprite_24
+  - first:
+      213: 3980044560515624731
+    second: MoneyBackground_Sprite_25
+  - first:
+      213: -1218153782068769255
+    second: MoneyBackground_Sprite_26
+  - first:
+      213: 7214289924318270339
+    second: MoneyBackground_Sprite_27
+  - first:
+      213: 2935001776083153471
+    second: MoneyBackground_Sprite_28
+  - first:
+      213: -5869897707137083920
+    second: MoneyBackground_Sprite_29
+  - first:
+      213: -8245892990666001841
+    second: MoneyBackground_Sprite_30
+  - first:
+      213: 3090069502101693835
+    second: MoneyBackground_Sprite_31
+  - first:
+      213: 6265869157577096126
+    second: MoneyBackground_Sprite_32
+  - first:
+      213: -7054113832873388242
+    second: MoneyBackground_Sprite_33
+  - first:
+      213: -887824778392611992
+    second: MoneyBackground_Sprite_34
+  - first:
+      213: -3626400671674435210
+    second: MoneyBackground_Sprite_35
+  - first:
+      213: 2386451661343303739
+    second: MoneyBackground_Sprite_36
+  - first:
+      213: 9134858449519629329
+    second: MoneyBackground_Sprite_37
+  - first:
+      213: -6832161475614330910
+    second: MoneyBackground_Sprite_38
+  - first:
+      213: -3235163110622549590
+    second: MoneyBackground_Sprite_39
+  - first:
+      213: -137900645515679859
+    second: MoneyBackground_Sprite_40
+  - first:
+      213: -5775976405167133924
+    second: MoneyBackground_Sprite_41
+  - first:
+      213: 7330976990479758971
+    second: MoneyBackground_Sprite_42
+  - first:
+      213: -8415334176448511124
+    second: MoneyBackground_Sprite_43
+  - first:
+      213: -1569385358448883158
+    second: MoneyBackground_Sprite_44
+  - first:
+      213: 502454285348437462
+    second: MoneyBackground_Sprite_45
+  - first:
+      213: -2819653166509983655
+    second: MoneyBackground_Sprite_46
+  - first:
+      213: 18354529546124711
+    second: MoneyBackground_Sprite_47
+  - first:
+      213: 4336000846165811257
+    second: MoneyBackground_Sprite_48
+  - first:
+      213: -6511382205149800576
+    second: MoneyBackground_Sprite_49
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1526
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5c229fe756d23180800000000000000
+      internalID: -9137005020811482020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_1
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 864
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6433d43f3c13dd610800000000000000
+      internalID: 1647527756357776198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_2
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 758
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ddb9ebce48b8ee80800000000000000
+      internalID: -8149060877158859308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_3
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 734
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cf6962cdb1ba3be0800000000000000
+      internalID: -1496688497578643511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_4
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 742
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7939aa62524712310800000000000000
+      internalID: 1378510663863407511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_5
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 719
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3589b9e42d7d6480800000000000000
+      internalID: -8904323290748058308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_6
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 710
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b14054bb86101de0800000000000000
+      internalID: -1364565897811836495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_7
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 702
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37cdf87299e786570800000000000000
+      internalID: 8460151096274312307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 694
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1829cc9568977460800000000000000
+      internalID: 7239422488210909213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_9
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 686
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7712ef497d5c101f0800000000000000
+      internalID: -1080364905883885193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_10
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 674
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 664cf81862f0968b0800000000000000
+      internalID: -5158575240119335834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_11
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 668
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f76a76a1ee033860800000000000000
+      internalID: 7508361366080219120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_12
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 652
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 362d46b7dd33b2af0800000000000000
+      internalID: -420185113878015389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_13
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 660
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0da21e0f797b40980800000000000000
+      internalID: -8573525927397348656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_14
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 638
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ae0c4cb60d39da60800000000000000
+      internalID: 7699252137104772773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_15
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 618
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c479f25a6d2d15c60800000000000000
+      internalID: 7805251448545974092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_16
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 602
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01a8421d678ee7950800000000000000
+      internalID: 6448847313453746704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_17
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 580
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f7e092e8bad27910800000000000000
+      internalID: 1833768485903198201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_18
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 574
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3979f2bd7a7858b30800000000000000
+      internalID: 4288983375146882963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_19
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 549
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0666c70ceb2db1be0800000000000000
+      internalID: -1505377933710301600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_20
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 530
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a4d8f5368e9e9b0800000000000000
+      internalID: -5050249993616799117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_21
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 526
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbee64bb9d8d8c9c0800000000000000
+      internalID: -3906634247082414403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_22
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 518
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6ebf80bd05b567d0800000000000000
+      internalID: -2925733312505856405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_23
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 502
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1449b5312559c6c80800000000000000
+      internalID: -8328117431170263999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_24
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 486
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0facd8a532781ee0800000000000000
+      internalID: -1290155718449778929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_25
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 474
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1f62cbc075fb3730800000000000000
+      internalID: 3980044560515624731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_26
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 466
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91e0ef9d69f381fe0800000000000000
+      internalID: -1218153782068769255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_27
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 458
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3839ba5967e4e1460800000000000000
+      internalID: 7214289924318270339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_28
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 442
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f32b396a0983bb820800000000000000
+      internalID: 2935001776083153471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_29
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 437
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f5d63aa22fe98ea0800000000000000
+      internalID: -5869897707137083920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_30
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 428
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f42387b7304b09d80800000000000000
+      internalID: -8245892990666001841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_31
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 422
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b852a0c17d122ea20800000000000000
+      internalID: 3090069502101693835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_32
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 410
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebb75720dc6d4f650800000000000000
+      internalID: 6265869157577096126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_33
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 405
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e279962e7d0ca1e90800000000000000
+      internalID: -7054113832873388242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_34
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 394
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8635e156110dda3f0800000000000000
+      internalID: -887824778392611992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_35
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 389
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6797b977dcf6cadc0800000000000000
+      internalID: -3626400671674435210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_36
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 382
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b38220c54216e1120800000000000000
+      internalID: 2386451661343303739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_37
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 370
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 114d71d7c5985ce70800000000000000
+      internalID: 9134858449519629329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_38
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 348
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ef26e516594f21a0800000000000000
+      internalID: -6832161475614330910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_39
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 338
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa925e0aa446a13d0800000000000000
+      internalID: -3235163110622549590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_40
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 322
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d87adb1f714161ef0800000000000000
+      internalID: -137900645515679859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_41
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 316
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1ba9fadf0c97dfa0800000000000000
+      internalID: -5775976405167133924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_42
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 308
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b76bb1e4bbcdcb560800000000000000
+      internalID: 7330976990479758971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_43
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 300
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c630592272ab63b80800000000000000
+      internalID: -8415334176448511124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_44
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 285
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2a84f9d45c683ae0800000000000000
+      internalID: -1569385358448883158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_45
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 292
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ddf01aa28319f600800000000000000
+      internalID: 502454285348437462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_46
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 278
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 958fd5c52649ed8d0800000000000000
+      internalID: -2819653166509983655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_47
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 271
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7adbd9de855314000800000000000000
+      internalID: 18354529546124711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_48
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 246
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 930a185ebc19c2c30800000000000000
+      internalID: 4336000846165811257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MoneyBackground_Sprite_49
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 238
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0871f39126ce2a5a0800000000000000
+      internalID: -6511382205149800576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MoneyBackground_Sprite_0: -9137005020811482020
+      MoneyBackground_Sprite_1: 1647527756357776198
+      MoneyBackground_Sprite_10: -5158575240119335834
+      MoneyBackground_Sprite_11: 7508361366080219120
+      MoneyBackground_Sprite_12: -420185113878015389
+      MoneyBackground_Sprite_13: -8573525927397348656
+      MoneyBackground_Sprite_14: 7699252137104772773
+      MoneyBackground_Sprite_15: 7805251448545974092
+      MoneyBackground_Sprite_16: 6448847313453746704
+      MoneyBackground_Sprite_17: 1833768485903198201
+      MoneyBackground_Sprite_18: 4288983375146882963
+      MoneyBackground_Sprite_19: -1505377933710301600
+      MoneyBackground_Sprite_2: -8149060877158859308
+      MoneyBackground_Sprite_20: -5050249993616799117
+      MoneyBackground_Sprite_21: -3906634247082414403
+      MoneyBackground_Sprite_22: -2925733312505856405
+      MoneyBackground_Sprite_23: -8328117431170263999
+      MoneyBackground_Sprite_24: -1290155718449778929
+      MoneyBackground_Sprite_25: 3980044560515624731
+      MoneyBackground_Sprite_26: -1218153782068769255
+      MoneyBackground_Sprite_27: 7214289924318270339
+      MoneyBackground_Sprite_28: 2935001776083153471
+      MoneyBackground_Sprite_29: -5869897707137083920
+      MoneyBackground_Sprite_3: -1496688497578643511
+      MoneyBackground_Sprite_30: -8245892990666001841
+      MoneyBackground_Sprite_31: 3090069502101693835
+      MoneyBackground_Sprite_32: 6265869157577096126
+      MoneyBackground_Sprite_33: -7054113832873388242
+      MoneyBackground_Sprite_34: -887824778392611992
+      MoneyBackground_Sprite_35: -3626400671674435210
+      MoneyBackground_Sprite_36: 2386451661343303739
+      MoneyBackground_Sprite_37: 9134858449519629329
+      MoneyBackground_Sprite_38: -6832161475614330910
+      MoneyBackground_Sprite_39: -3235163110622549590
+      MoneyBackground_Sprite_4: 1378510663863407511
+      MoneyBackground_Sprite_40: -137900645515679859
+      MoneyBackground_Sprite_41: -5775976405167133924
+      MoneyBackground_Sprite_42: 7330976990479758971
+      MoneyBackground_Sprite_43: -8415334176448511124
+      MoneyBackground_Sprite_44: -1569385358448883158
+      MoneyBackground_Sprite_45: 502454285348437462
+      MoneyBackground_Sprite_46: -2819653166509983655
+      MoneyBackground_Sprite_47: 18354529546124711
+      MoneyBackground_Sprite_48: 4336000846165811257
+      MoneyBackground_Sprite_49: -6511382205149800576
+      MoneyBackground_Sprite_5: -8904323290748058308
+      MoneyBackground_Sprite_6: -1364565897811836495
+      MoneyBackground_Sprite_7: 8460151096274312307
+      MoneyBackground_Sprite_8: 7239422488210909213
+      MoneyBackground_Sprite_9: -1080364905883885193
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

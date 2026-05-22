@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour
             Instance = null;
     }
 
-    // 영업 결과에 따른 재고 차감
+    // 영업 시뮬레이션 결과 재고 차감
     public void UpdateStock(ItemType type, int count)
     {
         int i = (int)type;
@@ -103,9 +103,7 @@ public class InventoryManager : MonoBehaviour
         return penalty;
     }
 
-    // 현재 재고 조회 (UI 연결용)
     public int GetStock(ItemType type) => _stock[(int)type];
 
-    // 발주 대기 수량 조회 (UI 연결용)
     public int GetPendingOrder(ItemType type) => _pendingOrder[(int)type];
 }
