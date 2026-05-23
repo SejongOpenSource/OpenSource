@@ -23,13 +23,13 @@ public class ResultRowUI : MonoBehaviour
         // 주문 수량 표시
         if (orderedCountText != null)
         {
-            orderedCountText.text = orderedCount.ToString("N0") + "개";
+            orderedCountText.text = $"{orderedCount:N0}개";
         }
 
         // 판매 수량 표시
         if (soldCountText != null)
         {
-            soldCountText.text = soldCount.ToString("N0") + "개";
+            soldCountText.text = $"{soldCount:N0}개";
         }
     }
 }

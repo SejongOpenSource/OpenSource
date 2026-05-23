@@ -64,17 +64,13 @@ public class GameHUD : MonoBehaviour
         // 현재 자산 표시
         if (moneyText != null)
         {
-            moneyText.text = "자산: "
-                + GameManager.Instance.storeManager.currentMoney.ToString("N0")
-                + "원";
+            moneyText.text = $"자산: {GameManager.Instance.storeManager.currentMoney:N0}원";
         }
 
         // 현재 부채 표시
         if (debtText != null)
         {
-            debtText.text = "부채: "
-                + GameManager.Instance.storeManager.currentDebt.ToString("N0")
-                + "원";
+            debtText.text = $"부채: {GameManager.Instance.storeManager.currentDebt:N0}원";
         }
     }
 
@@ -89,11 +85,7 @@ public class GameHUD : MonoBehaviour
         // 현재 날짜 표시
         if (turnText != null)
         {
-            turnText.text =
-                TurnManager.Instance.CurrentTurn
-                + "일차 / "
-                + TurnManager.Instance.MaxTurns
-                + "일";
+            turnText.text = $"{TurnManager.Instance.CurrentTurn}일차 / {TurnManager.Instance.MaxTurns}일";
         }
     }
 
@@ -121,35 +113,20 @@ public class GameHUD : MonoBehaviour
 
         // 오늘 오전 / 오후 날씨 표시
         weatherText.text =
-            "날씨: "
-            + GetWeatherName(weatherSystem.morningWeather)
-            + "(오전) / "
-            + GetWeatherName(weatherSystem.afternoonWeather)
-            + "(오후)";
+            $"날씨: {GetWeatherName(weatherSystem.morningWeather)}(오전) / {GetWeatherName(weatherSystem.afternoonWeather)}(오후)";
     }
 
     private string GetWeatherName(WeatherType weather)
     {
         // WeatherType enum 값을 화면에 보여줄 한글 이름으로 변환
-        switch (weather)
+        return weather switch
         {
-            case WeatherType.Sunny:
-                return "맑음";
-
-            case WeatherType.Rainy:
-                return "비";
-
-            case WeatherType.Heatwave:
-                return "폭염";
-
-            case WeatherType.Cloudy:
-                return "흐림";
-
-            case WeatherType.Snowy:
-                return "눈";
-
-            default:
-                return "알 수 없음";
-        }
+            WeatherType.Sunny => "맑음",
+            WeatherType.Rainy => "비",
+            WeatherType.Heatwave => "폭염",
+            WeatherType.Cloudy => "흐림",
+            WeatherType.Snowy => "눈",
+            _ => "알 수 없음"
+        };
     }
 }

@@ -81,25 +81,25 @@ public class ResultView : MonoBehaviour
         // 시작 자본금 표시
         if (startMoneyValueText != null)
         {
-            startMoneyValueText.text = startMoney.ToString("N0") + "원";
+            startMoneyValueText.text = $"{startMoney:N0}원";
         }
 
         // 오늘 매출 표시
         if (todaySalesValueText != null)
         {
-            todaySalesValueText.text = todaySales.ToString("N0") + "원";
+            todaySalesValueText.text = $"{todaySales:N0}원";
         }
 
         // 이자 비용 표시
         if (interestCostValueText != null)
         {
-            interestCostValueText.text = "-" + interestCost.ToString("N0") + "원";
+            interestCostValueText.text = $"-{interestCost:N0}원";
         }
 
         // 마감 자본금 표시
         if (finalMoneyValueText != null)
         {
-            finalMoneyValueText.text = finalMoney.ToString("N0") + "원";
+            finalMoneyValueText.text = $"{finalMoney:N0}원";
         }
     }
 #endif
@@ -116,10 +116,10 @@ public class ResultView : MonoBehaviour
         // 입력값 가져오기
         string inputText = repayInputField.text;
 
-        // 빈 값이면 실행하지 않음
-        if (string.IsNullOrEmpty(inputText))
+        // 빈 값이면 조용히 무시
+        // 사용자가 아직 입력하지 않은 상태일 수 있으므로 콘솔 로그를 남기지 않음
+        if (string.IsNullOrWhiteSpace(inputText))
         {
-            Debug.Log("상환 금액이 입력되지 않았습니다.");
             return;
         }
 
@@ -196,7 +196,7 @@ public class ResultView : MonoBehaviour
         int remainingDebt = loan.storeManager.currentDebt;
 
         // 남은 대출금 텍스트 표시
-        remainingDebtText.text = "남은 대출금 " + remainingDebt.ToString("N0") + "원";
+        remainingDebtText.text = $"남은 대출금 {remainingDebt:N0}원";
     }
 
     private void OnNextDayButtonClicked()
@@ -211,9 +211,6 @@ public class ResultView : MonoBehaviour
         // Result 페이즈에서 호출하면 다음 턴의 Upgrade 페이즈로 이동
         TurnManager.Instance.AdvancePhase();
 
-        Debug.Log("다음 날로 진행: Turn "
-                  + TurnManager.Instance.CurrentTurn
-                  + " / Phase "
-                  + TurnManager.Instance.CurrentPhase);
+        Debug.Log($"다음 날로 진행: Turn {TurnManager.Instance.CurrentTurn} / Phase {TurnManager.Instance.CurrentPhase}");
     }
 }
