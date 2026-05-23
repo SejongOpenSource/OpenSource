@@ -33,13 +33,13 @@ public class ResultView : MonoBehaviour
     // 실제 대출 상환 로직이 있는 Loan 스크립트
     public Loan loan;
 
-    // Loan 연결 전 테스트용 남은 대출금
-    private int testRemainingDebt = 150000;
-
     private void Start()
     {
-        // 실제 영업 결과 데이터 연동 전까지 임시 데이터 표시
+#if UNITY_EDITOR
+        // 에디터에서 UI 배치를 확인하기 위한 임시 결과 데이터
+        // 실제 빌드에는 포함되지 않음
         ShowTestResult();
+#endif
 
         // 대출 상환 버튼 클릭 이벤트 연결
         if (repayLoanButton != null)
@@ -57,9 +57,11 @@ public class ResultView : MonoBehaviour
         UpdateRemainingDebtText();
     }
 
+#if UNITY_EDITOR
     private void ShowTestResult()
     {
         // 상품별 주문 수량 / 판매 수량 임시 표시
+        // 실제 판매 결과 데이터 연동 전까지 에디터에서만 UI 확인용으로 사용
         if (resultRows != null && resultRows.Length >= 5)
         {
             resultRows[0].SetResult("삼각김밥", 10, 9);
@@ -70,6 +72,7 @@ public class ResultView : MonoBehaviour
         }
 
         // 정산 요약 임시값
+        // 실제 매출 / 이자 / 자본금 계산 로직이 연결되면 제거 예정
         int startMoney = 350000;
         int todaySales = 124500;
         int interestCost = 3000;
@@ -99,6 +102,7 @@ public class ResultView : MonoBehaviour
             finalMoneyValueText.text = finalMoney.ToString("N0") + "원";
         }
     }
+#endif
 
     private void OnRepayLoanButtonClicked()
     {
@@ -140,19 +144,15 @@ public class ResultView : MonoBehaviour
             return;
         }
 
-        // Loan이 연결되어 있으면 실제 상환 함수 호출
-        if (loan != null)
+        // Loan 또는 StoreManager가 없으면 실제 상환을 실행할 수 없음
+        if (loan == null || loan.storeManager == null)
         {
-            loan.RepayLoan(repayAmount);
+            Debug.LogWarning("Loan 또는 StoreManager가 연결되지 않아 대출 상환을 실행할 수 없습니다.");
+            return;
         }
-        else
-        {
-            // Loan 연결 전 테스트용 처리
-            int actualPayment = Mathf.Min(repayAmount, testRemainingDebt);
-            testRemainingDebt = testRemainingDebt - actualPayment;
 
-            Debug.Log("테스트 상환 완료: " + actualPayment + "원");
-        }
+        // 실제 대출 상환 처리
+        loan.RepayLoan(repayAmount);
 
         // 입력칸 초기화
         repayInputField.text = "";
@@ -163,19 +163,21 @@ public class ResultView : MonoBehaviour
 
     private void UpdateRemainingDebtText()
     {
-        int remainingDebt = testRemainingDebt;
-
-        // Loan과 StoreManager가 연결되어 있으면 실제 부채 사용
-        if (loan != null && loan.storeManager != null)
+        // 남은 대출금 텍스트가 연결되지 않았으면 표시할 수 없음
+        if (remainingDebtText == null)
         {
-            remainingDebt = loan.storeManager.currentDebt;
+            return;
         }
 
-        // 남은 대출금 텍스트 표시
-        if (remainingDebtText != null)
+        // Loan 또는 StoreManager가 없으면 실제 부채 정보를 가져올 수 없음
+        if (loan == null || loan.storeManager == null)
         {
-            remainingDebtText.text = "남은 대출금 " + remainingDebt.ToString("N0") + "원";
+            return;
         }
+
+        // 실제 현재 부채 표시
+        int remainingDebt = loan.storeManager.currentDebt;
+        remainingDebtText.text = "남은 대출금 " + remainingDebt.ToString("N0") + "원";
     }
 
     private void OnNextDayButtonClicked()
