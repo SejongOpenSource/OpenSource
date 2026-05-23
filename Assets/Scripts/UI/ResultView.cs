@@ -6,25 +6,55 @@ public class ResultView : MonoBehaviour
     // 상품별 결과 Row UI 목록
     public ResultRowUI[] resultRows;
 
-    // 오늘 총 매출 표시 텍스트
-    public Text todayTotalSalesText;
+    // 시작 자본금 표시 텍스트
+    public Text startMoneyValueText;
 
-    // 오늘 총 수익 표시 텍스트
-    public Text todayRevenueText;
+    // 오늘 매출 표시 텍스트
+    public Text todaySalesValueText;
 
-    // 대출 이자 차감액 표시 텍스트
-    public Text interestCostText;
-
-    // 최종 순이익 표시 텍스트
-    public Text netProfitText;
+    // 대출 이자 비용 표시 텍스트
+    public Text interestCostValueText;
 
     // 마감 자본금 표시 텍스트
-    public Text finalMoneyText;
+    public Text finalMoneyValueText;
+
+    // 남은 대출금 표시 텍스트
+    public Text remainingDebtText;
+
+    // 상환 금액 입력 필드
+    public InputField repayInputField;
+
+    // 대출 상환 버튼
+    public Button repayLoanButton;
+
+    // 다음 날로 진행 버튼
+    public Button nextDayButton;
+
+    // 실제 대출 상환 로직이 있는 Loan 스크립트
+    public Loan loan;
+
+    // Loan 연결 전 테스트용 남은 대출금
+    private int testRemainingDebt = 150000;
 
     private void Start()
     {
         // 실제 영업 결과 데이터 연동 전까지 임시 데이터 표시
         ShowTestResult();
+
+        // 대출 상환 버튼 클릭 이벤트 연결
+        if (repayLoanButton != null)
+        {
+            repayLoanButton.onClick.AddListener(OnRepayLoanButtonClicked);
+        }
+
+        // 다음 날로 진행 버튼 클릭 이벤트 연결
+        if (nextDayButton != null)
+        {
+            nextDayButton.onClick.AddListener(OnNextDayButtonClicked);
+        }
+
+        // 남은 대출금 텍스트 갱신
+        UpdateRemainingDebtText();
     }
 
     private void ShowTestResult()
@@ -33,47 +63,136 @@ public class ResultView : MonoBehaviour
         if (resultRows != null && resultRows.Length >= 5)
         {
             resultRows[0].SetResult("삼각김밥", 10, 9);
-            resultRows[1].SetResult("컵라면", 5, 5);
+            resultRows[1].SetResult("라면", 5, 5);
             resultRows[2].SetResult("음료수", 20, 20);
             resultRows[3].SetResult("도시락", 8, 2);
             resultRows[4].SetResult("우산", 10, 8);
         }
 
         // 정산 요약 임시값
-        int todayTotalSales = 124500;
-        int todayRevenue = 124500;
+        int startMoney = 350000;
+        int todaySales = 124500;
         int interestCost = 3000;
-        int netProfit = todayRevenue - interestCost;
-        int finalMoney = 471500;
+        int finalMoney = startMoney + todaySales - interestCost;
 
-        // 오늘 총 매출 표시
-        if (todayTotalSalesText != null)
+        // 시작 자본금 표시
+        if (startMoneyValueText != null)
         {
-            todayTotalSalesText.text = todayTotalSales.ToString("N0") + "원";
+            startMoneyValueText.text = startMoney.ToString("N0") + "원";
         }
 
-        // 오늘 총 수익 표시
-        if (todayRevenueText != null)
+        // 오늘 매출 표시
+        if (todaySalesValueText != null)
         {
-            todayRevenueText.text = "오늘 총 수익 " + todayRevenue.ToString("N0") + "원";
+            todaySalesValueText.text = todaySales.ToString("N0") + "원";
         }
 
         // 이자 비용 표시
-        if (interestCostText != null)
+        if (interestCostValueText != null)
         {
-            interestCostText.text = "대출 이자 차감액 -" + interestCost.ToString("N0") + "원";
-        }
-
-        // 최종 순이익 표시
-        if (netProfitText != null)
-        {
-            netProfitText.text = "최종 순이익 " + netProfit.ToString("N0") + "원";
+            interestCostValueText.text = "-" + interestCost.ToString("N0") + "원";
         }
 
         // 마감 자본금 표시
-        if (finalMoneyText != null)
+        if (finalMoneyValueText != null)
         {
-            finalMoneyText.text = "마감 자본금 " + finalMoney.ToString("N0") + "원";
+            finalMoneyValueText.text = finalMoney.ToString("N0") + "원";
         }
+    }
+
+    private void OnRepayLoanButtonClicked()
+    {
+        // InputField가 연결되지 않았으면 실행하지 않음
+        if (repayInputField == null)
+        {
+            Debug.LogWarning("RepayInputField가 연결되지 않았습니다.");
+            return;
+        }
+
+        // 입력값 가져오기
+        string inputText = repayInputField.text;
+
+        // 빈 값이면 실행하지 않음
+        if (string.IsNullOrEmpty(inputText))
+        {
+            Debug.Log("상환 금액이 입력되지 않았습니다.");
+            return;
+        }
+
+        // 쉼표나 원 표시가 들어가도 숫자로 처리할 수 있게 정리
+        inputText = inputText.Replace(",", "");
+        inputText = inputText.Replace("원", "");
+        inputText = inputText.Trim();
+
+        int repayAmount = 0;
+
+        // 숫자로 변환할 수 없으면 실행하지 않음
+        if (int.TryParse(inputText, out repayAmount) == false)
+        {
+            Debug.Log("상환 금액은 숫자로 입력해야 합니다.");
+            return;
+        }
+
+        // 0원 이하이면 실행하지 않음
+        if (repayAmount <= 0)
+        {
+            Debug.Log("상환 금액은 0원보다 커야 합니다.");
+            return;
+        }
+
+        // Loan이 연결되어 있으면 실제 상환 함수 호출
+        if (loan != null)
+        {
+            loan.RepayLoan(repayAmount);
+        }
+        else
+        {
+            // Loan 연결 전 테스트용 처리
+            int actualPayment = Mathf.Min(repayAmount, testRemainingDebt);
+            testRemainingDebt = testRemainingDebt - actualPayment;
+
+            Debug.Log("테스트 상환 완료: " + actualPayment + "원");
+        }
+
+        // 입력칸 초기화
+        repayInputField.text = "";
+
+        // 남은 대출금 표시 갱신
+        UpdateRemainingDebtText();
+    }
+
+    private void UpdateRemainingDebtText()
+    {
+        int remainingDebt = testRemainingDebt;
+
+        // Loan과 StoreManager가 연결되어 있으면 실제 부채 사용
+        if (loan != null && loan.storeManager != null)
+        {
+            remainingDebt = loan.storeManager.currentDebt;
+        }
+
+        // 남은 대출금 텍스트 표시
+        if (remainingDebtText != null)
+        {
+            remainingDebtText.text = "남은 대출금 " + remainingDebt.ToString("N0") + "원";
+        }
+    }
+
+    private void OnNextDayButtonClicked()
+    {
+        // TurnManager가 씬에 없으면 다음 턴으로 넘길 수 없음
+        if (TurnManager.Instance == null)
+        {
+            Debug.LogWarning("TurnManager 인스턴스를 찾을 수 없습니다.");
+            return;
+        }
+
+        // Result 페이즈에서 호출하면 다음 턴의 Upgrade 페이즈로 이동
+        TurnManager.Instance.AdvancePhase();
+
+        Debug.Log("다음 날로 진행: Turn "
+                  + TurnManager.Instance.CurrentTurn
+                  + " / Phase "
+                  + TurnManager.Instance.CurrentPhase);
     }
 }
