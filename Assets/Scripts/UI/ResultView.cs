@@ -109,7 +109,7 @@ public class ResultView : MonoBehaviour
         // InputField가 연결되지 않았으면 실행하지 않음
         if (repayInputField == null)
         {
-            Debug.LogWarning("RepayInputField가 연결되지 않았습니다.");
+            Debug.LogError("RepayInputField가 연결되지 않았습니다.");
             return;
         }
 
@@ -144,10 +144,17 @@ public class ResultView : MonoBehaviour
             return;
         }
 
-        // Loan 또는 StoreManager가 없으면 실제 상환을 실행할 수 없음
-        if (loan == null || loan.storeManager == null)
+        // 실제 게임에서는 Loan 컴포넌트가 반드시 연결되어 있어야 함
+        if (loan == null)
         {
-            Debug.LogWarning("Loan 또는 StoreManager가 연결되지 않아 대출 상환을 실행할 수 없습니다.");
+            Debug.LogError("Loan 컴포넌트가 연결되지 않았습니다.");
+            return;
+        }
+
+        // Loan 안에 StoreManager가 연결되어 있어야 실제 부채와 자산을 처리할 수 있음
+        if (loan.storeManager == null)
+        {
+            Debug.LogError("Loan에 StoreManager가 연결되지 않았습니다.");
             return;
         }
 
@@ -169,14 +176,26 @@ public class ResultView : MonoBehaviour
             return;
         }
 
-        // Loan 또는 StoreManager가 없으면 실제 부채 정보를 가져올 수 없음
-        if (loan == null || loan.storeManager == null)
+        // 실제 게임에서는 Loan 컴포넌트가 반드시 연결되어 있어야 함
+        if (loan == null)
         {
+            Debug.LogError("Loan 컴포넌트가 연결되지 않았습니다.");
+            remainingDebtText.text = "남은 대출금 정보 없음";
             return;
         }
 
-        // 실제 현재 부채 표시
+        // Loan 안에 StoreManager가 연결되어 있어야 현재 부채를 가져올 수 있음
+        if (loan.storeManager == null)
+        {
+            Debug.LogError("Loan에 StoreManager가 연결되지 않았습니다.");
+            remainingDebtText.text = "남은 대출금 정보 없음";
+            return;
+        }
+
+        // 실제 게임 데이터의 현재 부채만 사용
         int remainingDebt = loan.storeManager.currentDebt;
+
+        // 남은 대출금 텍스트 표시
         remainingDebtText.text = "남은 대출금 " + remainingDebt.ToString("N0") + "원";
     }
 
@@ -185,7 +204,7 @@ public class ResultView : MonoBehaviour
         // TurnManager가 씬에 없으면 다음 턴으로 넘길 수 없음
         if (TurnManager.Instance == null)
         {
-            Debug.LogWarning("TurnManager 인스턴스를 찾을 수 없습니다.");
+            Debug.LogError("TurnManager 인스턴스를 찾을 수 없습니다.");
             return;
         }
 
