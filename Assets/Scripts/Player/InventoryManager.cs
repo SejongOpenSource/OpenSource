@@ -63,7 +63,7 @@ public class InventoryManager : MonoBehaviour
     // 발주 확정 → 비용 차감 성공 시 임시 수량을 실제 재고로 전환. 자산 부족 시 false 반환.
     public bool FinalizeOrder()
     {
-        // DataManager 구현 후 수정 예정: 아이템별 원가 조회 후 총 발주 비용 계산
+        // TODO: DataManager 구현 후 수정: 아이템별 원가 조회 후 총 발주 비용 계산
         // var itemMgr = DataManager.Instance?.itemDataManager;
         // for (int i = 0; i < _pendingOrder.Length; i++)
         // {
