@@ -34,7 +34,7 @@ public class DataManager : MonoBehaviour
     public DistrictData GetDistrict(string districtName) =>
         districtDataManager != null ? districtDataManager.GetDistrict(districtName) : null;
 
-    public DistrictData GetDistrict(Commerce zone) =>
+    public DistrictData GetDistrict(DistrictType zone) =>
         districtDataManager != null ? districtDataManager.GetDistrict(zone) : null;
 
     public ItemData GetItem(ItemType type) =>

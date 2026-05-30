@@ -30,7 +30,7 @@ public class DistrictDataManager : ScriptableObject
         return result;
     }
 
-    public DistrictData GetDistrict(Commerce zone)
+    public DistrictData GetDistrict(DistrictType zone)
     {
         return districts.Find(d => d != null && d.zone == zone);
     }
