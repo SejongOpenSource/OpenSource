@@ -8,7 +8,7 @@ public class DistrictSystem : MonoBehaviour
     /// <summary>
     /// 상권을 업그레이드 하는 메인 함수
     /// </summary>
-    /// <param name="c">변경하려는 대상 상권 타입</param>
+    /// <param name="selectedZone">변경하려는 대상 상권 타입</param>
     public void UpgradeCommerceZone(DistrictType selectedZone)
     {
         // 1. 중복 체크: 이미 동일한 상권인 경우 불필요한 비용 지출 방지
