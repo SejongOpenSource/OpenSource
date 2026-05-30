@@ -11,6 +11,7 @@ public class StoreManager : MonoBehaviour
     public DistrictData currentDistrictData { get; private set; }
     public event Action<int> OnPaymentSuccess; 
     public event Action OnPaymentFailed;
+    public event Action<int> OnDebtChanged;
     
     public void Initialize()
     {
@@ -37,6 +38,9 @@ public class StoreManager : MonoBehaviour
             Debug.LogError("StoreManager: 초기화 시점에 DataManager.Instance가 존재하지 않습니다! 실행 순서를 확인하세요.");
         }
         
+        OnPaymentSuccess?.Invoke(currentMoney);
+        OnDebtChanged?.Invoke(currentDebt);
+        
         Debug.Log("StoreManager: 자산 및 상권 변수 초기화 완료");
     }
     
@@ -58,6 +62,7 @@ public class StoreManager : MonoBehaviour
     public void AddMoney(int amount)
     {
         currentMoney += amount;
+        OnPaymentSuccess?.Invoke(currentMoney);
     }
 
     // 부채 업데이트
@@ -65,6 +70,9 @@ public class StoreManager : MonoBehaviour
     {
         currentDebt += amount;
         if (currentDebt < 0) currentDebt = 0;
+        
+        OnDebtChanged?.Invoke(currentDebt);
+        Debug.Log($"StoreManager: 부채 변동 완료 -> 현재 총 부채: {currentDebt}원");
     }
 
     // 상권 업데이트
@@ -72,5 +80,6 @@ public class StoreManager : MonoBehaviour
     {
         currentZone = zone;
         currentDistrictData = data;
+        Debug.Log($"StoreManager: 상권 변경 완료 -> {zone} (보너스 수치: {data?.visitorBonus})");
     }
 }
