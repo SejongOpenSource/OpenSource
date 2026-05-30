@@ -12,6 +12,11 @@ public class DistrictSystem : MonoBehaviour
     public void UpgradeCommerceZone(DistrictType selectedZone)
     {
         // 1. 중복 체크: 이미 동일한 상권인 경우 불필요한 비용 지출 방지
+        if (storeManager == null)
+        {
+            Debug.LogError("StoreManager가 할당되지 않았습니다.");
+            return;
+        }
         if (storeManager.currentZone == selectedZone && storeManager.currentDistrictData != null) 
         {
             Debug.Log($"이미 {selectedZone} 상권이 적용 중입니다.");
