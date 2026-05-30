@@ -5,7 +5,6 @@ public class StoreManager : MonoBehaviour
 {
     [Header("자산 관리")]
     public int currentMoney { get; private set; }// 현재 보유 금액
-
     public int currentDebt { get; private set; } // 현재 대출금
     public DistrictType currentZone { get; private set; }
     public DistrictData currentDistrictData { get; private set; }
@@ -19,10 +18,10 @@ public class StoreManager : MonoBehaviour
         currentDebt = 0;
         currentZone = DistrictType.Resident;
         
-        // 2. DataManager.Instance에서 직접 Resident(거주구역) 데이터 꺼내오기
+        // DataManager.Instance에서 직접 Resident(거주구역) 데이터 꺼내오기
         if (DataManager.Instance != null)
         {
-            currentDistrictData = DataManager.Instance.GetDistrict(DistrictType.Resident);
+            currentDistrictData = DataManager.Instance.GetDistrict(currentZone);
             
             if (currentDistrictData != null)
             {
@@ -30,7 +29,7 @@ public class StoreManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"StoreManager: DataManager에 [{DistrictType.Resident}] 데이터가 없습니다! 인스펙터를 확인하세요.");
+                Debug.LogError($"StoreManager: DataManager에 [{currentZone}] 데이터가 없습니다! 인스펙터를 확인하세요.");
             }
         }
         else
