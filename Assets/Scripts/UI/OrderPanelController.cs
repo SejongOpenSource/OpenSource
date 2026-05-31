@@ -80,9 +80,14 @@ public class OrderPanelController : MonoBehaviour
             return;
         }
 
-        // 검증 통과 후 대출 실행
+        // 검증 통과 후 대출 실행 (Loan은 LoanPanelController가 보유)
         if (loanAmount > 0)
-            GameManager.Instance.loan.TakeOutLoan(loanAmount);
+        {
+            if (loanPanelController != null && loanPanelController.loan != null)
+                loanPanelController.loan.TakeOutLoan(loanAmount);
+            else
+                Debug.LogWarning("ConfirmOrder: Loan 참조 없음 — 대출 실행 생략");
+        }
 
         GameManager.Instance.storeManager.SpendMoney(totalCost);
 
