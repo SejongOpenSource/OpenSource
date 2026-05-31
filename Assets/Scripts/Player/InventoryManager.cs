@@ -60,13 +60,27 @@ public class InventoryManager : MonoBehaviour
         _pendingOrder[(int)type] = count;
     }
 
-    public void FinalizeOrder()
+    // 발주 확정 → 비용 차감 성공 시 임시 수량을 실제 재고로 전환. 자산 부족 시 false 반환.
+    public bool FinalizeOrder()
     {
+        int totalCost = 0;
+        var itemDataManager = DataManager.Instance?.itemDataManager;
+        for (int i = 0; i < _pendingOrder.Length; i++)
+        {
+            ItemData item = itemDataManager?.GetItem((ItemType)i);
+            if (item != null) totalCost += _pendingOrder[i] * item.cost;
+        }
+
+        var store = GameManager.Instance?.storeManager;
+        if (store == null || !store.SpendMoney(totalCost))
+            return false;
+
         for (int i = 0; i < _stock.Length; i++)
         {
             _stock[i] += _pendingOrder[i];
             _pendingOrder[i] = 0;
         }
+        return true;
     }
 
     // 게임 종료 시 남은 재고 원가 합산 (점수 차감용) || 해당 매서드를 GameManager에서 호출하여 점수 계산에 사용.
