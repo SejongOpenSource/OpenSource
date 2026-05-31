@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public int TargetSales { get; private set; } = 5000000;
 
     // 게임 종료 시 발생 (true = 승리, false = 패배). UI(결과 화면 등)에서 구독해 전환 처리.
-    public System.Action<bool> OnGameOver;
+    public event System.Action<bool> OnGameOver;
 
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
