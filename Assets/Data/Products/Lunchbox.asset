@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718e87848e0470031103d67e18bbef86, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d5688b1ea4974976bfda8898d2d1f73, type: 3}
   m_Name: Lunchbox
-  m_EditorClassIdentifier: Assembly-CSharp::TradeData
-  productType: 3
-  costPrice: 3500
-  sellPrice: 5500
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemType: 3
+  itemName: 도시락
+  cost: 3500
+  price: 5500
+  icon: {fileID: 0}
