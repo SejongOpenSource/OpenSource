@@ -16,6 +16,12 @@ public class OrderPanelController : MonoBehaviour
     // 아직 실제 Loan.TakeOutLoan은 호출하지 않고 선택 금액만 가져옴
     public LoanPanelController loanPanelController;
 
+    // 주문 화면 패널
+    public GameObject orderPanel;
+
+    // 결과 화면 패널
+    public GameObject resultPanel;
+
     private void Start()
     {
         for (int i = 0; i < productRows.Length; i++)
@@ -29,6 +35,12 @@ public class OrderPanelController : MonoBehaviour
             startSalesButton.onClick.AddListener(ConfirmOrder);
 
         UpdateOrderTotalText();
+
+        // 게임 시작 시 결과 화면은 꺼둠
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(false);
+        }
     }
 
     public void UpdateOrderTotalText()
@@ -102,5 +114,31 @@ public class OrderPanelController : MonoBehaviour
         }
 
         Debug.Log($"발주 확정 완료. 지출: {totalCost:N0}원");
+
+        // 발주가 성공하면 결과 화면으로 전환
+        ShowResultPanel();
+    }
+
+    private void ShowResultPanel()
+    {
+        // 결과 화면 켜기
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("ResultPanel이 연결되지 않았습니다.");
+        }
+
+        // 주문 화면 끄기
+        if (orderPanel != null)
+        {
+            orderPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("OrderPanel이 연결되지 않았습니다.");
+        }
     }
 }
