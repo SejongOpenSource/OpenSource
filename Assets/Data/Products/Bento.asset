@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d5688b1ea4974976bfda8898d2d1f73, type: 3}
-  m_Name: Lunchbox
+  m_Name: Bento
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 3
   itemName: 도시락
