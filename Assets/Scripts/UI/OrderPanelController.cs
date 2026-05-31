@@ -81,12 +81,18 @@ public class OrderPanelController : MonoBehaviour
         }
 
         // 검증 통과 후 대출 실행 (Loan은 LoanPanelController가 보유)
+        // 대출이 필요한데 참조가 없으면 자금만 차감되는 불일치를 막기 위해 발주를 중단한다.
         if (loanAmount > 0)
         {
             if (loanPanelController != null && loanPanelController.loan != null)
+            {
                 loanPanelController.loan.TakeOutLoan(loanAmount);
+            }
             else
-                Debug.LogWarning("ConfirmOrder: Loan 참조 없음 — 대출 실행 생략");
+            {
+                Debug.LogError("ConfirmOrder: Loan 참조가 없어 대출 실행 불가. 발주 취소.");
+                return;
+            }
         }
 
         GameManager.Instance.storeManager.SpendMoney(totalCost);
