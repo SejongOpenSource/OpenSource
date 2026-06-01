@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
-    [SerializeField] public InventoryManager inventoryManager;
+    public InventoryManager inventoryManager;
 
     private void Awake()
     {
