@@ -21,6 +21,7 @@ public class SalesAlgorithm : MonoBehaviour
 
     public void RunSimulation()
     {
+        LastDailyRevenue = 0;
         if (CustomerManager.Instance == null)
         {
             Debug.LogError("CustomerManager 인스턴스를 찾을 수 없습니다.");
