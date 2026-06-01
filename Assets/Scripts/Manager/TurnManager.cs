@@ -19,13 +19,6 @@ public class TurnManager : MonoBehaviour
         Instance = this;
     }
 
-    // 현재 페이즈를 다시 통지한다. 구독자(UI 패널 컨트롤러 등)가 구독 직후 호출하면
-    // 시작 시점의 현재 페이즈에 맞춰 초기 패널 상태를 동기화할 수 있다.
-    public void NotifyCurrentPhase()
-    {
-        OnPhaseChanged?.Invoke(CurrentPhase);
-    }
-
     public void AdvancePhase()
     {
         switch (CurrentPhase)
