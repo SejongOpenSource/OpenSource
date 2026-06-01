@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
+    [SerializeField] public InventoryManager inventoryManager;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
+        if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager가 Inspector에 연결되지 않았습니다.");
     }
 
     // TurnManager에서 Result 페이즈 종료 시 호출
