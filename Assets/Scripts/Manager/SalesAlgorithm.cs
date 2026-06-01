@@ -32,7 +32,7 @@ public class SalesAlgorithm : MonoBehaviour
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
         WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
         WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
-        InventoryManager inventory = GameManager.Instance?.inventoryManager;
+        InventoryManager inventory = GameManager.Instance.inventoryManager;
         if (inventory == null)
         {
             Debug.LogError("SalesAlgorithm: InventoryManager가 GameManager에 연결되지 않았습니다.");
