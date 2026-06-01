@@ -67,7 +67,7 @@ public class OrderPanelController : MonoBehaviour
 
     private void ConfirmOrder()
     {
-        if (GameManager.Instance == null || InventoryManager.Instance == null)
+        if (GameManager.Instance == null || GameManager.Instance.inventoryManager == null)
         {
             Debug.LogError("ConfirmOrder: GameManager 또는 InventoryManager 초기화되지 않음");
             return;
@@ -102,9 +102,9 @@ public class OrderPanelController : MonoBehaviour
         for (int i = 0; i < productRows.Length; i++)
         {
             if (productRows[i] == null) continue;
-            InventoryManager.Instance.SetOrder(productRows[i].GetItemType(), productRows[i].GetOrderQuantity());
+            GameManager.Instance.inventoryManager.SetOrder(productRows[i].GetItemType(), productRows[i].GetOrderQuantity());
         }
-        InventoryManager.Instance.FinalizeOrder();
+        GameManager.Instance.inventoryManager.FinalizeOrder();
 
         // 재고 UI 갱신
         for (int i = 0; i < productRows.Length; i++)
