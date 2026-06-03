@@ -34,14 +34,19 @@ public class SalesAlgorithm : MonoBehaviour
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
         WeatherType morning = GameManager.Instance.weatherSystem.morningWeather;
         WeatherType afternoon = GameManager.Instance.weatherSystem.afternoonWeather;
-        InventoryManager inventory = InventoryManager.Instance;
+        InventoryManager inventory = GameManager.Instance.inventoryManager;
+        if (inventory == null)
+        {
+            Debug.LogError("SalesAlgorithm: InventoryManager가 GameManager에 연결되지 않았습니다.");
+            return;
+        }
 
         for (int i = 0; i < totalVisitors; i++)
         {
             ItemType? chosenItem = PickItem(district, morning, afternoon);
             if (!chosenItem.HasValue) continue;
 
-            if (inventory == null || inventory.GetStock(chosenItem.Value) <= 0) continue;
+            if (inventory.GetStock(chosenItem.Value) <= 0) continue;
 
             ItemData item = DataManager.Instance.GetItem(chosenItem.Value);
             if (item == null) continue;

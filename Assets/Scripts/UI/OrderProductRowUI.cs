@@ -71,7 +71,7 @@ public class OrderProductRowUI : MonoBehaviour
             productNameText.text = itemData.itemName;
 
         if (stockText != null)
-            stockText.text = (InventoryManager.Instance?.GetStock(itemType) ?? 0).ToString();
+            stockText.text = (GameManager.Instance?.inventoryManager?.GetStock(itemType) ?? 0).ToString();
 
         if (costText != null)
             costText.text = itemCost.ToString("N0") + "원";
@@ -83,7 +83,7 @@ public class OrderProductRowUI : MonoBehaviour
     public void RefreshStock()
     {
         if (stockText != null)
-            stockText.text = (InventoryManager.Instance?.GetStock(itemType) ?? 0).ToString();
+            stockText.text = (GameManager.Instance?.inventoryManager?.GetStock(itemType) ?? 0).ToString();
     }
 
     private void IncreaseQuantity()
