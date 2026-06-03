@@ -322,6 +322,18 @@ GameObject:
   - component: {fileID: 20274323}
   - component: {fileID: 20274322}
   - component: {fileID: 20274321}
+  - component: {fileID: 20274334}
+  - component: {fileID: 20274333}
+  - component: {fileID: 20274332}
+  - component: {fileID: 20274331}
+  - component: {fileID: 20274330}
+  - component: {fileID: 20274329}
+  - component: {fileID: 20274328}
+  - component: {fileID: 20274327}
+  - component: {fileID: 20274326}
+  - component: {fileID: 20274325}
+  - component: {fileID: 20274324}
+  - component: {fileID: 20274335}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -415,6 +427,179 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20274324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04263e2da83394dd39dc9d896e5661f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhasePanelManager
+  _upgradePanel: {fileID: 1474645399}
+  _orderPanel: {fileID: 1071461131}
+  _simulationPanel: {fileID: 0}
+  _resultPanel: {fileID: 346925753}
+  _upgradeConfirmButton: {fileID: 1709900410}
+  _nextTurnButton: {fileID: 0}
+--- !u!114 &20274325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe3e13a088dda64f98d5baaa966e5e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DistrictSystem
+  storeManager: {fileID: 20274321}
+--- !u!114 &20274326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4676e1ba224317341a3ecef4a1f2f73e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomerManager
+  baseVisitors: 50
+--- !u!114 &20274327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae3ab5b326430f4898c826935868a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SalesAlgorithm
+--- !u!114 &20274328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10229904f1de21b4f9bc94b9331ee748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DataManager
+  itemDataManager: {fileID: 0}
+  districtDataManager: {fileID: 11400000, guid: c1e2bf9e3c6c845e38d0d35ae763eda5, type: 2}
+  weatherDataManager: {fileID: 0}
+--- !u!114 &20274329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a63c8b9b92a0ff4babdde9313071d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeatherDataManager
+  sunnyModifier: 1
+  rainyModifier: 0.9
+  heatwaveModifier: 1.05
+  cloudyModifier: 0.8
+  snowyModifier: 0.7
+--- !u!114 &20274330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90eb51610afea774689e4b12db2f0f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDataManager
+  items:
+  - {fileID: 11400000, guid: 22317451ba29dc94185db3e8565be99a, type: 2}
+  - {fileID: 11400000, guid: 239e3dba248e07341bf542f2083563bf, type: 2}
+  - {fileID: 11400000, guid: 536a96f024340e54f872fcd4c5291354, type: 2}
+  - {fileID: 11400000, guid: 28caf3db266c39548a31fabbdcf58671, type: 2}
+  - {fileID: 11400000, guid: d9433c951e6a2e14792a84392a662f87, type: 2}
+--- !u!114 &20274331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d304a423cd6c14ca0878e12f54486a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
+--- !u!114 &20274332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b241e275bab544e8c1566d53d424cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  storeManager: {fileID: 0}
+  loan: {fileID: 0}
+  weatherSystem: {fileID: 0}
+  inventoryManager: {fileID: 20274331}
+--- !u!114 &20274333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32fc736e3703e1b4185b231b03cefd35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeatherSystem
+  morningWeather: 0
+  afternoonWeather: 0
+--- !u!114 &20274334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdffc126db79c98479a2ef07b3e2ee43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Loan
+  storeManager: {fileID: 20274321}
+--- !u!114 &20274335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20274320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53634c90b6cca34bbd859bd7cb43637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnManager
 --- !u!1001 &21687472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -761,6 +946,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98008374}
   m_CullTransparentMesh: 1
+--- !u!1 &119302209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 119302210}
+  m_Layer: 5
+  m_Name: SimulationPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &119302210
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119302209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1781377923}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &122893075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2433,8 +2653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 650, y: 0}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchoredPosition: {x: 500, y: -60}
+  m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386454140
 MonoBehaviour:
@@ -5369,8 +5589,6 @@ MonoBehaviour:
   - {fileID: 1245865500}
   orderTotalValueText: {fileID: 1492013358}
   loanPanelController: {fileID: 405924020}
-  orderPanel: {fileID: 1071461131}
-  resultPanel: {fileID: 346925753}
 --- !u!1 &1072600987
 GameObject:
   m_ObjectHideFlags: 0
@@ -5757,7 +5975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: 0}
+  m_AnchoredPosition: {x: 150, y: 0}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1119165605
@@ -6840,6 +7058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1474645400}
+  - component: {fileID: 1474645401}
   m_Layer: 5
   m_Name: UpgradePanel
   m_TagString: Untagged
@@ -6870,6 +7089,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1474645401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474645399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222dc31f1f12f484d853a2a78b1a77d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradePanelController
+  districtSystem: {fileID: 20274325}
+  currentDistrictText: {fileID: 962856245}
+  academyInvestButton: {fileID: 2105625804}
+  campusInvestButton: {fileID: 1078230650}
+  businessInvestButton: {fileID: 186124956}
+  touristInvestButton: {fileID: 1014055326}
 --- !u!1001 &1487686073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8446,6 +8683,7 @@ RectTransform:
   - {fileID: 1071461132}
   - {fileID: 952157810}
   - {fileID: 1597197052}
+  - {fileID: 119302210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8487,7 +8725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 0}
+  m_AnchoredPosition: {x: 150, y: -60}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1828143607
@@ -10057,6 +10295,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 797982648851662899, guid: c0b2c7e1462544a72ab371df9b0e07b8, type: 3}
+      propertyPath: loan
+      value: 
+      objectReference: {fileID: 20274334}
     - target: {fileID: 797982648851662899, guid: c0b2c7e1462544a72ab371df9b0e07b8, type: 3}
       propertyPath: nextDayButton
       value: 
