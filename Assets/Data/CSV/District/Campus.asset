@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Campus
   m_EditorClassIdentifier: Assembly-CSharp::DistrictData
   districtName: Campus
+  zone: 2
   investmentCost: 100000
   visitorBonus: 0.5
   onigiriMult: 1
