@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public int TargetSales { get; private set; } = 5000000;
 
+    // 게임 종료 시 발생 (true = 승리, false = 패배). UI(결과 화면 등)에서 구독해 전환 처리.
+    public event System.Action<bool> OnGameOver;
+
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
@@ -29,8 +32,8 @@ public class GameManager : MonoBehaviour
     // TurnManager에서 Result 페이즈 종료 시 호출
     public bool OnTurnEnd(int currentTurn, int maxTurns)
     {
-        if (CheckWin()) return true;
-        if (CheckLose(currentTurn, maxTurns)) return true;
+        if (CheckWin()) { OnGameOver?.Invoke(true); return true; }
+        if (CheckLose(currentTurn, maxTurns)) { OnGameOver?.Invoke(false); return true; }
         return false;
     }
 
@@ -54,8 +57,16 @@ public class GameManager : MonoBehaviour
 
     private bool CheckLose(int currentTurn, int maxTurns)
     {
+        // 자본금 고갈 패배
+        if (storeManager != null && storeManager.currentMoney <= 0)
+        {
+            Debug.Log("패배! (자본금 고갈)");
+            return true;
+        }
+
+        // 턴 소진 패배 (30턴 초과)
         if (currentTurn < maxTurns) return false;
-        Debug.Log("패배!");
+        Debug.Log("패배! (턴 소진)");
         return true;
     }
 }
