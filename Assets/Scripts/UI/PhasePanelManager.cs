@@ -18,8 +18,8 @@ public class PhasePanelManager : MonoBehaviour
     {
         TurnManager.Instance.OnPhaseChanged += OnPhaseChanged;
 
-        _upgradeConfirmButton?.onClick.AddListener(() => TurnManager.Instance.AdvancePhase());
-        _nextTurnButton?.onClick.AddListener(() => TurnManager.Instance.AdvancePhase());
+        _upgradeConfirmButton?.onClick.AddListener(() => TurnManager.Instance?.AdvancePhase());
+        _nextTurnButton?.onClick.AddListener(() => TurnManager.Instance?.AdvancePhase());
 
         ShowPanel(TurnManager.Instance.CurrentPhase);
     }
