@@ -35,7 +35,11 @@ public class TurnManager : MonoBehaviour
                 CurrentPhase = TurnPhase.Result;
                 break;
             case TurnPhase.Result:
-                if (GameManager.Instance == null) return;
+                if (GameManager.Instance == null)
+                {
+                    Debug.LogError("TurnManager: GameManager.Instance가 null입니다. TurnPhase.Result를 완료할 수 없습니다.");
+                    return;
+                }
                 if (GameManager.Instance.OnTurnEnd(CurrentTurn, MaxTurns)) return;
                 CurrentTurn++;
                 CurrentPhase = TurnPhase.Upgrade;
