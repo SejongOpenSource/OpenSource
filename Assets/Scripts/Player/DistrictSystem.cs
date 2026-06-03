@@ -24,6 +24,11 @@ public class DistrictSystem : MonoBehaviour
         }
 
         // 2. 데이터 매핑: 선택한 상권 타입에 맞는 데이터 오브젝트(SO)를 가져옴
+        if (DataManager.Instance == null)
+        {
+            Debug.LogError("DistrictSystem: DataManager가 초기화되지 않았습니다.");
+            return;
+        }
         DistrictData targetData = DataManager.Instance.GetDistrict(selectedZone);
 
         // 데이터가 비어있으면(Null) 로직 중단
