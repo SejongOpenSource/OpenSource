@@ -11,7 +11,7 @@ public class TurnManager : MonoBehaviour
     public int MaxTurns { get; private set; } = 30;
 
     // Phase 변경 시 발생하는 이벤트 (UI 등에서 구독 가능)
-    public System.Action<TurnPhase> OnPhaseChanged;
+    public event System.Action<TurnPhase> OnPhaseChanged;
 
     private void Awake()
     {
