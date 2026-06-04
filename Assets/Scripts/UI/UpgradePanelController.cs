@@ -22,16 +22,8 @@ public class UpgradePanelController : MonoBehaviour
     // 관광지 구매 버튼
     public Button touristBuyButton;
 
-    // 구매한 상권 상태 저장
-    // 현재는 UI 컨트롤러 안에서 관리 중
-    // 리뷰 반영 시 StoreManager 쪽으로 옮기는 것이 더 안전함
-    private Dictionary<DistrictType, bool> purchasedDistricts = new Dictionary<DistrictType, bool>();
-
     private void Start()
     {
-        // 기본 상권인 주거지는 처음부터 보유 상태
-        InitializePurchasedDistricts();
-
         // 버튼 클릭 이벤트 연결
         if (academyBuyButton != null)
         {
@@ -53,21 +45,16 @@ public class UpgradePanelController : MonoBehaviour
             touristBuyButton.onClick.AddListener(BuyTourist);
         }
 
-        // 시작 시 보유 상권 텍스트 갱신
+        // 시작 시 UI 갱신
         UpdateOwnedDistrictText();
-
-        // 시작 시 구매 완료 버튼 상태 갱신
         UpdateButtonStates();
     }
 
-    private void InitializePurchasedDistricts()
+    private void OnEnable()
     {
-        // 모든 상권 초기 구매 상태 설정
-        purchasedDistricts[DistrictType.Resident] = true;
-        purchasedDistricts[DistrictType.Academy] = false;
-        purchasedDistricts[DistrictType.Campus] = false;
-        purchasedDistricts[DistrictType.Business] = false;
-        purchasedDistricts[DistrictType.Tourist] = false;
+        // 패널이 다시 켜질 때 최신 보유 상권 상태 반영
+        UpdateOwnedDistrictText();
+        UpdateButtonStates();
     }
 
     private void BuyAcademy()
@@ -96,71 +83,55 @@ public class UpgradePanelController : MonoBehaviour
 
     private void BuyDistrict(DistrictType districtType)
     {
-        // 이미 구매한 상권이면 다시 구매하지 않음
-        if (IsPurchased(districtType))
+        // StoreManager 확인
+        StoreManager storeManager = GetStoreManager();
+
+        if (storeManager == null)
         {
-            Debug.Log($"{GetDistrictName(districtType)} 상권은 이미 구매했습니다.");
+            Debug.LogError("UpgradePanelController: StoreManager를 찾을 수 없습니다.");
             return;
         }
 
-        // GameManager 확인
-        if (GameManager.Instance == null || GameManager.Instance.storeManager == null)
-        {
-            Debug.LogError("UpgradePanelController: GameManager 또는 StoreManager가 없습니다.");
-            return;
-        }
+        // StoreManager에서 실제 상권 구매 처리
+        bool success = storeManager.PurchaseDistrict(districtType);
 
-        // DataManager 확인
-        if (DataManager.Instance == null)
-        {
-            Debug.LogError("UpgradePanelController: DataManager가 없습니다.");
-            return;
-        }
-
-        // 구매하려는 상권 데이터 가져오기
-        DistrictData districtData = DataManager.Instance.GetDistrict(districtType);
-
-        if (districtData == null)
-        {
-            Debug.LogError($"UpgradePanelController: {districtType} 상권 데이터를 찾을 수 없습니다.");
-            return;
-        }
-
-        StoreManager storeManager = GameManager.Instance.storeManager;
-
-        // 상권 구매 비용 차감
-        bool success = storeManager.SpendMoney(districtData.investmentCost);
-
-        // 돈이 부족하면 구매 실패
+        // 구매 실패 시에도 UI 상태를 다시 갱신
+        // 이미 구매했거나, 돈이 부족하거나, 데이터가 없을 수 있음
         if (success == false)
         {
-            Debug.LogWarning($"{GetDistrictName(districtType)} 상권 구매 실패: 자산 부족");
+            UpdateOwnedDistrictText();
+            UpdateButtonStates();
             return;
         }
 
-        // 구매 성공 처리
-        purchasedDistricts[districtType] = true;
-
-        // 기존 판매 계산 구조가 현재 상권 하나를 사용하므로
-        // 마지막으로 구매한 상권을 현재 적용 상권으로도 설정
-        storeManager.SetDistrict(districtType, districtData);
-
-        // UI 갱신
+        // 구매 성공 후 UI 갱신
         UpdateOwnedDistrictText();
         UpdateButtonStates();
 
-        Debug.Log($"{GetDistrictName(districtType)} 상권 구매 완료");
+        Debug.Log($"{GetDistrictName(districtType)} 상권 구매 UI 갱신 완료");
+    }
+
+    private StoreManager GetStoreManager()
+    {
+        // GameManager가 없으면 StoreManager를 가져올 수 없음
+        if (GameManager.Instance == null)
+        {
+            return null;
+        }
+
+        return GameManager.Instance.storeManager;
     }
 
     private bool IsPurchased(DistrictType districtType)
     {
-        // Dictionary에 없으면 미구매로 처리
-        if (purchasedDistricts.ContainsKey(districtType) == false)
+        StoreManager storeManager = GetStoreManager();
+
+        if (storeManager == null)
         {
             return false;
         }
 
-        return purchasedDistricts[districtType];
+        return storeManager.IsDistrictPurchased(districtType);
     }
 
     private void UpdateOwnedDistrictText()
@@ -171,32 +142,35 @@ public class UpgradePanelController : MonoBehaviour
             return;
         }
 
+        StoreManager storeManager = GetStoreManager();
+
+        // 주거지는 구매하는 상권이 아니라 기본 보유 상권이므로 항상 표시
         List<string> ownedNames = new List<string>();
+        ownedNames.Add("주거지");
 
-        // 구매한 상권만 목록에 추가
-        if (IsPurchased(DistrictType.Resident))
+        if (storeManager != null)
         {
-            ownedNames.Add("주거지");
-        }
+            List<DistrictType> purchasedDistricts = storeManager.GetPurchasedDistricts();
 
-        if (IsPurchased(DistrictType.Academy))
-        {
-            ownedNames.Add("학원가");
-        }
+            // StoreManager에 저장된 구매 상권을 화면에 추가
+            for (int i = 0; i < purchasedDistricts.Count; i++)
+            {
+                DistrictType districtType = purchasedDistricts[i];
 
-        if (IsPurchased(DistrictType.Campus))
-        {
-            ownedNames.Add("대학가");
-        }
+                // 주거지는 이미 맨 앞에 넣었으므로 중복 방지
+                if (districtType == DistrictType.Resident)
+                {
+                    continue;
+                }
 
-        if (IsPurchased(DistrictType.Business))
-        {
-            ownedNames.Add("오피스가");
-        }
+                string districtName = GetDistrictName(districtType);
 
-        if (IsPurchased(DistrictType.Tourist))
-        {
-            ownedNames.Add("관광지");
+                // 혹시 같은 이름이 중복으로 들어가는 것 방지
+                if (ownedNames.Contains(districtName) == false)
+                {
+                    ownedNames.Add(districtName);
+                }
+            }
         }
 
         // 보유 상권 목록 표시
@@ -219,7 +193,7 @@ public class UpgradePanelController : MonoBehaviour
             return;
         }
 
-        // 구매 완료된 버튼은 다시 누르지 못하게 함
+        // 이미 구매한 버튼은 다시 누르지 못하게 함
         button.interactable = isPurchased == false;
 
         // 버튼 안의 Text를 찾아서 문구 변경
@@ -240,7 +214,7 @@ public class UpgradePanelController : MonoBehaviour
 
     private string GetDistrictName(DistrictType districtType)
     {
-        // DistrictType enum 값을 한글 이름으로 변환
+        // DistrictType enum 값을 화면용 한글 이름으로 변환
         switch (districtType)
         {
             case DistrictType.Resident:
