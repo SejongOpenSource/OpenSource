@@ -50,6 +50,18 @@ public class SimulationPanelController : MonoBehaviour
 
     private IEnumerator ProgressRoutine()
     {
+        // duration 값이 0 이하이면 나눗셈 계산을 하면 안 됨
+        // 바로 100%로 처리하고 종료
+        if (duration <= 0f)
+        {
+            if (progressSlider != null)
+            {
+                progressSlider.value = 1f;
+            }
+
+            yield break;
+        }
+
         float timer = 0f;
 
         // duration 시간 동안 게이지를 0에서 1까지 채움

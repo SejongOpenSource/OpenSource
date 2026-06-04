@@ -7,6 +7,7 @@ public class OrderPanelController : MonoBehaviour
     public Button startSalesButton;
 
     // 상품 Row 목록
+    // Inspector에서 상품 Row들을 연결해야 함
     public OrderProductRowUI[] productRows;
 
     // 주문 합계 표시 텍스트
@@ -17,16 +18,25 @@ public class OrderPanelController : MonoBehaviour
 
     private void Start()
     {
-        // 상품 Row 초기 설정
-        for (int i = 0; i < productRows.Length; i++)
+        // 상품 Row가 제대로 연결되어 있는지 먼저 확인
+        if (HasProductRows() == false)
         {
-            if (productRows[i] == null)
+            Debug.LogError("OrderPanelController: productRows가 연결되지 않았습니다.");
+        }
+        else
+        {
+            // 상품 Row 초기 설정
+            for (int i = 0; i < productRows.Length; i++)
             {
-                continue;
-            }
+                if (productRows[i] == null)
+                {
+                    Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
+                    continue;
+                }
 
-            productRows[i].orderPanelController = this;
-            productRows[i].SetupRow();
+                productRows[i].orderPanelController = this;
+                productRows[i].SetupRow();
+            }
         }
 
         // 영업 시작 버튼 연결
@@ -42,6 +52,17 @@ public class OrderPanelController : MonoBehaviour
     public void UpdateOrderTotalText()
     {
         int totalCost = 0;
+
+        // 상품 Row가 없으면 주문 합계를 0원으로 표시하고 종료
+        if (HasProductRows() == false)
+        {
+            if (orderTotalValueText != null)
+            {
+                orderTotalValueText.text = "0원";
+            }
+
+            return;
+        }
 
         // 모든 상품 Row의 발주 금액 합산
         for (int i = 0; i < productRows.Length; i++)
@@ -63,6 +84,13 @@ public class OrderPanelController : MonoBehaviour
 
     private void ConfirmOrder()
     {
+        // 상품 Row가 연결되지 않았으면 발주 진행 불가
+        if (HasProductRows() == false)
+        {
+            Debug.LogError("ConfirmOrder: productRows가 연결되지 않아 발주를 진행할 수 없습니다.");
+            return;
+        }
+
         // GameManager 확인
         if (GameManager.Instance == null)
         {
@@ -148,7 +176,7 @@ public class OrderPanelController : MonoBehaviour
         }
 
         // 발주 확정
-        // 여기서 비용 차감과 재고 반영이 함께 일어남
+        // 비용 차감과 재고 반영은 InventoryManager.FinalizeOrder()에서 처리됨
         bool orderSuccess = GameManager.Instance.inventoryManager.FinalizeOrder();
 
         if (orderSuccess == false)
@@ -182,5 +210,22 @@ public class OrderPanelController : MonoBehaviour
         {
             Debug.LogError("ConfirmOrder: TurnManager가 없습니다.");
         }
+    }
+
+    private bool HasProductRows()
+    {
+        // productRows 배열 자체가 없으면 false
+        if (productRows == null)
+        {
+            return false;
+        }
+
+        // 배열은 있지만 비어 있으면 false
+        if (productRows.Length == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
