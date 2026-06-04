@@ -30,11 +30,16 @@ public class TurnManager : MonoBehaviour
                 CurrentPhase = TurnPhase.Simulation;
                 break;
             case TurnPhase.Simulation:
-                GameManager.Instance.weatherSystem?.GenerateWeather();
+                GameManager.Instance?.weatherSystem?.GenerateWeather();
                 SalesAlgorithm.Instance?.RunSimulation();
                 CurrentPhase = TurnPhase.Result;
                 break;
             case TurnPhase.Result:
+                if (GameManager.Instance == null)
+                {
+                    Debug.LogError("TurnManager: GameManager.Instance가 null입니다. TurnPhase.Result를 완료할 수 없습니다.");
+                    return;
+                }
                 if (GameManager.Instance.OnTurnEnd(CurrentTurn, MaxTurns)) return;
                 CurrentTurn++;
                 CurrentPhase = TurnPhase.Upgrade;

@@ -5,7 +5,7 @@ public class InventoryManager : MonoBehaviour
     private int[] _stock;
     private int[] _pendingOrder;
 
-    private void Awake()
+    public void Initialize()
     {
         int n = System.Enum.GetNames(typeof(ItemType)).Length;
         _stock = new int[n];
