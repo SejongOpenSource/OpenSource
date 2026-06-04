@@ -22,6 +22,23 @@ public class UpgradePanelController : MonoBehaviour
     // 관광지 구매 버튼
     public Button touristBuyButton;
 
+    [Header("상권 가격 텍스트")]
+    // 학원가 가격 텍스트
+    // DistrictData.investmentCost 값을 표시함
+    public Text academyPriceText;
+
+    // 대학가 가격 텍스트
+    // DistrictData.investmentCost 값을 표시함
+    public Text campusPriceText;
+
+    // 오피스가 가격 텍스트
+    // DistrictData.investmentCost 값을 표시함
+    public Text businessPriceText;
+
+    // 관광지 가격 텍스트
+    // DistrictData.investmentCost 값을 표시함
+    public Text touristPriceText;
+
     private void Start()
     {
         // 버튼 클릭 이벤트 연결
@@ -46,15 +63,25 @@ public class UpgradePanelController : MonoBehaviour
         }
 
         // 시작 시 UI 갱신
-        UpdateOwnedDistrictText();
-        UpdateButtonStates();
+        RefreshUpgradePanel();
     }
 
     private void OnEnable()
     {
-        // 패널이 다시 켜질 때 최신 보유 상권 상태 반영
+        // 패널이 다시 켜질 때 최신 데이터로 UI 갱신
+        RefreshUpgradePanel();
+    }
+
+    private void RefreshUpgradePanel()
+    {
+        // 보유 상권 목록 갱신
         UpdateOwnedDistrictText();
+
+        // 구매 완료 버튼 상태 갱신
         UpdateButtonStates();
+
+        // 상권 가격 텍스트를 백엔드 데이터 기준으로 갱신
+        UpdatePriceTexts();
     }
 
     private void BuyAcademy()
@@ -95,20 +122,13 @@ public class UpgradePanelController : MonoBehaviour
         // StoreManager에서 실제 상권 구매 처리
         bool success = storeManager.PurchaseDistrict(districtType);
 
-        // 구매 실패 시에도 UI 상태를 다시 갱신
-        // 이미 구매했거나, 돈이 부족하거나, 데이터가 없을 수 있음
-        if (success == false)
+        // 성공/실패와 관계없이 UI를 최신 상태로 갱신
+        RefreshUpgradePanel();
+
+        if (success)
         {
-            UpdateOwnedDistrictText();
-            UpdateButtonStates();
-            return;
+            Debug.Log($"{GetDistrictName(districtType)} 상권 구매 UI 갱신 완료");
         }
-
-        // 구매 성공 후 UI 갱신
-        UpdateOwnedDistrictText();
-        UpdateButtonStates();
-
-        Debug.Log($"{GetDistrictName(districtType)} 상권 구매 UI 갱신 완료");
     }
 
     private StoreManager GetStoreManager()
@@ -144,7 +164,7 @@ public class UpgradePanelController : MonoBehaviour
 
         StoreManager storeManager = GetStoreManager();
 
-        // 주거지는 구매하는 상권이 아니라 기본 보유 상권이므로 항상 표시
+        // 주거지는 기본 보유 상권이므로 항상 표시
         List<string> ownedNames = new List<string>();
         ownedNames.Add("주거지");
 
@@ -165,7 +185,7 @@ public class UpgradePanelController : MonoBehaviour
 
                 string districtName = GetDistrictName(districtType);
 
-                // 혹시 같은 이름이 중복으로 들어가는 것 방지
+                // 중복 표시 방지
                 if (ownedNames.Contains(districtName) == false)
                 {
                     ownedNames.Add(districtName);
@@ -210,6 +230,43 @@ public class UpgradePanelController : MonoBehaviour
                 buttonText.text = "구매하기";
             }
         }
+    }
+
+    private void UpdatePriceTexts()
+    {
+        // 각 가격 Text를 DistrictData의 investmentCost 기준으로 갱신
+        SetPriceText(academyPriceText, DistrictType.Academy);
+        SetPriceText(campusPriceText, DistrictType.Campus);
+        SetPriceText(businessPriceText, DistrictType.Business);
+        SetPriceText(touristPriceText, DistrictType.Tourist);
+    }
+
+    private void SetPriceText(Text priceText, DistrictType districtType)
+    {
+        // 가격 Text가 연결되지 않았으면 표시할 수 없음
+        if (priceText == null)
+        {
+            return;
+        }
+
+        // DataManager가 없으면 가격 데이터를 가져올 수 없음
+        if (DataManager.Instance == null)
+        {
+            priceText.text = "-";
+            return;
+        }
+
+        // 백엔드 상권 데이터 가져오기
+        DistrictData districtData = DataManager.Instance.GetDistrict(districtType);
+
+        if (districtData == null)
+        {
+            priceText.text = "-";
+            return;
+        }
+
+        // 실제 백엔드 가격 표시
+        priceText.text = $"{districtData.investmentCost:N0}원";
     }
 
     private string GetDistrictName(DistrictType districtType)
