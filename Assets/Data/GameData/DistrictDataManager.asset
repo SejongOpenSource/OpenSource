@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de24c9e3adf76d4c88ed48bae42c7c8, type: 3}
+  m_Name: DistrictDataManager
+  m_EditorClassIdentifier: Assembly-CSharp::DistrictDataManager
+  districts:
+  - {fileID: 11400000, guid: fc4bb6b2eeaea7e49b62929e664ab3e4, type: 2}
+  - {fileID: 11400000, guid: 1f05abe997f2f2744822a8cb25d326ef, type: 2}
+  - {fileID: 11400000, guid: fbf9ca32fe68c704d922a301dbe49678, type: 2}
+  - {fileID: 11400000, guid: 79041b2ba223d644784e032ea36d1c0a, type: 2}
+  - {fileID: 11400000, guid: 43c6020f03a10334c957f1415113e71f, type: 2}
