@@ -84,8 +84,6 @@ public class OrderPanelController : MonoBehaviour
         if (loanAmount > 0)
             GameManager.Instance.loan.TakeOutLoan(loanAmount);
 
-        GameManager.Instance.storeManager.SpendMoney(totalCost);
-
         // 발주 확정
         for (int i = 0; i < productRows.Length; i++)
         {
