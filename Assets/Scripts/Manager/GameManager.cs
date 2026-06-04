@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(StoreManager))]
 [RequireComponent(typeof(Loan))]
 [RequireComponent(typeof(WeatherSystem))]
+[RequireComponent(typeof(InventoryManager))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public StoreManager storeManager;
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
-    public InventoryManager inventoryManager;
+    [HideInInspector] public InventoryManager inventoryManager;
 
     private void Awake()
     {
@@ -24,11 +25,13 @@ public class GameManager : MonoBehaviour
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
+        inventoryManager = GetComponent<InventoryManager>();
 
         if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
+        else inventoryManager.Initialize();
     }
 
     // TurnManager에서 Result 페이즈 종료 시 호출
