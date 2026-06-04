@@ -1,271 +1,231 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradePanelController : MonoBehaviour
+public class OrderPanelController : MonoBehaviour
 {
-    [Header("보유 상권 표시")]
-    // 구매한 상권 목록을 보여주는 텍스트
-    // 예: 보유 상권: 주거지, 학원가, 관광지
-    public Text ownedDistrictText;
+    // 영업 시작하기 버튼
+    public Button startSalesButton;
 
-    [Header("상권 구매 버튼")]
-    // 학원가 구매 버튼
-    public Button academyBuyButton;
+    // 상품 Row 목록
+    // Inspector에서 상품 Row들을 연결해야 함
+    public OrderProductRowUI[] productRows;
 
-    // 대학가 구매 버튼
-    public Button campusBuyButton;
+    // 주문 합계 표시 텍스트
+    public Text orderTotalValueText;
 
-    // 오피스가 구매 버튼
-    public Button businessBuyButton;
-
-    // 관광지 구매 버튼
-    public Button touristBuyButton;
-
-    // 구매한 상권 여부 저장
-    // true면 이미 구매한 상권
-    private Dictionary<DistrictType, bool> purchasedDistricts = new Dictionary<DistrictType, bool>();
+    // 대출 UI 컨트롤러
+    public LoanPanelController loanPanelController;
 
     private void Start()
     {
-        // 기본 상권인 주거지는 처음부터 보유 상태로 처리
-        InitializePurchasedDistricts();
-
-        // 버튼 클릭 이벤트 연결
-        if (academyBuyButton != null)
+        // 상품 Row가 제대로 연결되어 있는지 먼저 확인
+        if (HasProductRows() == false)
         {
-            academyBuyButton.onClick.AddListener(BuyAcademy);
+            Debug.LogError("OrderPanelController: productRows가 연결되지 않았습니다.");
+        }
+        else
+        {
+            // 상품 Row 초기 설정
+            for (int i = 0; i < productRows.Length; i++)
+            {
+                if (productRows[i] == null)
+                {
+                    Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
+                    continue;
+                }
+
+                productRows[i].orderPanelController = this;
+                productRows[i].SetupRow();
+            }
         }
 
-        if (campusBuyButton != null)
+        // 영업 시작 버튼 연결
+        if (startSalesButton != null)
         {
-            campusBuyButton.onClick.AddListener(BuyCampus);
+            startSalesButton.onClick.AddListener(ConfirmOrder);
         }
 
-        if (businessBuyButton != null)
+        // 주문 합계 초기 표시
+        UpdateOrderTotalText();
+    }
+
+    public void UpdateOrderTotalText()
+    {
+        int totalCost = 0;
+
+        // 상품 Row가 없으면 주문 합계를 0원으로 표시하고 종료
+        if (HasProductRows() == false)
         {
-            businessBuyButton.onClick.AddListener(BuyBusiness);
+            if (orderTotalValueText != null)
+            {
+                orderTotalValueText.text = "0원";
+            }
+
+            return;
         }
 
-        if (touristBuyButton != null)
+        // 모든 상품 Row의 발주 금액 합산
+        for (int i = 0; i < productRows.Length; i++)
         {
-            touristBuyButton.onClick.AddListener(BuyTourist);
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            totalCost += productRows[i].GetOrderCost();
         }
 
-        // 시작할 때 보유 상권 텍스트 갱신
-        UpdateOwnedDistrictText();
-
-        // 이미 구매한 상권 버튼 상태 갱신
-        UpdateButtonStates();
-    }
-
-    private void InitializePurchasedDistricts()
-    {
-        // 모든 상권을 처음에는 미구매 상태로 설정
-        purchasedDistricts[DistrictType.Resident] = true;
-        purchasedDistricts[DistrictType.Academy] = false;
-        purchasedDistricts[DistrictType.Campus] = false;
-        purchasedDistricts[DistrictType.Business] = false;
-        purchasedDistricts[DistrictType.Tourist] = false;
-    }
-
-    private void BuyAcademy()
-    {
-        // 학원가 구매
-        BuyDistrict(DistrictType.Academy);
-    }
-
-    private void BuyCampus()
-    {
-        // 대학가 구매
-        BuyDistrict(DistrictType.Campus);
-    }
-
-    private void BuyBusiness()
-    {
-        // 오피스가 구매
-        BuyDistrict(DistrictType.Business);
-    }
-
-    private void BuyTourist()
-    {
-        // 관광지 구매
-        BuyDistrict(DistrictType.Tourist);
-    }
-
-    private void BuyDistrict(DistrictType districtType)
-    {
-        // 이미 구매한 상권이면 다시 구매하지 않음
-        if (IsPurchased(districtType))
+        // 주문 합계 텍스트 갱신
+        if (orderTotalValueText != null)
         {
-            Debug.Log($"{GetDistrictName(districtType)} 상권은 이미 구매했습니다.");
+            orderTotalValueText.text = totalCost.ToString("N0") + "원";
+        }
+    }
+
+    private void ConfirmOrder()
+    {
+        // 상품 Row가 연결되지 않았으면 발주 진행 불가
+        if (HasProductRows() == false)
+        {
+            Debug.LogError("ConfirmOrder: productRows가 연결되지 않아 발주를 진행할 수 없습니다.");
             return;
         }
 
         // GameManager 확인
         if (GameManager.Instance == null)
         {
-            Debug.LogError("UpgradePanelController: GameManager가 없습니다.");
+            Debug.LogError("ConfirmOrder: GameManager가 없습니다.");
             return;
         }
 
         // StoreManager 확인
         if (GameManager.Instance.storeManager == null)
         {
-            Debug.LogError("UpgradePanelController: StoreManager가 연결되지 않았습니다.");
+            Debug.LogError("ConfirmOrder: StoreManager가 연결되지 않았습니다.");
             return;
         }
 
-        // DataManager 확인
-        if (DataManager.Instance == null)
+        // InventoryManager 확인
+        if (GameManager.Instance.inventoryManager == null)
         {
-            Debug.LogError("UpgradePanelController: DataManager가 없습니다.");
+            Debug.LogError("ConfirmOrder: InventoryManager가 연결되지 않았습니다.");
             return;
         }
 
-        // 구매하려는 상권 데이터 가져오기
-        DistrictData districtData = DataManager.Instance.GetDistrict(districtType);
+        int totalCost = 0;
 
-        if (districtData == null)
+        // 발주 총 비용 계산
+        for (int i = 0; i < productRows.Length; i++)
         {
-            Debug.LogError($"UpgradePanelController: {districtType} 상권 데이터를 찾을 수 없습니다.");
-            return;
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            totalCost += productRows[i].GetOrderCost();
         }
 
-        StoreManager storeManager = GameManager.Instance.storeManager;
+        int loanAmount = 0;
 
-        // 상권 구매 비용 차감
-        bool success = storeManager.SpendMoney(districtData.investmentCost);
-
-        // 돈이 부족하면 구매 실패
-        if (success == false)
+        // 선택한 대출 금액 가져오기
+        if (loanPanelController != null)
         {
-            Debug.LogWarning($"{GetDistrictName(districtType)} 상권 구매 실패: 자산 부족");
+            loanAmount = loanPanelController.GetSelectedLoanAmount();
+        }
+
+        int currentMoney = GameManager.Instance.storeManager.currentMoney;
+        int availableMoney = currentMoney + loanAmount;
+
+        // 보유 자산 + 선택 대출금으로 발주 가능한지 먼저 확인
+        if (availableMoney < totalCost)
+        {
+            Debug.LogWarning($"발주 실패: 자본금 부족 (보유+대출: {availableMoney:N0}원, 필요: {totalCost:N0}원)");
             return;
         }
 
-        // 구매 성공 처리
-        purchasedDistricts[districtType] = true;
+        // 대출 금액이 있으면 먼저 대출 실행
+        if (loanAmount > 0)
+        {
+            if (GameManager.Instance.loan == null)
+            {
+                Debug.LogError("ConfirmOrder: Loan이 연결되지 않았습니다.");
+                return;
+            }
 
-        // 기존 판매 계산 구조가 현재 상권 하나를 사용하므로
-        // 마지막으로 구매한 상권을 현재 적용 상권으로도 설정
-        storeManager.SetDistrict(districtType, districtData);
+            bool loanSuccess = GameManager.Instance.loan.TakeOutLoan(loanAmount);
 
-        // UI 갱신
-        UpdateOwnedDistrictText();
-        UpdateButtonStates();
+            if (loanSuccess == false)
+            {
+                Debug.LogWarning("발주 실패: 대출 실행에 실패했습니다.");
+                return;
+            }
+        }
 
-        Debug.Log($"{GetDistrictName(districtType)} 상권 구매 완료");
+        // 발주 수량을 InventoryManager에 임시 저장
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            GameManager.Instance.inventoryManager.SetOrder(
+                productRows[i].GetItemType(),
+                productRows[i].GetOrderQuantity()
+            );
+        }
+
+        // 발주 확정
+        // 비용 차감과 재고 반영은 InventoryManager.FinalizeOrder()에서 처리됨
+        bool orderSuccess = GameManager.Instance.inventoryManager.FinalizeOrder();
+
+        if (orderSuccess == false)
+        {
+            Debug.LogWarning("발주 실패: 발주 확정에 실패했습니다.");
+            return;
+        }
+
+        // 재고 UI 갱신
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            productRows[i].RefreshStock();
+        }
+
+        // 주문 합계 다시 갱신
+        UpdateOrderTotalText();
+
+        Debug.Log($"발주 확정 완료. 지출: {totalCost:N0}원");
+
+        // 다음 페이즈로 이동
+        if (TurnManager.Instance != null)
+        {
+            TurnManager.Instance.AdvancePhase();
+        }
+        else
+        {
+            Debug.LogError("ConfirmOrder: TurnManager가 없습니다.");
+        }
     }
 
-    private bool IsPurchased(DistrictType districtType)
+    private bool HasProductRows()
     {
-        // Dictionary에 없으면 미구매로 처리
-        if (purchasedDistricts.ContainsKey(districtType) == false)
+        // productRows 배열 자체가 없으면 false
+        if (productRows == null)
         {
             return false;
         }
 
-        return purchasedDistricts[districtType];
-    }
-
-    private void UpdateOwnedDistrictText()
-    {
-        // 텍스트가 연결되지 않았으면 표시할 수 없음
-        if (ownedDistrictText == null)
+        // 배열은 있지만 비어 있으면 false
+        if (productRows.Length == 0)
         {
-            return;
+            return false;
         }
 
-        List<string> ownedNames = new List<string>();
-
-        // 구매한 상권 이름만 목록에 추가
-        if (IsPurchased(DistrictType.Resident))
-        {
-            ownedNames.Add("주거지");
-        }
-
-        if (IsPurchased(DistrictType.Academy))
-        {
-            ownedNames.Add("학원가");
-        }
-
-        if (IsPurchased(DistrictType.Campus))
-        {
-            ownedNames.Add("대학가");
-        }
-
-        if (IsPurchased(DistrictType.Business))
-        {
-            ownedNames.Add("오피스가");
-        }
-
-        if (IsPurchased(DistrictType.Tourist))
-        {
-            ownedNames.Add("관광지");
-        }
-
-        // 구매한 상권 목록 표시
-        ownedDistrictText.text = "보유 상권: " + string.Join(", ", ownedNames);
-    }
-
-    private void UpdateButtonStates()
-    {
-        // 구매 완료된 상권 버튼은 비활성화
-        SetButtonPurchasedState(academyBuyButton, IsPurchased(DistrictType.Academy));
-        SetButtonPurchasedState(campusBuyButton, IsPurchased(DistrictType.Campus));
-        SetButtonPurchasedState(businessBuyButton, IsPurchased(DistrictType.Business));
-        SetButtonPurchasedState(touristBuyButton, IsPurchased(DistrictType.Tourist));
-    }
-
-    private void SetButtonPurchasedState(Button button, bool isPurchased)
-    {
-        if (button == null)
-        {
-            return;
-        }
-
-        // 이미 구매한 버튼은 다시 누르지 못하게 함
-        button.interactable = isPurchased == false;
-
-        // 버튼 안의 Text를 찾아서 문구 변경
-        Text buttonText = button.GetComponentInChildren<Text>();
-
-        if (buttonText != null)
-        {
-            if (isPurchased)
-            {
-                buttonText.text = "구매 완료";
-            }
-            else
-            {
-                buttonText.text = "구매하기";
-            }
-        }
-    }
-
-    private string GetDistrictName(DistrictType districtType)
-    {
-        // DistrictType enum 값을 화면용 한글 이름으로 변환
-        switch (districtType)
-        {
-            case DistrictType.Resident:
-                return "주거지";
-
-            case DistrictType.Academy:
-                return "학원가";
-
-            case DistrictType.Campus:
-                return "대학가";
-
-            case DistrictType.Business:
-                return "오피스가";
-
-            case DistrictType.Tourist:
-                return "관광지";
-
-            default:
-                return "알 수 없음";
-        }
+        return true;
     }
 }
