@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
-        else inventoryManager.Initialize();
     }
 
     private void Start()
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (inventoryManager != null) inventoryManager.Initialize();
         if (storeManager != null)
             storeManager.Initialize();
         else
