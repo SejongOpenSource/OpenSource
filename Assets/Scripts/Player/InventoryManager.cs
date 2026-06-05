@@ -13,6 +13,10 @@ public class InventoryManager : MonoBehaviour
     // 결과 화면에서 판매수량 표시용으로 사용
     private int[] _lastSold;
 
+    // 마지막 발주 확정 시점의 자본금
+    // 결과 화면에서 시작 자본금 표시용으로 사용
+    private int _lastStartMoney;
+
     public void Initialize()
     {
         int n = System.Enum.GetNames(typeof(ItemType)).Length;
@@ -21,6 +25,7 @@ public class InventoryManager : MonoBehaviour
         _pendingOrder = new int[n];
         _lastOrder = new int[n];
         _lastSold = new int[n];
+        _lastStartMoney = 0;
     }
 
     // 영업 시뮬레이션 결과 재고 차감
@@ -34,7 +39,7 @@ public class InventoryManager : MonoBehaviour
         int i = (int)type;
 
         // 실제로 차감 가능한 수량만 판매 처리
-        int soldCount = Mathf.Min(count, _stock[i]);
+        int soldCount = System.Math.Min(count, _stock[i]);
 
         _stock[i] -= soldCount;
 
@@ -97,7 +102,16 @@ public class InventoryManager : MonoBehaviour
 
         var store = GameManager.Instance?.storeManager;
 
-        if (store == null || store.SpendMoney(totalCost) == false)
+        if (store == null)
+        {
+            return false;
+        }
+
+        // 발주 비용이 차감되기 전 자본금을 저장
+        // 결과 화면의 시작 자본금으로 사용
+        _lastStartMoney = store.currentMoney;
+
+        if (store.SpendMoney(totalCost) == false)
         {
             return false;
         }
@@ -164,5 +178,11 @@ public class InventoryManager : MonoBehaviour
     public int GetLastSold(ItemType type)
     {
         return _lastSold[(int)type];
+    }
+
+    // 결과 화면에서 시작 자본금을 가져올 때 사용
+    public int GetLastStartMoney()
+    {
+        return _lastStartMoney;
     }
 }

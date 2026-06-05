@@ -107,7 +107,7 @@ public class ResultView : MonoBehaviour
         // ItemType enum 순서대로 Result Row에 표시
         ItemType[] itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
 
-        int rowCount = Mathf.Min(resultRows.Length, itemTypes.Length);
+        int rowCount = System.Math.Min(resultRows.Length, itemTypes.Length);
 
         for (int i = 0; i < rowCount; i++)
         {
@@ -120,9 +120,9 @@ public class ResultView : MonoBehaviour
 
             ItemData itemData = null;
 
-            if (DataManager.Instance != null)
+            if (DataManager.Instance != null && DataManager.Instance.itemDataManager != null)
             {
-                itemData = DataManager.Instance.GetItem(itemType);
+                itemData = DataManager.Instance.itemDataManager.GetItem(itemType);
             }
 
             string productName = GetProductName(itemType, itemData);
@@ -135,12 +135,22 @@ public class ResultView : MonoBehaviour
 
     private void UpdateSummaryTexts()
     {
-        StoreManager storeManager = null;
-
-        if (GameManager.Instance != null)
+        // StoreManager가 없으면 잘못된 재정 정보를 표시하지 않음
+        if (GameManager.Instance == null || GameManager.Instance.storeManager == null)
         {
-            storeManager = GameManager.Instance.storeManager;
+            Debug.LogError("ResultView: StoreManager를 찾을 수 없습니다.");
+            return;
         }
+
+        // InventoryManager가 없으면 시작 자본금을 가져올 수 없음
+        if (GameManager.Instance.inventoryManager == null)
+        {
+            Debug.LogError("ResultView: InventoryManager를 찾을 수 없습니다.");
+            return;
+        }
+
+        StoreManager storeManager = GameManager.Instance.storeManager;
+        InventoryManager inventoryManager = GameManager.Instance.inventoryManager;
 
         int todaySales = 0;
 
@@ -150,16 +160,12 @@ public class ResultView : MonoBehaviour
             todaySales = SalesAlgorithm.Instance.LastDailyRevenue;
         }
 
-        int finalMoney = 0;
+        // 시작 자본금은 발주 비용 차감 전에 저장한 값을 사용
+        // 대출 상환 등으로 현재 자본금이 바뀌어도 시작 자본금은 변하지 않음
+        int startMoney = inventoryManager.GetLastStartMoney();
 
         // 마감 자본금은 현재 StoreManager의 실제 자산 사용
-        if (storeManager != null)
-        {
-            finalMoney = storeManager.currentMoney;
-        }
-
-        // 시작 자본금은 마감 자본금에서 오늘 매출을 뺀 값으로 계산
-        int startMoney = finalMoney - todaySales;
+        int finalMoney = storeManager.currentMoney;
 
         if (startMoneyValueText != null)
         {
@@ -261,6 +267,7 @@ public class ResultView : MonoBehaviour
         UpdateRemainingDebtText();
 
         // 상환 후 마감 자본금도 다시 표시
+        // 시작 자본금은 저장된 값을 사용하므로 변하지 않음
         UpdateSummaryTexts();
     }
 
