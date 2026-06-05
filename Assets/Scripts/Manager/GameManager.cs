@@ -26,12 +26,27 @@ public class GameManager : MonoBehaviour
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
         inventoryManager = GetComponent<InventoryManager>();
+        if (loan != null) loan.storeManager = storeManager;
 
         if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
-        else inventoryManager.Initialize();
+    }
+
+    private void Start()
+    {
+        if (DataManager.Instance == null)
+        {
+            Debug.LogError("GameManager: DataManager.Instance가 null입니다. 초기화 순서를 확인하세요.");
+            return;
+        }
+
+        if (inventoryManager != null) inventoryManager.Initialize();
+        if (storeManager != null)
+            storeManager.Initialize();
+        else
+            Debug.LogError("GameManager: storeManager가 null — Initialize 불가");
     }
 
     // TurnManager에서 Result 페이즈 종료 시 호출
