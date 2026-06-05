@@ -77,9 +77,17 @@ public class GameManager : MonoBehaviour
 
     private bool CheckLose(int currentTurn, int maxTurns)
     {
-        // 자본금 고갈 패배
+        // 자본금 고갈 패배: 돈이 없어도 재고가 남아있으면 다음 턴 정산 기회 있음
         if (storeManager != null && storeManager.currentMoney <= 0)
         {
+            if (inventoryManager != null)
+            {
+                foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
+                {
+                    if (inventoryManager.GetStock(type) > 0)
+                        return false;
+                }
+            }
             Debug.Log("패배! (자본금 고갈)");
             return true;
         }
