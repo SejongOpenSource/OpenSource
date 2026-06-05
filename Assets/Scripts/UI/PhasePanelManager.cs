@@ -154,34 +154,9 @@ public class PhasePanelManager : MonoBehaviour
 
     private void ShowDistrictEditPanel()
     {
-        // 상권 수정 화면 표시
-        if (upgradePanel != null)
-        {
-            upgradePanel.SetActive(true);
-        }
-
-        // 발주 화면 숨김
-        if (orderPanel != null)
-        {
-            orderPanel.SetActive(false);
-        }
-
-        // 다른 패널 숨김
-        if (simulationPanel != null)
-        {
-            simulationPanel.SetActive(false);
-        }
-
-        if (resultPanel != null)
-        {
-            resultPanel.SetActive(false);
-        }
-
-        // 상권 수정 화면에서는 HUD 유지
-        if (topHUD != null)
-        {
-            topHUD.SetActive(true);
-        }
+        // 기존 ShowPanel 메서드를 재사용하여 패널 상태를 일관되게 관리
+        // 실제 TurnManager의 CurrentPhase는 Order 상태 그대로 유지됨
+        ShowPanel(TurnPhase.Upgrade);
 
         Debug.Log("OrderPanel에서 상권 수정 화면으로 이동했습니다.");
     }
@@ -191,31 +166,9 @@ public class PhasePanelManager : MonoBehaviour
         // 상권 수정 모드 종료
         isEditingDistrictFromOrder = false;
 
-        // 실제 페이즈는 Order 그대로 유지하고 OrderPanel로 복귀
-        if (upgradePanel != null)
-        {
-            upgradePanel.SetActive(false);
-        }
-
-        if (orderPanel != null)
-        {
-            orderPanel.SetActive(true);
-        }
-
-        if (simulationPanel != null)
-        {
-            simulationPanel.SetActive(false);
-        }
-
-        if (resultPanel != null)
-        {
-            resultPanel.SetActive(false);
-        }
-
-        if (topHUD != null)
-        {
-            topHUD.SetActive(true);
-        }
+        // 기존 ShowPanel 메서드를 재사용하여 OrderPanel로 복귀
+        // 실제 TurnManager의 CurrentPhase는 Order 상태 그대로 유지됨
+        ShowPanel(TurnPhase.Order);
 
         Debug.Log("상권 수정 화면에서 OrderPanel로 복귀했습니다.");
     }
