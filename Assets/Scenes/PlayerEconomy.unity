@@ -6617,7 +6617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb5b410d40979548a582f9a32a792ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrderProductRowUI
-  itemType: 0
+  itemType: 4
   minusButton: {fileID: 1103263845}
   plusButton: {fileID: 886683638}
   productNameText: {fileID: 2142708118}

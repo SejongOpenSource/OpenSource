@@ -35,11 +35,8 @@ public class ResultView : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
-        // 에디터에서 UI 배치를 확인하기 위한 임시 결과 데이터
-        // 실제 빌드에는 포함되지 않음
-        ShowTestResult();
-#endif
+        // Loan이 Inspector에서 연결되지 않았으면 자동 연결 시도
+        AutoConnectLoan();
 
         // 대출 상환 버튼 클릭 이벤트 연결
         if (repayLoanButton != null)
@@ -53,56 +50,150 @@ public class ResultView : MonoBehaviour
             nextDayButton.onClick.AddListener(OnNextDayButtonClicked);
         }
 
+        // 실제 결과 데이터 표시
+        UpdateResultView();
+
         // 남은 대출금 텍스트 갱신
         UpdateRemainingDebtText();
     }
 
-#if UNITY_EDITOR
-    private void ShowTestResult()
+    private void OnEnable()
     {
-        // 상품별 주문 수량 / 판매 수량 임시 표시
-        // 실제 판매 결과 데이터 연동 전까지 에디터에서만 UI 확인용으로 사용
-        if (resultRows != null && resultRows.Length >= 5)
+        // ResultPanel이 켜질 때마다 최신 결과 데이터 표시
+        AutoConnectLoan();
+        UpdateResultView();
+        UpdateRemainingDebtText();
+    }
+
+    private void AutoConnectLoan()
+    {
+        // 이미 연결되어 있으면 다시 찾지 않음
+        if (loan != null)
         {
-            resultRows[0].SetResult("삼각김밥", 10, 9);
-            resultRows[1].SetResult("라면", 5, 5);
-            resultRows[2].SetResult("음료수", 20, 20);
-            resultRows[3].SetResult("도시락", 8, 2);
-            resultRows[4].SetResult("우산", 10, 8);
+            return;
         }
 
-        // 정산 요약 임시값
-        // 실제 매출 / 이자 / 자본금 계산 로직이 연결되면 제거 예정
-        int startMoney = 350000;
-        int todaySales = 124500;
-        int interestCost = 3000;
-        int finalMoney = startMoney + todaySales - interestCost;
+        if (GameManager.Instance != null)
+        {
+            loan = GameManager.Instance.loan;
+        }
+    }
 
-        // 시작 자본금 표시
+    private void UpdateResultView()
+    {
+        // 상품별 발주량 / 판매량 표시
+        UpdateProductResultRows();
+
+        // 매출 정산 요약 표시
+        UpdateSummaryTexts();
+    }
+
+    private void UpdateProductResultRows()
+    {
+        // 결과 Row가 없으면 표시할 수 없음
+        if (resultRows == null)
+        {
+            return;
+        }
+
+        if (GameManager.Instance == null || GameManager.Instance.inventoryManager == null)
+        {
+            Debug.LogError("ResultView: InventoryManager를 찾을 수 없습니다.");
+            return;
+        }
+
+        InventoryManager inventoryManager = GameManager.Instance.inventoryManager;
+
+        // ItemType enum 순서대로 Result Row에 표시
+        ItemType[] itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
+
+        int rowCount = Mathf.Min(resultRows.Length, itemTypes.Length);
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            if (resultRows[i] == null)
+            {
+                continue;
+            }
+
+            ItemType itemType = itemTypes[i];
+
+            ItemData itemData = null;
+
+            if (DataManager.Instance != null)
+            {
+                itemData = DataManager.Instance.GetItem(itemType);
+            }
+
+            string productName = GetProductName(itemType, itemData);
+            int orderedCount = inventoryManager.GetLastOrder(itemType);
+            int soldCount = inventoryManager.GetLastSold(itemType);
+
+            resultRows[i].SetResult(productName, orderedCount, soldCount);
+        }
+    }
+
+    private void UpdateSummaryTexts()
+    {
+        StoreManager storeManager = null;
+
+        if (GameManager.Instance != null)
+        {
+            storeManager = GameManager.Instance.storeManager;
+        }
+
+        int todaySales = 0;
+
+        // 오늘 매출은 실제 판매 알고리즘에서 계산된 마지막 매출 사용
+        if (SalesAlgorithm.Instance != null)
+        {
+            todaySales = SalesAlgorithm.Instance.LastDailyRevenue;
+        }
+
+        int finalMoney = 0;
+
+        // 마감 자본금은 현재 StoreManager의 실제 자산 사용
+        if (storeManager != null)
+        {
+            finalMoney = storeManager.currentMoney;
+        }
+
+        // 시작 자본금은 마감 자본금에서 오늘 매출을 뺀 값으로 계산
+        int startMoney = finalMoney - todaySales;
+
         if (startMoneyValueText != null)
         {
             startMoneyValueText.text = $"{startMoney:N0}원";
         }
 
-        // 오늘 매출 표시
         if (todaySalesValueText != null)
         {
             todaySalesValueText.text = $"{todaySales:N0}원";
         }
 
-        // 이자 비용 표시
+        // 현재 별도 이자 비용 계산값이 연결되어 있지 않으므로 0원 표시
         if (interestCostValueText != null)
         {
-            interestCostValueText.text = $"-{interestCost:N0}원";
+            interestCostValueText.text = "0원";
         }
 
-        // 마감 자본금 표시
         if (finalMoneyValueText != null)
         {
             finalMoneyValueText.text = $"{finalMoney:N0}원";
         }
     }
-#endif
+
+    private string GetProductName(ItemType itemType, ItemData itemData)
+    {
+        // ItemData에 상품명이 있으면 실제 데이터 이름 사용
+        if (itemData != null && string.IsNullOrEmpty(itemData.itemName) == false)
+        {
+            return itemData.itemName;
+        }
+
+        // ItemData가 없을 때는 enum 이름 사용
+        return itemType.ToString();
+    }
 
     private void OnRepayLoanButtonClicked()
     {
@@ -117,7 +208,6 @@ public class ResultView : MonoBehaviour
         string inputText = repayInputField.text;
 
         // 빈 값이면 조용히 무시
-        // 사용자가 아직 입력하지 않은 상태일 수 있으므로 콘솔 로그를 남기지 않음
         if (string.IsNullOrWhiteSpace(inputText))
         {
             return;
@@ -144,6 +234,9 @@ public class ResultView : MonoBehaviour
             return;
         }
 
+        // Loan 자동 연결 시도
+        AutoConnectLoan();
+
         // 실제 게임에서는 Loan 컴포넌트가 반드시 연결되어 있어야 함
         if (loan == null)
         {
@@ -166,6 +259,9 @@ public class ResultView : MonoBehaviour
 
         // 남은 대출금 표시 갱신
         UpdateRemainingDebtText();
+
+        // 상환 후 마감 자본금도 다시 표시
+        UpdateSummaryTexts();
     }
 
     private void UpdateRemainingDebtText()
@@ -175,6 +271,9 @@ public class ResultView : MonoBehaviour
         {
             return;
         }
+
+        // Loan 자동 연결 시도
+        AutoConnectLoan();
 
         // 실제 게임에서는 Loan 컴포넌트가 반드시 연결되어 있어야 함
         if (loan == null)
