@@ -446,6 +446,7 @@ MonoBehaviour:
   topHUD: {fileID: 1597197051}
   upgradeConfirmButton: {fileID: 1709900410}
   nextTurnButton: {fileID: 0}
+  editDistrictButton: {fileID: 1487686075}
   simulationWaitTime: 1
 --- !u!114 &20274325
 MonoBehaviour:
@@ -7441,7 +7442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1474645400
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7588,6 +7589,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3481024393450217070, guid: 3768981c6079e1446b2d9ffc6bcc5efe, type: 3}
   m_PrefabInstance: {fileID: 1487686073}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1487686075 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2364739923940028392, guid: 3768981c6079e1446b2d9ffc6bcc5efe, type: 3}
+  m_PrefabInstance: {fileID: 1487686073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1492013356
 GameObject:
   m_ObjectHideFlags: 0
@@ -10842,7 +10854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2066687297504479070, guid: c0b2c7e1462544a72ab371df9b0e07b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2454006770662424590, guid: c0b2c7e1462544a72ab371df9b0e07b8, type: 3}
       propertyPath: m_AnchoredPosition.x

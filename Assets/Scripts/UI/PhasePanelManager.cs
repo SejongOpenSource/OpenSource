@@ -30,12 +30,19 @@ public class PhasePanelManager : MonoBehaviour
     // ResultView에서 이미 처리하고 있으면 비워둬도 됨
     public Button nextTurnButton;
 
+    [Header("발주 화면 상권 수정")]
+    // OrderPanel에 있는 상권 수정하기 버튼
+    public Button editDistrictButton;
+
     [Header("시뮬레이션 설정")]
     // SimulationPanel을 보여주는 시간
     // SimulationPanelController의 duration과 맞추면 자연스러움
     public float simulationWaitTime = 1f;
 
     private Coroutine simulationCoroutine;
+
+    // OrderPanel에서 상권 수정하기를 눌러 UpgradePanel로 들어온 상태인지 저장
+    private bool isEditingDistrictFromOrder = false;
 
     private void Start()
     {
@@ -62,6 +69,12 @@ public class PhasePanelManager : MonoBehaviour
             nextTurnButton.onClick.AddListener(OnNextTurnButtonClicked);
         }
 
+        // OrderPanel의 상권 수정하기 버튼 연결
+        if (editDistrictButton != null)
+        {
+            editDistrictButton.onClick.AddListener(OpenDistrictEditFromOrder);
+        }
+
         // 시작 페이즈에 맞는 패널 표시
         ShowPanel(TurnManager.Instance.CurrentPhase);
     }
@@ -73,11 +86,35 @@ public class PhasePanelManager : MonoBehaviour
         {
             TurnManager.Instance.OnPhaseChanged -= OnPhaseChanged;
         }
+
+        // 버튼 이벤트 해제
+        if (upgradeConfirmButton != null)
+        {
+            upgradeConfirmButton.onClick.RemoveListener(OnUpgradeConfirmButtonClicked);
+        }
+
+        if (nextTurnButton != null)
+        {
+            nextTurnButton.onClick.RemoveListener(OnNextTurnButtonClicked);
+        }
+
+        if (editDistrictButton != null)
+        {
+            editDistrictButton.onClick.RemoveListener(OpenDistrictEditFromOrder);
+        }
     }
 
     private void OnUpgradeConfirmButtonClicked()
     {
-        // Upgrade → Order
+        // OrderPanel에서 상권 수정하기를 눌러 들어온 상태라면
+        // 실제 페이즈를 넘기지 않고 다시 OrderPanel로 돌아감
+        if (isEditingDistrictFromOrder)
+        {
+            ReturnToOrderPanelFromDistrictEdit();
+            return;
+        }
+
+        // 일반적인 Upgrade → Order 진행
         if (TurnManager.Instance != null)
         {
             TurnManager.Instance.AdvancePhase();
@@ -93,8 +130,54 @@ public class PhasePanelManager : MonoBehaviour
         }
     }
 
+    public void OpenDistrictEditFromOrder()
+    {
+        // TurnManager가 없으면 현재 페이즈를 확인할 수 없음
+        if (TurnManager.Instance == null)
+        {
+            Debug.LogError("PhasePanelManager: TurnManager 인스턴스를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 발주 화면에서만 상권 수정 화면으로 이동
+        if (TurnManager.Instance.CurrentPhase != TurnPhase.Order)
+        {
+            Debug.LogWarning("PhasePanelManager: Order 페이즈가 아니므로 상권 수정 화면으로 이동하지 않습니다.");
+            return;
+        }
+
+        // 실제 페이즈는 Order로 유지하고 UI 패널만 UpgradePanel로 전환
+        isEditingDistrictFromOrder = true;
+
+        ShowDistrictEditPanel();
+    }
+
+    private void ShowDistrictEditPanel()
+    {
+        // 기존 ShowPanel 메서드를 재사용하여 패널 상태를 일관되게 관리
+        // 실제 TurnManager의 CurrentPhase는 Order 상태 그대로 유지됨
+        ShowPanel(TurnPhase.Upgrade);
+
+        Debug.Log("OrderPanel에서 상권 수정 화면으로 이동했습니다.");
+    }
+
+    private void ReturnToOrderPanelFromDistrictEdit()
+    {
+        // 상권 수정 모드 종료
+        isEditingDistrictFromOrder = false;
+
+        // 기존 ShowPanel 메서드를 재사용하여 OrderPanel로 복귀
+        // 실제 TurnManager의 CurrentPhase는 Order 상태 그대로 유지됨
+        ShowPanel(TurnPhase.Order);
+
+        Debug.Log("상권 수정 화면에서 OrderPanel로 복귀했습니다.");
+    }
+
     private void OnPhaseChanged(TurnPhase phase)
     {
+        // 실제 페이즈가 바뀌면 상권 수정 모드는 종료
+        isEditingDistrictFromOrder = false;
+
         // 페이즈에 맞는 패널 표시
         ShowPanel(phase);
 
