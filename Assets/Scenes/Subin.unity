@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 20274335}
   - component: {fileID: 20274336}
   m_Layer: 0
-  m_Name: Player
+  m_Name: '[MANAGERS]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -447,6 +447,7 @@ MonoBehaviour:
   topHUD: {fileID: 1597197051}
   upgradeConfirmButton: {fileID: 1709900410}
   nextTurnButton: {fileID: 0}
+  editDistrictButton: {fileID: 0}
   simulationWaitTime: 1
 --- !u!114 &20274325
 MonoBehaviour:
@@ -618,8 +619,8 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   bgmGroup: {fileID: 0}
   sfxGroup: {fileID: 0}
-  initialPoolSize: 10
-  audioSourcePrefab: {fileID: 0}
+  sfxList: []
+  bgmList: []
 --- !u!1001 &21687472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7802,6 +7803,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &1509488744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1509488746}
+  - component: {fileID: 1509488745}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1509488745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509488744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 182779fa980889b439420bc8b61c515c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  audioMixer: {fileID: 24100000, guid: f8cf9f2a491779d4aadc49930c0ab016, type: 2}
+  bgmGroup: {fileID: 1950981547308029760, guid: f8cf9f2a491779d4aadc49930c0ab016, type: 2}
+  sfxGroup: {fileID: -2161703151219847227, guid: f8cf9f2a491779d4aadc49930c0ab016, type: 2}
+  sfxList: []
+  bgmList: []
+--- !u!4 &1509488746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509488744}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.77631, y: 0.76831007, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1510951585
 GameObject:
   m_ObjectHideFlags: 0
@@ -10991,3 +11041,4 @@ SceneRoots:
   - {fileID: 20274323}
   - {fileID: 1781377923}
   - {fileID: 467775150}
+  - {fileID: 1509488746}
