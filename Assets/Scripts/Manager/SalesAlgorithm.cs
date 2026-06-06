@@ -17,6 +17,8 @@ public class SalesAlgorithm : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+        if (transform.parent != null) transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
         foreach (ItemType t in _itemTypes)
             _lastSoldCounts[t] = 0;
     }
