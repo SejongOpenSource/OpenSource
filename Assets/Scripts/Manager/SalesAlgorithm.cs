@@ -25,6 +25,9 @@ public class SalesAlgorithm : MonoBehaviour
 
     public void RunSimulation()
     {
+        MoneyBeforeSimulation = GameManager.Instance != null && GameManager.Instance.storeManager != null
+            ? GameManager.Instance.storeManager.currentMoney
+            : 0;
         LastDailyRevenue = 0;
         foreach (ItemType t in _itemTypes)
             _lastSoldCounts[t] = 0;
@@ -62,7 +65,6 @@ public class SalesAlgorithm : MonoBehaviour
             dailyTotalRevenue += item.price;
         }
 
-        MoneyBeforeSimulation = GameManager.Instance.storeManager.currentMoney;
         GameManager.Instance.storeManager.AddMoney(dailyTotalRevenue);
         AddSales(dailyTotalRevenue);
         LastDailyRevenue = dailyTotalRevenue;
