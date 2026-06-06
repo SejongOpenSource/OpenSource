@@ -81,7 +81,8 @@ public class GameManager : MonoBehaviour
         if (storeManager != null && storeManager.currentMoney <= 0)
         {
             int stockRevenue = inventoryManager != null ? inventoryManager.CalculateStockRevenue() : 0;
-            if (storeManager.currentMoney + stockRevenue > 0)
+            // 현금 + 재고 판매 수익으로 부채 상환 후 잔액이 있어야 회생 가능
+            if (storeManager.currentMoney + stockRevenue - storeManager.currentDebt > 0)
                 return false;
             Debug.Log("패배! (자본금 고갈)");
             return true;
