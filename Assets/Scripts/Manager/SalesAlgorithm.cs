@@ -10,11 +10,15 @@ public class SalesAlgorithm : MonoBehaviour
 
     private static readonly ItemType[] _itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
     private readonly Dictionary<ItemType, float> _probabilities = new Dictionary<ItemType, float>();
+    private readonly Dictionary<ItemType, int> _lastSoldCounts = new Dictionary<ItemType, int>();
+    public int MoneyBeforeSimulation { get; private set; }
 
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+        foreach (ItemType t in _itemTypes)
+            _lastSoldCounts[t] = 0;
     }
 
     public void AddSales(int amount) => TotalSales += amount;
@@ -22,6 +26,8 @@ public class SalesAlgorithm : MonoBehaviour
     public void RunSimulation()
     {
         LastDailyRevenue = 0;
+        foreach (ItemType t in _itemTypes)
+            _lastSoldCounts[t] = 0;
         if (CustomerManager.Instance == null)
         {
             Debug.LogError("CustomerManager 인스턴스를 찾을 수 없습니다.");
@@ -52,9 +58,11 @@ public class SalesAlgorithm : MonoBehaviour
             if (item == null) continue;
 
             inventory.UpdateStock(chosenItem.Value, 1);
+            _lastSoldCounts[chosenItem.Value]++;
             dailyTotalRevenue += item.price;
         }
 
+        MoneyBeforeSimulation = GameManager.Instance.storeManager.currentMoney;
         GameManager.Instance.storeManager.AddMoney(dailyTotalRevenue);
         AddSales(dailyTotalRevenue);
         LastDailyRevenue = dailyTotalRevenue;
@@ -107,4 +115,7 @@ public class SalesAlgorithm : MonoBehaviour
                 break;
         }
     }
+
+    public int GetLastSoldCount(ItemType type) =>
+        _lastSoldCounts.TryGetValue(type, out int v) ? v : 0;
 }
