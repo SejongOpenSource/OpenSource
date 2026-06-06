@@ -2,6 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+
+public enum SFXType
+{
+    
+}
+
+public enum BGMType
+{
+    
+}
+
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; private set; }
@@ -10,13 +21,29 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioMixerGroup bgmGroup;
     [SerializeField] private AudioMixerGroup sfxGroup;
+
+    [System.Serializable]
+    public struct SFXData
+    {
+        public SFXType type;
+        public AudioClip clip;
+    }
+
+    [System.Serializable]
+    public struct BGMData
+    {
+        public BGMType type;
+        public AudioClip clip;
+    }
     
-    [Header("Audio Sources")]
+    [Header("Sounds List")]
+    [SerializeField] private List<SFXData> sfxList = new List<SFXData>();
+    [SerializeField] private List<BGMData> bgmList = new List<BGMData>();
+    
+    private Dictionary<SFXType, AudioClip> _sfxDictionary = new Dictionary<SFXType, AudioClip>();
+    private Dictionary<BGMType, AudioClip> _bgmDictionary = new Dictionary<BGMType, AudioClip>();
+    private AudioSource _sfxSource;
     private AudioSource _bgmSource;
-    private List<AudioSource> _sfxPool = new List<AudioSource>();
-    
-    [SerializeField] private int initialPoolSize = 10;
-    [SerializeField] private GameObject audioSourcePrefab;
     
     private void Awake()
     {
@@ -39,54 +66,55 @@ public class SoundManager : MonoBehaviour
         _bgmSource = gameObject.AddComponent<AudioSource>();
         _bgmSource.outputAudioMixerGroup = bgmGroup;
         _bgmSource.loop = true;
+        _bgmSource.playOnAwake = false;
+        
+        _sfxSource = gameObject.AddComponent<AudioSource>();
+        _sfxSource.outputAudioMixerGroup = sfxGroup;
+        _sfxSource.loop = false;
+        _sfxSource.playOnAwake = false;
 
-        // SFX 오디오 풀 초기화
-        for (int i = 0; i < initialPoolSize; i++)
+        foreach (var data in sfxList)
         {
-            CreateNewAudioSourceToPool();
+            if (data.clip != null && !_sfxDictionary.ContainsKey(data.type))
+            {
+                _sfxDictionary.Add(data.type, data.clip);
+            }
+        }
+        
+        foreach (var data in bgmList)
+        {
+            if (data.clip != null && !_bgmDictionary.ContainsKey(data.type))
+            {
+                _bgmDictionary.Add(data.type, data.clip);
+            }
         }
     }
     
-    private AudioSource CreateNewAudioSourceToPool()
+    public void PlayBGM(BGMType type, bool fade = true)
     {
-        GameObject go = Instantiate(audioSourcePrefab, transform);
-        AudioSource source = go.GetComponent<AudioSource>();
-        source.outputAudioMixerGroup = sfxGroup;
-        go.SetActive(false);
-        _sfxPool.Add(source);
-        return source;
-    }
-
-    public void PlayBGM(AudioClip clip, bool fade = true)
-    {
-        if (_bgmSource.clip == clip) return;
-        
-        _bgmSource.clip = clip;
-        _bgmSource.Play();
+        if (_bgmDictionary.TryGetValue(type, out AudioClip clip))
+        {
+            _bgmSource.clip = clip;
+            _bgmSource.Play();
+        }
         // TODO: 필요 시 코루틴을 활용한 Fade In/Out 로직 추가
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void StopBGM()
     {
-        if (clip == null) return;
-        
-        AudioSource source = _sfxPool.Find(s => !s.gameObject.activeSelf);
-        
-        if (source == null)
-        {
-            source = CreateNewAudioSourceToPool();
-        }
-
-        source.gameObject.SetActive(true);
-        source.clip = clip;
-        source.Play();
-        
-        StartCoroutine(DisableSourceAfterPlayback(source));
+        _bgmSource.Stop();
+        _bgmSource.clip = null;
     }
 
-    private System.Collections.IEnumerator DisableSourceAfterPlayback(AudioSource source)
+    public void PlaySFX(SFXType type)
     {
-        yield return new WaitForSeconds(source.clip.length);
-        source.gameObject.SetActive(false);
+        if (_sfxDictionary.TryGetValue(type, out AudioClip clip))
+        {
+            _sfxSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"[SoundManager] {type}에 해당하는 사운드가 등록되지 않았습니다.");
+        }
     }
 }
