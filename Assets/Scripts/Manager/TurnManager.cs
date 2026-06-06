@@ -73,28 +73,30 @@ public class TurnManager : MonoBehaviour
 
     private void ApplyLoanInterest()
     {
-        if (GameManager.Instance == null)
+        var gameManager = GameManager.Instance;
+
+        if (gameManager == null)
         {
             Debug.LogError("TurnManager: GameManager.Instance가 null이라 대출 이자를 적용할 수 없습니다.");
             return;
         }
 
-        if (GameManager.Instance.loan == null)
+        if (gameManager.loan == null)
         {
             Debug.LogError("TurnManager: Loan이 연결되지 않아 대출 이자를 적용할 수 없습니다.");
             return;
         }
 
-        if (GameManager.Instance.storeManager == null)
+        if (gameManager.storeManager == null)
         {
             Debug.LogError("TurnManager: StoreManager가 연결되지 않아 대출 이자를 적용할 수 없습니다.");
             return;
         }
 
         // 부채가 있을 때만 이자 적용
-        if (GameManager.Instance.storeManager.currentDebt > 0)
+        if (gameManager.storeManager.currentDebt > 0)
         {
-            GameManager.Instance.loan.AddInterest();
+            gameManager.loan.AddInterest();
         }
     }
 }
