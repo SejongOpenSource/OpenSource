@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    private static readonly ItemType[] _itemTypes = (ItemType[])_itemTypes;
+    private static readonly ItemType[] _itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
 
     private int[] _stock;
     private int[] _pendingOrder;
