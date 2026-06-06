@@ -24,32 +24,24 @@ public class LoanPanelController : MonoBehaviour
     // 현재 선택된 대출 금액
     public int selectedLoanAmount = 0;
 
-    private void Start()
-    {
-        AutoConnectLoan();
-
-        // 슬라이더 이벤트 연결
-        if (loanSlider != null)
-        {
-            loanSlider.onValueChanged.AddListener(OnLoanSliderChanged);
-        }
-
-        // 처음에는 현재 대출 가능 금액 기준으로 슬라이더 초기화
-        RefreshLoanSlider();
-    }
-
     private void OnEnable()
     {
         AutoConnectLoan();
 
-        // 발주 화면이 다시 켜질 때마다
-        // 현재 부채 기준으로 슬라이더 최대값을 다시 계산
+        // 중복 등록 방지를 위해 먼저 제거 후 다시 등록
+        if (loanSlider != null)
+        {
+            loanSlider.onValueChanged.RemoveListener(OnLoanSliderChanged);
+            loanSlider.onValueChanged.AddListener(OnLoanSliderChanged);
+        }
+
+        // 발주 화면이 켜질 때마다 현재 부채 기준으로 슬라이더 최대값 갱신
         RefreshLoanSlider();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        // 슬라이더 이벤트 해제
+        // UI가 비활성화될 때 이벤트 해제
         if (loanSlider != null)
         {
             loanSlider.onValueChanged.RemoveListener(OnLoanSliderChanged);
@@ -197,6 +189,11 @@ public class LoanPanelController : MonoBehaviour
     public int GetSelectedLoanAmount()
     {
         // OrderPanelController에서 현재 선택된 대출 금액을 가져갈 때 사용
+        if (loanSlider != null)
+        {
+            selectedLoanAmount = Mathf.RoundToInt(loanSlider.value);
+        }
+
         return selectedLoanAmount;
     }
 }

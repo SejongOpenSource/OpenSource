@@ -65,14 +65,6 @@ public class OrderProductRowUI : MonoBehaviour
         {
             minusButton.onClick.AddListener(DecreaseQuantity);
         }
-
-        // 슬라이더 기본 설정
-        InitializeSlider();
-
-        // 처음 화면 상태 갱신
-        UpdateButtonState();
-        UpdateQuantityText();
-        UpdateTotalPriceText();
     }
 
     private void OnDestroy()
@@ -122,8 +114,9 @@ public class OrderProductRowUI : MonoBehaviour
             costText.text = itemCost.ToString("N0") + "원";
         }
 
-        // 상품 데이터가 연결된 뒤 슬라이더와 텍스트 갱신
+        // 상품 데이터가 연결된 뒤 슬라이더, 버튼, 텍스트 상태를 한 번에 갱신
         InitializeSlider();
+        UpdateButtonState();
         UpdateQuantityText();
         UpdateTotalPriceText();
     }
