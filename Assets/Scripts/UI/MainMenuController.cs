@@ -10,7 +10,7 @@ public class MainMenuController : MonoBehaviour
     [Header("씬 설정")]
     // 게임 시작 버튼을 눌렀을 때 이동할 게임 씬 이름
     // Build Profiles / Scene List에 등록된 씬 이름과 같아야 함
-    public string gameSceneName = "SampleScene";
+    [SerializeField] private string gameSceneName = "PlayerEconomy";
 
     public void StartGame()
     {
