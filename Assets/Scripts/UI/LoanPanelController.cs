@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class LoanPanelController : MonoBehaviour
 {
+    [Header("대출 금액 슬라이더")]
     // 대출 금액을 조절하는 슬라이더
     public Slider loanSlider;
 
+    [Header("대출 정보 표시")]
     // 선택된 대출 금액 표시 텍스트
     public Text loanAmountValueText;
 
@@ -15,42 +17,118 @@ public class LoanPanelController : MonoBehaviour
     // 예상 이자 표시 텍스트
     public Text expectedInterestValueText;
 
+    [Header("대출 처리")]
     // 실제 대출 실행 로직이 있는 Loan 스크립트
-    // 현재는 실제 대출 확정 전이면 비워둬도 됨
     public Loan loan;
 
     // 현재 선택된 대출 금액
     public int selectedLoanAmount = 0;
 
-    private void Start()
+    private void OnEnable()
     {
-        // 슬라이더가 연결되어 있으면 값 변경 이벤트 등록
+        AutoConnectLoan();
+
+        // 중복 등록 방지를 위해 먼저 제거 후 다시 등록
         if (loanSlider != null)
         {
+            loanSlider.onValueChanged.RemoveListener(OnLoanSliderChanged);
             loanSlider.onValueChanged.AddListener(OnLoanSliderChanged);
-
-            // 슬라이더 초기값을 현재 선택 금액으로 저장
-            selectedLoanAmount = Mathf.RoundToInt(loanSlider.value);
         }
 
-        // 처음 화면 텍스트 갱신
+        // 발주 화면이 켜질 때마다 현재 부채 기준으로 슬라이더 최대값 갱신
+        RefreshLoanSlider();
+    }
+
+    private void OnDisable()
+    {
+        // UI가 비활성화될 때 이벤트 해제
+        if (loanSlider != null)
+        {
+            loanSlider.onValueChanged.RemoveListener(OnLoanSliderChanged);
+        }
+    }
+
+    private void AutoConnectLoan()
+    {
+        // 이미 연결되어 있으면 다시 찾지 않음
+        if (loan != null)
+        {
+            return;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            loan = GameManager.Instance.loan;
+        }
+    }
+
+    private void RefreshLoanSlider()
+    {
+        // 현재 선택 가능한 최대 대출 금액 계산
+        int availableLoanAmount = GetAvailableLoanAmount();
+
+        // 화면에 들어올 때마다 선택 대출 금액은 0원으로 초기화
+        selectedLoanAmount = 0;
+
+        if (loanSlider != null)
+        {
+            // 슬라이더 기본 설정
+            loanSlider.wholeNumbers = true;
+            loanSlider.minValue = 0;
+            loanSlider.maxValue = availableLoanAmount;
+
+            // 현재 화면 진입 시 항상 0원에서 시작
+            loanSlider.SetValueWithoutNotify(0);
+
+            // 대출 가능 금액이 없으면 슬라이더 비활성화
+            loanSlider.interactable = availableLoanAmount > 0;
+        }
+
+        // 텍스트 갱신
         UpdateLoanTexts();
+    }
+
+    private int GetAvailableLoanAmount()
+    {
+        AutoConnectLoan();
+
+        if (loan == null)
+        {
+            return 0;
+        }
+
+        // Loan.cs에서 계산한 값 사용
+        // Min(1회 대출 한도, 전체 한도 - 현재 부채)
+        return loan.GetAvailableLoanAmount();
     }
 
     private void OnLoanSliderChanged(float value)
     {
-        // 슬라이더 값은 float이므로 반올림해서 int로 저장
-        selectedLoanAmount = Mathf.RoundToInt(value);
+        int availableLoanAmount = GetAvailableLoanAmount();
 
-        // 슬라이더 값이 바뀔 때마다 텍스트 갱신
+        // 슬라이더 값은 float이므로 int로 변환
+        int sliderAmount = Mathf.RoundToInt(value);
+
+        // 혹시 모를 값 초과 방지
+        if (sliderAmount > availableLoanAmount)
+        {
+            sliderAmount = availableLoanAmount;
+        }
+
+        if (sliderAmount < 0)
+        {
+            sliderAmount = 0;
+        }
+
+        selectedLoanAmount = sliderAmount;
+
+        // 텍스트 갱신
         UpdateLoanTexts();
-
-        Debug.Log("선택 대출 금액: " + selectedLoanAmount);
     }
 
     private void UpdateLoanTexts()
     {
-        // 대출 금액 표시
+        // 선택 대출 금액 표시
         if (loanAmountValueText != null)
         {
             loanAmountValueText.text = selectedLoanAmount.ToString("N0") + "원";
@@ -83,6 +161,8 @@ public class LoanPanelController : MonoBehaviour
             return;
         }
 
+        AutoConnectLoan();
+
         // Loan 스크립트 연결 확인
         if (loan == null)
         {
@@ -95,27 +175,25 @@ public class LoanPanelController : MonoBehaviour
 
         if (success)
         {
-            Debug.Log("대출 실행 완료: " + selectedLoanAmount);
+            Debug.Log("대출 실행 완료: " + selectedLoanAmount.ToString("N0") + "원");
         }
         else
         {
             Debug.Log("대출 실행 실패");
         }
 
-        // 대출 실행 후 선택 금액 초기화
-        selectedLoanAmount = 0;
-
-        if (loanSlider != null)
-        {
-            loanSlider.value = 0;
-        }
-
-        UpdateLoanTexts();
+        // 대출 실행 후 현재 부채 기준으로 슬라이더 최대값 다시 갱신
+        RefreshLoanSlider();
     }
 
     public int GetSelectedLoanAmount()
     {
         // OrderPanelController에서 현재 선택된 대출 금액을 가져갈 때 사용
+        if (loanSlider != null)
+        {
+            selectedLoanAmount = Mathf.RoundToInt(loanSlider.value);
+        }
+
         return selectedLoanAmount;
     }
 }
