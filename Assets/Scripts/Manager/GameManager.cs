@@ -77,13 +77,9 @@ public class GameManager : MonoBehaviour
 
     private bool CheckLose(int currentTurn, int maxTurns)
     {
-        // 자본금 고갈 패배: 재고 판매 예상 수익까지 합산해 회생 가능성 판단
-        if (storeManager != null && storeManager.currentMoney <= 0)
+        // 자본금 고갈 패배: 0원은 생존, 음수부터 패배
+        if (storeManager != null && storeManager.currentMoney < 0)
         {
-            int stockRevenue = inventoryManager != null ? inventoryManager.CalculateStockRevenue() : 0;
-            // 현금 + 재고 판매 수익으로 부채 상환 후 잔액이 있어야 회생 가능
-            if (storeManager.currentMoney + stockRevenue - storeManager.currentDebt > 0)
-                return false;
             Debug.Log("패배! (자본금 고갈)");
             return true;
         }

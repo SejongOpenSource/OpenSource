@@ -136,20 +136,6 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-    // 남은 재고 전부 팔았을 때 예상 수익 (파산 판단용)
-    public int CalculateStockRevenue()
-    {
-        if (DataManager.Instance?.itemDataManager == null) return 0;
-        int total = 0;
-        var itemDataManager = DataManager.Instance.itemDataManager;
-        foreach (ItemType type in _itemTypes)
-        {
-            ItemData item = itemDataManager.GetItem(type);
-            if (item != null) total += GetStock(type) * item.price;
-        }
-        return total;
-    }
-
     // 게임 종료 시 남은 재고 원가 합산
     public int CalculateStockPenalty()
     {
