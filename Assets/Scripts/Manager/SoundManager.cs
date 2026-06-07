@@ -1,19 +1,16 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-
 
 public enum SFXType
 {
-    Money,
-    Fridge,
-    Bell,
+    Money, 
+    Fridge, 
+    Bell, 
     Barcode
 }
-
-public enum BGMType
-{
-    Title1,
+public enum BGMType {
+    Title1, 
     Title2,
     Main
 }
@@ -21,25 +18,12 @@ public enum BGMType
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; private set; }
-    
-    [Header("Audio Mixer & Groups")]
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private AudioMixerGroup bgmGroup;
-    [SerializeField] private AudioMixerGroup sfxGroup;
 
     [System.Serializable]
-    public struct SFXData
-    {
-        public SFXType type;
-        public AudioClip clip;
-    }
+    public struct SFXData { public SFXType type; public AudioClip clip; }
 
     [System.Serializable]
-    public struct BGMData
-    {
-        public BGMType type;
-        public AudioClip clip;
-    }
+    public struct BGMData { public BGMType type; public AudioClip clip; }
     
     [Header("Sounds List")]
     [SerializeField] private List<SFXData> sfxList = new List<SFXData>();
@@ -49,10 +33,15 @@ public class SoundManager : MonoBehaviour
     private Dictionary<BGMType, AudioClip> _bgmDictionary = new Dictionary<BGMType, AudioClip>();
     private AudioSource _sfxSource;
     private AudioSource _bgmSource;
+
+    private Coroutine _fadeCoroutine;
     
+    // 옵션 창에서 볼륨 조절할 때 사용할 전역 변수 (0.0f ~ 1.0f)
+    private float _bgmVolumeMaster = 1.0f;
+    private float _sfxVolumeMaster = 1.0f;
+
     private void Awake()
     {
-        // 싱글톤 중복 생성 방지 및 씬 전환 시 파괴 방지
         if (Instance == null)
         {
             Instance = this;
@@ -67,46 +56,53 @@ public class SoundManager : MonoBehaviour
     
     private void InitManager()
     {
-        // BGM 전용 소스 생성 및 설정
+        // BGM 소스 생성
         _bgmSource = gameObject.AddComponent<AudioSource>();
-        _bgmSource.outputAudioMixerGroup = bgmGroup;
         _bgmSource.loop = true;
         _bgmSource.playOnAwake = false;
+        _bgmSource.volume = _bgmVolumeMaster;
         
+        // SFX 소스 생성
         _sfxSource = gameObject.AddComponent<AudioSource>();
-        _sfxSource.outputAudioMixerGroup = sfxGroup;
         _sfxSource.loop = false;
         _sfxSource.playOnAwake = false;
+        _sfxSource.volume = _sfxVolumeMaster;
 
         foreach (var data in sfxList)
         {
             if (data.clip != null && !_sfxDictionary.ContainsKey(data.type))
-            {
                 _sfxDictionary.Add(data.type, data.clip);
-            }
         }
         
         foreach (var data in bgmList)
         {
             if (data.clip != null && !_bgmDictionary.ContainsKey(data.type))
-            {
                 _bgmDictionary.Add(data.type, data.clip);
-            }
         }
     }
     
-    public void PlayBGM(BGMType type, bool fade = true)
+    public void PlayBGM(BGMType type, bool fade = true, float fadeDuration = 1.0f)
     {
-        if (_bgmDictionary.TryGetValue(type, out AudioClip clip))
+        if (!_bgmDictionary.TryGetValue(type, out AudioClip nextClip)) return;
+        if (_bgmSource.clip == nextClip && _bgmSource.isPlaying) return;
+
+        if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
+
+        if (fade && _bgmSource.isPlaying)
         {
-            _bgmSource.clip = clip;
+            _fadeCoroutine = StartCoroutine(FadeTrackRoutine(nextClip, fadeDuration));
+        }
+        else
+        {
+            _bgmSource.clip = nextClip;
+            _bgmSource.volume = _bgmVolumeMaster;
             _bgmSource.Play();
         }
-        // TODO: 필요 시 코루틴을 활용한 Fade In/Out 로직 추가
     }
 
     public void StopBGM()
     {
+        if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
         _bgmSource.Stop();
         _bgmSource.clip = null;
     }
@@ -115,11 +111,50 @@ public class SoundManager : MonoBehaviour
     {
         if (_sfxDictionary.TryGetValue(type, out AudioClip clip))
         {
-            _sfxSource.PlayOneShot(clip);
+            // PlayOneShot의 두 번째 인자로 볼륨을 직접 넘겨줍니다.
+            _sfxSource.PlayOneShot(clip, _sfxVolumeMaster);
         }
-        else
+    }
+
+    /// <summary>
+    /// AudioSource의 volume 변수를 직접 조절하는 페이드 코루틴
+    /// </summary>
+    private IEnumerator FadeTrackRoutine(AudioClip nextClip, float duration)
+    {
+        float halfDuration = duration * 0.5f;
+
+        // Fade Out
+        float startVolume = _bgmSource.volume;
+        while (_bgmSource.volume > 0)
         {
-            Debug.LogWarning($"[SoundManager] {type}에 해당하는 사운드가 등록되지 않았습니다.");
+            _bgmSource.volume -= startVolume * (Time.deltaTime / halfDuration);
+            yield return null;
         }
+        
+        _bgmSource.Stop();
+        _bgmSource.clip = nextClip;
+        _bgmSource.Play();
+
+        // Fade In
+        while (_bgmSource.volume < _bgmVolumeMaster)
+        {
+            _bgmSource.volume += _bgmVolumeMaster * (Time.deltaTime / halfDuration);
+            yield return null;
+        }
+
+        _bgmSource.volume = _bgmVolumeMaster;
+    }
+    
+    // --- 나중에 설정창(UI) 만들 때 쓸 볼륨 조절 함수들 ---
+    public void SetBGMVolume(float volume)
+    {
+        _bgmVolumeMaster = Mathf.Clamp01(volume);
+        _bgmSource.volume = _bgmVolumeMaster; // 실시간 반영
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        _sfxVolumeMaster = Mathf.Clamp01(volume);
+        _sfxSource.volume = _sfxVolumeMaster; // 실시간 반영
     }
 }
