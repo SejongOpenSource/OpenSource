@@ -62,46 +62,25 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // ===================================================================
-        // 🔥 [디버그용 치트키] 팀 프로젝트 테스트 후 최종 빌드 시 주석 처리하거나 삭제하세요.
+        // 🔥 [디버그용 치트키 - 즉시 엔딩 트리거 버전]
         // ===================================================================
 
-        // 1번 키: 즉시 승리 세팅 (매출을 승리 목표 금액으로 채우고 페이즈 강제 진행)
+        // 1번 키: 즉시 승리 화면 띄우기
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (SalesAlgorithm.Instance != null)
-            {
-                // 부족한 매출만큼 딱 채워서 TargetSales(5000000원)로 만듭니다.
-                int lackSales = TargetSales - SalesAlgorithm.Instance.TotalSales;
-                if (lackSales > 0)
-                {
-                    SalesAlgorithm.Instance.AddSales(lackSales);
-                }
-            
-                Debug.Log($"[CHEAT] 승리 조건 충족! 현재 누적 매출: {SalesAlgorithm.Instance.TotalSales}원");
-                Debug.Log("[CHEAT] 다음 페이즈(Result 턴 엔드) 진입 시 '승리' 화면이 뜹니다.");
-
-                // 현재 씬 구조상 버튼을 안 누르고 즉시 턴을 끝내 승리 화면을 보고 싶다면 아래 주석을 해제하세요.
-                // TurnManager.Instance?.AdvancePhase();
-            }
+            Debug.Log("[CHEAT] 매출 수치와 상관없이 즉시 승리 이벤트를 강제 실행합니다.");
+        
+            // UI(ResultPanel 등)나 엔딩 매니저가 구독하고 있는 승리 이벤트를 즉시 호출합니다.
+            OnGameOver?.Invoke(true); 
         }
 
-        // 2번 키: 즉시 패배 세팅 (자본금을 마이너스로 조작)
+        // 2번 키: 즉시 패배 화면 띄우기
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if (storeManager != null)
-            {
-                // 자본금을 -1원으로 만들어 CheckLose의 파산 조건에 걸리게 합니다.
-                // 만약 storeManager에 돈을 깎는 기능(SpendMoney 등)이 있다면 그걸 쓰셔도 됩니다.
-                // 여기서는 안전하게 현재 돈만큼 빼고 추가로 1원을 더 빼서 마이너스로 만듭니다.
-                int current = storeManager.currentMoney;
-                storeManager.SpendMoney(current + 1); // 0원 미만(음수)으로 강제 변환
-            
-                Debug.Log($"[CHEAT] 패배 조건(파산) 충족! 현재 자본금: {storeManager.currentMoney}원");
-                Debug.Log("[CHEAT] 다음 페이즈(Result 턴 엔드) 진입 시 '패배' 화면이 뜹니다.");
-
-                // 현재 씬 구조상 버튼을 안 누르고 즉시 턴을 끝내 패배 화면을 보고 싶다면 아래 주석을 해제하세요.
-                // TurnManager.Instance?.AdvancePhase();
-            }
+            Debug.Log("[CHEAT] 자본금 수치와 상관없이 즉시 패배 이벤트를 강제 실행합니다.");
+        
+            // 패배 이벤트를 즉시 호출합니다.
+            OnGameOver?.Invoke(false); 
         }
         // ===================================================================
     }

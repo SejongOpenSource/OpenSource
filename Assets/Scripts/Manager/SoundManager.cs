@@ -13,7 +13,8 @@ public enum BGMType {
     Title1, 
     Title2,
     Main,
-    Clear
+    Clear,
+    GameOver
 }
 
 public class SoundManager : MonoBehaviour
