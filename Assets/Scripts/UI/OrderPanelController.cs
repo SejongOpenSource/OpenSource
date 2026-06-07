@@ -26,17 +26,7 @@ public class OrderPanelController : MonoBehaviour
         else
         {
             // 상품 Row 초기 설정
-            for (int i = 0; i < productRows.Length; i++)
-            {
-                if (productRows[i] == null)
-                {
-                    Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
-                    continue;
-                }
-
-                productRows[i].orderPanelController = this;
-                productRows[i].SetupRow();
-            }
+            SetupProductRows();
         }
 
         // 영업 시작 버튼 연결
@@ -47,6 +37,62 @@ public class OrderPanelController : MonoBehaviour
 
         // 주문 합계 초기 표시
         UpdateOrderTotalText();
+    }
+
+    private void OnEnable()
+    {
+        // OnEnable은 Start보다 먼저 호출될 수 있으므로
+        // Row 초기화가 끝난 뒤에만 재고 UI를 갱신
+        if (IsProductRowsInitialized() == false)
+        {
+            return;
+        }
+
+        RefreshProductRows();
+        UpdateOrderTotalText();
+    }
+
+    private void OnDestroy()
+    {
+        if (startSalesButton != null)
+        {
+            startSalesButton.onClick.RemoveListener(ConfirmOrder);
+        }
+    }
+
+    private void SetupProductRows()
+    {
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
+                continue;
+            }
+
+            productRows[i].orderPanelController = this;
+            productRows[i].SetupRow();
+        }
+    }
+
+    private bool IsProductRowsInitialized()
+    {
+        if (productRows == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            return productRows[i].orderPanelController != null;
+        }
+
+        return false;
     }
 
     public void UpdateOrderTotalText()
@@ -263,7 +309,12 @@ public class OrderPanelController : MonoBehaviour
 
     private void RefreshProductRows()
     {
-        // 발주 후 재고 UI 갱신
+        if (HasProductRows() == false)
+        {
+            return;
+        }
+
+        // 발주 화면이 켜질 때마다 현재 재고 UI 갱신
         for (int i = 0; i < productRows.Length; i++)
         {
             if (productRows[i] == null)
