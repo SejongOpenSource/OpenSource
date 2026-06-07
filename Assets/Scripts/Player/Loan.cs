@@ -46,6 +46,7 @@ public class Loan : MonoBehaviour
     }
 
     // 현재 실제로 선택 가능한 최대 대출 금액 반환
+    // 1회 대출 한도와 남은 전체 한도 중 더 작은 값
     public int GetAvailableLoanAmount()
     {
         int remainingLimit = GetRemainingLoanLimit();
@@ -62,8 +63,9 @@ public class Loan : MonoBehaviour
             return false;
         }
 
-        // 입력값을 0 ~ 1회 제한량 사이로 고정
-        amount = Mathf.Clamp(amount, 0, _onceLoanAmount);
+        // 대출 가능한 최대 금액으로 제한
+        // 1회 대출 한도와 남은 전체 대출 한도를 모두 고려
+        amount = Mathf.Clamp(amount, 0, GetAvailableLoanAmount());
 
         // 대출 금액이 0원이면 실행하지 않음
         if (amount <= 0)
@@ -72,18 +74,12 @@ public class Loan : MonoBehaviour
             return false;
         }
 
-        // 최대 한도를 초과하지 않는지 확인
-        if (storeManager.currentDebt + amount <= _maxLoanAmount)
-        {
-            storeManager.UpdateDebt(amount);
-            storeManager.AddMoney(amount);
+        // 대출 실행
+        storeManager.UpdateDebt(amount);
+        storeManager.AddMoney(amount);
 
-            Debug.Log(amount + "원 대출 완료. 현재 부채: " + storeManager.currentDebt);
-            return true;
-        }
-
-        Debug.Log("대출 한도 초과!");
-        return false;
+        Debug.Log(amount + "원 대출 완료. 현재 부채: " + storeManager.currentDebt);
+        return true;
     }
 
     // [이자] 대출금의 3%만큼 이자 추가
