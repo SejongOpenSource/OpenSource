@@ -33,6 +33,16 @@ public class ResultView : MonoBehaviour
     // 실제 대출 상환 로직이 있는 Loan 스크립트
     public Loan loan;
 
+    // 결과 화면 UI Row 순서와 동일한 상품 순서
+    private readonly ItemType[] resultItemTypes =
+    {
+        ItemType.Onigiri,
+        ItemType.Noodle,
+        ItemType.Drink,
+        ItemType.Bento,
+        ItemType.Umbrella
+    };
+
     private void Start()
     {
         // Loan이 Inspector에서 연결되지 않았으면 자동 연결 시도
@@ -65,6 +75,19 @@ public class ResultView : MonoBehaviour
         UpdateRemainingDebtText();
     }
 
+    private void OnDestroy()
+    {
+        if (repayLoanButton != null)
+        {
+            repayLoanButton.onClick.RemoveListener(OnRepayLoanButtonClicked);
+        }
+
+        if (nextDayButton != null)
+        {
+            nextDayButton.onClick.RemoveListener(OnNextDayButtonClicked);
+        }
+    }
+
     private void AutoConnectLoan()
     {
         // 이미 연결되어 있으면 다시 찾지 않음
@@ -81,7 +104,7 @@ public class ResultView : MonoBehaviour
 
     private void UpdateResultView()
     {
-        // 상품별 발주량 / 판매량 표시
+        // 상품별 발주량 / 판매량 / 남은 재고 표시
         UpdateProductResultRows();
 
         // 매출 정산 요약 표시
@@ -98,16 +121,13 @@ public class ResultView : MonoBehaviour
 
         if (GameManager.Instance == null || GameManager.Instance.inventoryManager == null)
         {
-            Debug.LogError("ResultView: InventoryManager를 찾을 수 없습니다.");
+            Debug.LogError("ResultView: GameManager 또는 InventoryManager를 찾을 수 없습니다.");
             return;
         }
 
         InventoryManager inventoryManager = GameManager.Instance.inventoryManager;
 
-        // ItemType enum 순서대로 Result Row에 표시
-        ItemType[] itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
-
-        int rowCount = System.Math.Min(resultRows.Length, itemTypes.Length);
+        int rowCount = System.Math.Min(resultRows.Length, resultItemTypes.Length);
 
         for (int i = 0; i < rowCount; i++)
         {
@@ -116,7 +136,7 @@ public class ResultView : MonoBehaviour
                 continue;
             }
 
-            ItemType itemType = itemTypes[i];
+            ItemType itemType = resultItemTypes[i];
 
             ItemData itemData = null;
 
@@ -126,10 +146,14 @@ public class ResultView : MonoBehaviour
             }
 
             string productName = GetProductName(itemType, itemData);
+
             int orderedCount = inventoryManager.GetLastOrder(itemType);
             int soldCount = inventoryManager.GetLastSold(itemType);
 
-            resultRows[i].SetResult(productName, orderedCount, soldCount);
+            // InventoryManager가 저장하고 있는 현재 재고값 사용
+            int remainingStock = inventoryManager.GetStock(itemType);
+
+            resultRows[i].SetResult(productName, orderedCount, soldCount, remainingStock);
         }
     }
 
@@ -161,7 +185,6 @@ public class ResultView : MonoBehaviour
         }
 
         // 시작 자본금은 발주 비용 차감 전에 저장한 값을 사용
-        // 대출 상환 등으로 현재 자본금이 바뀌어도 시작 자본금은 변하지 않음
         int startMoney = inventoryManager.GetLastStartMoney();
 
         // 마감 자본금은 현재 StoreManager의 실제 자산 사용
@@ -267,7 +290,6 @@ public class ResultView : MonoBehaviour
         UpdateRemainingDebtText();
 
         // 상환 후 마감 자본금도 다시 표시
-        // 시작 자본금은 저장된 값을 사용하므로 변하지 않음
         UpdateSummaryTexts();
     }
 
