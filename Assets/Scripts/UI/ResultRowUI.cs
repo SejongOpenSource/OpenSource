@@ -12,24 +12,29 @@ public class ResultRowUI : MonoBehaviour
     // 판매 수량 표시 텍스트
     public Text soldCountText;
 
-    public void SetResult(string productName, int orderedCount, int soldCount)
+    // 남은 재고 표시 텍스트
+    public Text remainingStockText;
+
+    public void SetResult(string productName, int orderedCount, int soldCount, int remainingStock)
     {
-        // 상품명 표시
         if (productNameText != null)
         {
             productNameText.text = productName;
         }
 
-        // 주문 수량 표시
         if (orderedCountText != null)
         {
             orderedCountText.text = $"{orderedCount:N0}개";
         }
 
-        // 판매 수량 표시
         if (soldCountText != null)
         {
             soldCountText.text = $"{soldCount:N0}개";
+        }
+
+        if (remainingStockText != null)
+        {
+            remainingStockText.text = $"{remainingStock:N0}개";
         }
     }
 }

@@ -26,17 +26,7 @@ public class OrderPanelController : MonoBehaviour
         else
         {
             // 상품 Row 초기 설정
-            for (int i = 0; i < productRows.Length; i++)
-            {
-                if (productRows[i] == null)
-                {
-                    Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
-                    continue;
-                }
-
-                productRows[i].orderPanelController = this;
-                productRows[i].SetupRow();
-            }
+            SetupProductRows();
         }
 
         // 영업 시작 버튼 연결
@@ -47,6 +37,38 @@ public class OrderPanelController : MonoBehaviour
 
         // 주문 합계 초기 표시
         UpdateOrderTotalText();
+    }
+
+    private void OnEnable()
+    {
+        // 발주 화면이 다시 켜질 때마다 현재 재고를 최신값으로 갱신
+        RefreshProductRows();
+
+        // 주문 합계도 현재 Row 상태 기준으로 갱신
+        UpdateOrderTotalText();
+    }
+
+    private void OnDestroy()
+    {
+        if (startSalesButton != null)
+        {
+            startSalesButton.onClick.RemoveListener(ConfirmOrder);
+        }
+    }
+
+    private void SetupProductRows()
+    {
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                Debug.LogWarning($"OrderPanelController: productRows[{i}]가 비어 있습니다.");
+                continue;
+            }
+
+            productRows[i].orderPanelController = this;
+            productRows[i].SetupRow();
+        }
     }
 
     public void UpdateOrderTotalText()
@@ -263,7 +285,12 @@ public class OrderPanelController : MonoBehaviour
 
     private void RefreshProductRows()
     {
-        // 발주 후 재고 UI 갱신
+        if (HasProductRows() == false)
+        {
+            return;
+        }
+
+        // 발주 화면이 켜질 때마다 현재 재고 UI 갱신
         for (int i = 0; i < productRows.Length; i++)
         {
             if (productRows[i] == null)
