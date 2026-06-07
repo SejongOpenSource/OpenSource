@@ -12,7 +12,8 @@ public enum SFXType
 public enum BGMType {
     Title1, 
     Title2,
-    Main
+    Main,
+    Clear
 }
 
 public class SoundManager : MonoBehaviour

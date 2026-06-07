@@ -187,8 +187,3 @@ feature/xxx (이슈 단위 작업 브랜치)
 본 프로젝트는 **세종대학교 OpenSource 강의** 팀 프로젝트입니다.  
 게임 코드 및 프로젝트 구조에 대한 저작권은 팀원에게 있습니다.  
 외부 에셋은 각 출처의 라이선스를 따릅니다.
-
-### Sound & Background Music
-* **Track:** CLEAR(Bit Shift)
-* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/kevin-macleod/bit-shift](https://uppbeat.io/t/kevin-macleod/bit-shift)
-* **License code:** `4Z0YGUJO9WIOCLVQ`

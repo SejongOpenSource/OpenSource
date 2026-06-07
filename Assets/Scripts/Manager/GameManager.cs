@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
         if (customerManager == null) Debug.LogError("GameManager: CustomerManager component is missing!");
     }
-
+    
     private void Start()
     {
         if (DataManager.Instance == null)
@@ -52,8 +52,13 @@ public class GameManager : MonoBehaviour
             storeManager.Initialize();
         else
             Debug.LogError("GameManager: storeManager가 null — Initialize 불가");
+        
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(BGMType.Main, fade: true, fadeDuration: 1.2f);
+        }
     }
-
+    
     // TurnManager에서 Result 페이즈 종료 시 호출
     public bool OnTurnEnd(int currentTurn, int maxTurns)
     {

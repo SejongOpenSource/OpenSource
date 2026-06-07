@@ -22,7 +22,7 @@ public class StoreManager : MonoBehaviour
 
     public void Initialize()
     {
-        currentMoney = 500000;
+        currentMoney = 50000;
         currentDebt = 0;
         currentZone = DistrictType.Resident;
 

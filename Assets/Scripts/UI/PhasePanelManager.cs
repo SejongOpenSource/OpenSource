@@ -52,6 +52,15 @@ public class PhasePanelManager : MonoBehaviour
             Debug.LogError("PhasePanelManager: TurnManager 인스턴스를 찾을 수 없습니다.");
             return;
         }
+        
+        if (simulationPanel != null)
+        {
+            var controller = simulationPanel.GetComponent<SimulationPanelController>();
+            if (controller != null)
+            {
+                simulationWaitTime = controller.duration;
+            }
+        }
 
         // 페이즈 변경 이벤트 구독
         TurnManager.Instance.OnPhaseChanged += OnPhaseChanged;

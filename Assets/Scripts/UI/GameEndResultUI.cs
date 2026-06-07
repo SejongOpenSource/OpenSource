@@ -122,6 +122,11 @@ public class GameEndResultUI : MonoBehaviour
             if (clearPanel != null)
             {
                 clearPanel.SetActive(true);
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayBGM(BGMType.Clear, fade: true, fadeDuration: 1.2f);
+                        
+                }
             }
         }
         else

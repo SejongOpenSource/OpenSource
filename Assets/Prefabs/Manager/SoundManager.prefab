@@ -44,5 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182779fa980889b439420bc8b61c515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  sfxList: []
-  bgmList: []
+  sfxList:
+  - type: 0
+    clip: {fileID: 8300000, guid: 0df8a502d3517294090cf87ac67a936e, type: 3}
+  - type: 1
+    clip: {fileID: 8300000, guid: 799fbf2f39986c14bb28ee3915461032, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: 94dcc19c2b952b84684cf18b04c16f11, type: 3}
+  - type: 3
+    clip: {fileID: 8300000, guid: 6f88f6e274ad54f41af83c1095be67fe, type: 3}
+  bgmList:
+  - type: 0
+    clip: {fileID: 8300000, guid: 08cf5a5d23cf2d14ab5000d575e7b134, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: 06d08fbefebb6a64abc1ab89a937fec2, type: 3}
+  - type: 3
+    clip: {fileID: 8300000, guid: 8aae266d03d652e48a384b9ded5560da, type: 3}

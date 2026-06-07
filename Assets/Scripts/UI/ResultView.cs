@@ -69,6 +69,11 @@ public class ResultView : MonoBehaviour
 
     private void OnEnable()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX(SFXType.Money);
+        }
+        
         // ResultPanel이 켜질 때마다 최신 결과 데이터 표시
         AutoConnectLoan();
         UpdateResultView();
