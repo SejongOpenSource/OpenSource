@@ -192,3 +192,7 @@ feature/xxx (이슈 단위 작업 브랜치)
 * **Track:** CLEAR(Bit Shift)
 * **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/kevin-macleod/bit-shift](https://uppbeat.io/t/kevin-macleod/bit-shift)
 * **License code:** `4Z0YGUJO9WIOCLVQ`
+
+* **Track:** CLEAR(Pixeltown)
+* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/color-parade/pixeltown)
+* **License code:** `BUJFOVLN1RGMSZO0`
