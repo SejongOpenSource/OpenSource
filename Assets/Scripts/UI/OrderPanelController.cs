@@ -41,10 +41,14 @@ public class OrderPanelController : MonoBehaviour
 
     private void OnEnable()
     {
-        // 발주 화면이 다시 켜질 때마다 현재 재고를 최신값으로 갱신
-        RefreshProductRows();
+        // OnEnable은 Start보다 먼저 호출될 수 있으므로
+        // Row 초기화가 끝난 뒤에만 재고 UI를 갱신
+        if (IsProductRowsInitialized() == false)
+        {
+            return;
+        }
 
-        // 주문 합계도 현재 Row 상태 기준으로 갱신
+        RefreshProductRows();
         UpdateOrderTotalText();
     }
 
@@ -69,6 +73,26 @@ public class OrderPanelController : MonoBehaviour
             productRows[i].orderPanelController = this;
             productRows[i].SetupRow();
         }
+    }
+
+    private bool IsProductRowsInitialized()
+    {
+        if (productRows == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < productRows.Length; i++)
+        {
+            if (productRows[i] == null)
+            {
+                continue;
+            }
+
+            return productRows[i].orderPanelController != null;
+        }
+
+        return false;
     }
 
     public void UpdateOrderTotalText()
