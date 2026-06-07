@@ -77,8 +77,8 @@ public class GameManager : MonoBehaviour
 
     private bool CheckLose(int currentTurn, int maxTurns)
     {
-        // 자본금 고갈 패배
-        if (storeManager != null && storeManager.currentMoney <= 0)
+        // 자본금 고갈 패배: 0원은 생존, 음수부터 패배
+        if (storeManager != null && storeManager.currentMoney < 0)
         {
             Debug.Log("패배! (자본금 고갈)");
             return true;

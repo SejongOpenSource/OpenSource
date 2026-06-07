@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    private static readonly ItemType[] _itemTypes = (ItemType[])System.Enum.GetValues(typeof(ItemType));
+
     private int[] _stock;
     private int[] _pendingOrder;
 
@@ -145,7 +147,7 @@ public class InventoryManager : MonoBehaviour
         int penalty = 0;
         var itemDataManager = DataManager.Instance.itemDataManager;
 
-        foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
+        foreach (ItemType type in _itemTypes)
         {
             ItemData item = itemDataManager.GetItem(type);
 
