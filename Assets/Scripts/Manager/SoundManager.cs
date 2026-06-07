@@ -5,12 +5,17 @@ using UnityEngine.Audio;
 
 public enum SFXType
 {
-    
+    Money,
+    Fridge,
+    Bell,
+    Barcode
 }
 
 public enum BGMType
 {
-    
+    Title1,
+    Title2,
+    Main
 }
 
 public class SoundManager : MonoBehaviour
