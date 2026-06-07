@@ -33,13 +33,13 @@ public class SalesAlgorithm : MonoBehaviour
         LastDailyRevenue = 0;
         foreach (ItemType t in _itemTypes)
             _lastSoldCounts[t] = 0;
-        if (CustomerManager.Instance == null)
+        if (GameManager.Instance.customerManager == null)
         {
             Debug.LogError("CustomerManager 인스턴스를 찾을 수 없습니다.");
             return;
         }
 
-        int totalVisitors = CustomerManager.Instance.CalculateVisitors();
+        int totalVisitors = GameManager.Instance.customerManager.CalculateVisitors();
         int dailyTotalRevenue = 0;
 
         DistrictData district = GameManager.Instance.storeManager.currentDistrictData;
