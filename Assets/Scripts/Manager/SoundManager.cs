@@ -37,7 +37,7 @@ public class SoundManager : MonoBehaviour
     private Coroutine _fadeCoroutine;
     
     // 옵션 창에서 볼륨 조절할 때 사용할 전역 변수 (0.0f ~ 1.0f)
-    private float _bgmVolumeMaster = 1.0f;
+    private float _bgmVolumeMaster = 0.7f;
     private float _sfxVolumeMaster = 1.0f;
 
     private void Awake()
@@ -52,6 +52,11 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    
+    private void Start()
+    {
+        PlayBGM(BGMType.Title1, fade: false);
     }
     
     private void InitManager()

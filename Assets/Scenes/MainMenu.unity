@@ -871,6 +871,62 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 08cf5a5d23cf2d14ab5000d575e7b134, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: cfa2f97f86f8aba4eae0cf447e0cd8c5, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.data[1].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 06d08fbefebb6a64abc1ab89a937fec2, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: bgmList.Array.data[2].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0df8a502d3517294090cf87ac67a936e, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 799fbf2f39986c14bb28ee3915461032, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[1].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 94dcc19c2b952b84684cf18b04c16f11, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[2].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f88f6e274ad54f41af83c1095be67fe, type: 3}
+    - target: {fileID: 8322428777850125318, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
+      propertyPath: sfxList.Array.data[3].type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8514396257990453280, guid: 882f5142f1486e14989b029c885a2de1, type: 3}
       propertyPath: m_Name
       value: SoundManager
