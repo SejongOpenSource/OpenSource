@@ -23,6 +23,8 @@ public class TurnManager : MonoBehaviour
         }
 
         Instance = this;
+        if (transform.parent != null) transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void AdvancePhase()

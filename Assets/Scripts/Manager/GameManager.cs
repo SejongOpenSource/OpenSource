@@ -17,21 +17,26 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Loan loan;
     [HideInInspector] public WeatherSystem weatherSystem;
     [HideInInspector] public InventoryManager inventoryManager;
+    [HideInInspector] public CustomerManager customerManager;
 
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+        if (transform.parent != null) transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
         storeManager = GetComponent<StoreManager>();
         loan = GetComponent<Loan>();
         weatherSystem = GetComponent<WeatherSystem>();
         inventoryManager = GetComponent<InventoryManager>();
+        customerManager = GetComponent<CustomerManager>();
         if (loan != null) loan.storeManager = storeManager;
 
         if (storeManager == null) Debug.LogError("GameManager: StoreManager component is missing!");
         if (loan == null) Debug.LogError("GameManager: Loan component is missing!");
         if (weatherSystem == null) Debug.LogError("GameManager: WeatherSystem component is missing!");
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
+        if (customerManager == null) Debug.LogError("GameManager: CustomerManager component is missing!");
     }
 
     private void Start()

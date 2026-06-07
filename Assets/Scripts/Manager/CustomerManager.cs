@@ -2,15 +2,7 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
-    public static CustomerManager Instance { get; private set; }
-
     [SerializeField] private int baseVisitors = 50;
-
-    private void Awake()
-    {
-        if (Instance != null) { Destroy(gameObject); return; }
-        Instance = this;
-    }
 
     public int CalculateVisitors()
     {
