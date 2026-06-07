@@ -452,7 +452,7 @@ MonoBehaviour:
   weatherSystem: {fileID: 0}
   inventoryManager: {fileID: 20274331}
   customerManager: {fileID: 0}
-  useGameEndTest: 0
+  useGameEndTest: 1
   testClearResult: 1
 --- !u!114 &20274333
 MonoBehaviour:
