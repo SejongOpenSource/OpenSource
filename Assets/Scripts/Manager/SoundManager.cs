@@ -129,39 +129,34 @@ public class SoundManager : MonoBehaviour
     private IEnumerator FadeTrackRoutine(AudioClip nextClip, float duration)
     {
         float halfDuration = duration * 0.5f;
+        if (halfDuration <= 0f)
+        {
+            _bgmSource.clip = nextClip;
+            _bgmSource.volume = _bgmVolumeMaster;
+            _bgmSource.Play();
+            yield break;
+        }
 
         // Fade Out
         float startVolume = _bgmSource.volume;
         while (_bgmSource.volume > 0)
         {
-            _bgmSource.volume -= startVolume * (Time.deltaTime / halfDuration);
+            _bgmSource.volume -= startVolume * (Time.unscaledDeltaTime / halfDuration);
             yield return null;
         }
         
         _bgmSource.Stop();
         _bgmSource.clip = nextClip;
+        _bgmSource.volume = 0f;
         _bgmSource.Play();
 
         // Fade In
         while (_bgmSource.volume < _bgmVolumeMaster)
         {
-            _bgmSource.volume += _bgmVolumeMaster * (Time.deltaTime / halfDuration);
+            _bgmSource.volume += _bgmVolumeMaster * (Time.unscaledDeltaTime / halfDuration);
             yield return null;
         }
 
         _bgmSource.volume = _bgmVolumeMaster;
-    }
-    
-    // --- 나중에 설정창(UI) 만들 때 쓸 볼륨 조절 함수들 ---
-    public void SetBGMVolume(float volume)
-    {
-        _bgmVolumeMaster = Mathf.Clamp01(volume);
-        _bgmSource.volume = _bgmVolumeMaster; // 실시간 반영
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        _sfxVolumeMaster = Mathf.Clamp01(volume);
-        _sfxSource.volume = _sfxVolumeMaster; // 실시간 반영
     }
 }

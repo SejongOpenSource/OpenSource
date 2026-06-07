@@ -17,7 +17,7 @@ public class SimulationPanelController : MonoBehaviour
     [Header("사운드 타이밍 설정")]
     [SerializeField] private float barcodeDelay = 0.8f;
     [Tooltip("바코드 소리가 반복되는 간격(초)")]
-    [SerializeField] private float barcodeInterval = 0.8f;
+    [SerializeField] private float barcodeInterval = 1f;
     
     // 현재 실행 중인 코루틴 저장
     private Coroutine progressCoroutine;
@@ -73,7 +73,7 @@ public class SimulationPanelController : MonoBehaviour
         }
 
         float timer = 0f;
-        float barcodeTimer = 0f;
+        float barcodeTimer = barcodeInterval;
 
         // duration 시간 동안 게이지를 0에서 1까지 채움
         while (timer < duration)
