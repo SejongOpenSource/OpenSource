@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         if (inventoryManager == null) Debug.LogError("GameManager: InventoryManager is missing!");
         if (customerManager == null) Debug.LogError("GameManager: CustomerManager component is missing!");
     }
-
+    
     private void Start()
     {
         if (DataManager.Instance == null)
@@ -52,8 +52,39 @@ public class GameManager : MonoBehaviour
             storeManager.Initialize();
         else
             Debug.LogError("GameManager: storeManager가 null — Initialize 불가");
+        
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(BGMType.Main, fade: true, fadeDuration: 1.2f);
+        }
     }
+    
+    private void Update()
+    {
+        // ===================================================================
+        // 🔥 [디버그용 치트키 - 즉시 엔딩 트리거 버전]
+        // ===================================================================
 
+        // 1번 키: 즉시 승리 화면 띄우기
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("[CHEAT] 매출 수치와 상관없이 즉시 승리 이벤트를 강제 실행합니다.");
+        
+            // UI(ResultPanel 등)나 엔딩 매니저가 구독하고 있는 승리 이벤트를 즉시 호출합니다.
+            OnGameOver?.Invoke(true); 
+        }
+
+        // 2번 키: 즉시 패배 화면 띄우기
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("[CHEAT] 자본금 수치와 상관없이 즉시 패배 이벤트를 강제 실행합니다.");
+        
+            // 패배 이벤트를 즉시 호출합니다.
+            OnGameOver?.Invoke(false); 
+        }
+        // ===================================================================
+    }
+    
     // TurnManager에서 Result 페이즈 종료 시 호출
     public bool OnTurnEnd(int currentTurn, int maxTurns)
     {

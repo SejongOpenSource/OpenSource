@@ -1005,7 +1005,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimulationPanelController
   progressSlider: {fileID: 302220340}
-  duration: 1
+  duration: 4
+  barcodeDelay: 0.8
+  barcodeInterval: 0.8
 --- !u!1 &120191618
 GameObject:
   m_ObjectHideFlags: 0

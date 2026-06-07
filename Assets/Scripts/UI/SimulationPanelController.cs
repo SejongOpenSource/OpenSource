@@ -10,10 +10,15 @@ public class SimulationPanelController : MonoBehaviour
     public Slider progressSlider;
 
     [Header("설정")]
-    // 게이지가 0에서 1까지 차는 시간
+    // 게이지가차는 시간
     // PhasePanelManager의 Simulation 대기 시간과 맞추면 자연스러움
-    public float duration = 1f;
-
+    public float duration = 4f;
+    
+    [Header("사운드 타이밍 설정")]
+    [SerializeField] private float barcodeDelay = 0.8f;
+    [Tooltip("바코드 소리가 반복되는 간격(초)")]
+    [SerializeField] private float barcodeInterval = 1f;
+    
     // 현재 실행 중인 코루틴 저장
     private Coroutine progressCoroutine;
 
@@ -45,6 +50,11 @@ public class SimulationPanelController : MonoBehaviour
         }
 
         // 게이지 진행 시작
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX(SFXType.Bell);
+            SoundManager.Instance.PlaySFX(SFXType.Fridge);
+        }
         progressCoroutine = StartCoroutine(ProgressRoutine());
     }
 
@@ -63,6 +73,7 @@ public class SimulationPanelController : MonoBehaviour
         }
 
         float timer = 0f;
+        float barcodeTimer = barcodeInterval;
 
         // duration 시간 동안 게이지를 0에서 1까지 채움
         while (timer < duration)
@@ -77,7 +88,21 @@ public class SimulationPanelController : MonoBehaviour
             {
                 progressSlider.value = progress;
             }
-
+            
+            if (timer >= barcodeDelay)
+            {
+                barcodeTimer += Time.deltaTime;
+                
+                if (barcodeTimer >= barcodeInterval)
+                {
+                    if (SoundManager.Instance != null)
+                    {
+                        SoundManager.Instance.PlaySFX(SFXType.Barcode);
+                    }
+                    barcodeTimer = 0f; // 타이머 리셋해서 다음 간격 재기
+                }
+            }
+            
             yield return null;
         }
 

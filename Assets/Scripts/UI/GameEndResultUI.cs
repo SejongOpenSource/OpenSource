@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -122,6 +123,11 @@ public class GameEndResultUI : MonoBehaviour
             if (clearPanel != null)
             {
                 clearPanel.SetActive(true);
+
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayBGM(BGMType.Clear, fade: false);
+                }
             }
         }
         else
@@ -129,10 +135,31 @@ public class GameEndResultUI : MonoBehaviour
             if (gameOverPanel != null)
             {
                 gameOverPanel.SetActive(true);
+                
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayBGM(BGMType.GameOver, fade: false);
+                }
             }
         }
 
+        // 2. 🚨 즉시 정지(Time.timeScale = 0)하지 않고, 
+        // 사운드가 오디오 버퍼에 로드될 시간을 주기 위해 코루틴으로 1프레임 지연 정지시킵니다.
+        StartCoroutine(FreezeGameNextFrame());
+    }
+
+    /// <summary>
+    /// 사운드가 정상적으로 시작된 후 다음 프레임에 게임을 일시정지하는 코루틴
+    /// </summary>
+    private IEnumerator FreezeGameNextFrame()
+    {
+        // 현실 시간 기준으로 단 1프레임만 대기 (Time.timeScale의 영향을 받지 않음)
+        yield return null; 
+    
+        // 사운드가 켜진 것을 확인한 후 안전하게 게임을 멈춥니다.
         Time.timeScale = 0f;
+        Debug.Log("게임이 정상적으로 일시정지되었습니다. 사운드가 출력됩니다.");
+        
     }
 
     private void UpdateResultTexts(bool isClear)
@@ -230,6 +257,11 @@ public class GameEndResultUI : MonoBehaviour
 
     private void GoToMainMenu()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(BGMType.Title1, fade: true, fadeDuration: 1.1f);
+        }
+        
         ResetGameSession();
         SceneManager.LoadScene(mainMenuSceneName);
     }
