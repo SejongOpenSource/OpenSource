@@ -194,5 +194,5 @@ feature/xxx (이슈 단위 작업 브랜치)
 * **License code:** `4Z0YGUJO9WIOCLVQ`
 
 * **Track:** CLEAR(Pixeltown)
-* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/color-parade/pixeltown)
+* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/color-parade/pixeltown](https://uppbeat.io/t/color-parade/pixeltown)
 * **License code:** `BUJFOVLN1RGMSZO0`
