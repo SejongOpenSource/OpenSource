@@ -318,7 +318,7 @@ public class GameEndResultUI : MonoBehaviour
         // 메인 메뉴로 이동하기 전에 타이틀 BGM 재생
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.PlayBGM(BGMType.Title1, fade: true, fadeDuration: 1.1f);
+            SoundManager.Instance.PlayBGM(BGMType.Title, fade: true, fadeDuration: 1.1f);
         }
 
         // 이전 게임 세션 정리
