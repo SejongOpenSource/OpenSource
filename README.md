@@ -1,7 +1,7 @@
-# ConvenienceStore — 세종 편의점 경영 시뮬레이션
+# ConvenienceStore
 
-> **Sejong University · OpenSource** 강의 팀 프로젝트  
-> Unity 2D 턴제 편의점 경영 시뮬레이션
+세종대학교 OpenSource 강의에서 제작한 Unity 기반 2D 편의점 경영 시뮬레이션입니다.
+플레이어는 상권 투자, 상품 발주, 날씨 대응, 대출 관리, 재고 운영을 통해 30턴 안에 목표 매출 300만원을 달성해야 합니다.
 
 [![Repository](https://img.shields.io/badge/GitHub-SejongOpenSource%2FOpenSource-blue)](https://github.com/SejongOpenSource/OpenSource)
 
@@ -10,68 +10,70 @@
 | 항목 | 내용 |
 |------|------|
 | 과목 | OpenSource |
-| 프로젝트 유형 | 팀 프로젝트 (4명) |
-| 개발 기간 | 약 1개월 (2026.05 ~ 2026.06) |
+| 프로젝트 유형 | 팀 프로젝트 |
+| 개발 기간 | 2026.05 ~ 2026.06 |
 | 버전 관리 | GitHub Flow |
 | 엔진 | Unity 6.3 LTS (`6000.3.14f1`) |
 | 저장소 | https://github.com/SejongOpenSource/OpenSource |
 
-상권 투자, 상품 발주, 날씨 대응, 대출 관리를 통해 **30턴 이내 누적 매출 500만원**을 달성하는 것이 목표입니다.
-
-## 팀원
-
-| GitHub | 역할 | 담당 |
-|--------|------|------|
-| [westnowjin](https://github.com/westnowjin) | PM | 기획, 프로젝트 관리, 씬 통합, PR 리뷰 |
-| [hlee0](https://github.com/hlee0) | 팀원 | 게임 코어 로직 (Manager, Data) |
-| [JO SUBIN](https://github.com/JO-SUBIN) | 팀원 | UI 패널, HUD |
-| 서현진 | 팀원 | Store/Player 시스템 |
-
-> 팀원 GitHub ID·담당 영역은 실제 분담에 맞게 수정해 주세요.
-
-## 게임 소개
-
-### 목표
+## 게임 목표
 
 | 항목 | 내용 |
 |------|------|
-| 승리 조건 | 누적 매출 **500만원** 달성 |
-| 패배 조건 | 자본금 **0원 미만** 또는 **30턴 소진** |
+| 승리 조건 | 누적 매출 **300만원** 달성 |
+| 패배 조건 | 자본금 **0원 미만** 또는 **30턴 초과** |
 | 초기 자본금 | 50만원 |
 | 최대 턴 | 30턴 (1턴 = 1영업일) |
 
-**점수 공식:** `(30 - 달성 턴) × 10,000 - 잔여 재고 원가 - 잔여 대출 잔액`
+**점수 공식**: `(30 - 달성 턴) × 10,000 - 잔여 재고 원가 - 잔여 대출 잔액`
 
-### 턴 흐름
+## 핵심 루프
 
+```text
+Upgrade -> Order -> Simulation -> Result
 ```
-1. Upgrade    → 상권 투자 결정
-2. Order      → 상품 발주, 날씨 확인, 대출
-3. Simulation → 영업 시뮬레이션 (자동 진행)
-4. Result     → 매출·재고 확인, 대출 상환
-```
+
+- `Upgrade`: 상권 투자 결정
+- `Order`: 상품 발주, 날씨 확인, 대출 처리
+- `Simulation`: 영업 시뮬레이션 자동 진행
+- `Result`: 매출·재고 확인, 대출 상환
+
+## 주요 시스템
+
+| 클래스 | 역할 |
+|--------|------|
+| `GameManager` | 전체 시스템 조율, 승패 이벤트 관리 |
+| `TurnManager` | 턴·페이즈 전환, 대출 이자 적용 |
+| `SalesAlgorithm` | 방문객 수 계산, 판매 시뮬레이션 |
+| `StoreManager` | 자본금, 상권, 대출 잔액 관리 |
+| `InventoryManager` | 재고 수량 관리 |
+| `WeatherSystem` | 날씨 생성 |
+| `CustomerManager` | 방문객 수 계산 |
+| `DataManager` | 상품·상권·날씨 데이터 조회 |
+
+## 데이터 구성
 
 ### 상품 (5종)
 
 | 상품 | 원가 | 판매가 | 마진 |
 |------|------|--------|------|
-| 삼각김밥 | 800원 | 1,200원 | 400원 |
-| 컵라면 | 700원 | 1,300원 | 600원 |
-| 음료수 | 500원 | 1,000원 | 500원 |
-| 도시락 | 3,500원 | 5,500원 | 2,000원 |
-| 우산 | 2,000원 | 3,500원 | 1,500원 |
+| 삼각김밥 | 400원 | 1,200원 | 800원 |
+| 컵라면 | 600원 | 1,300원 | 700원 |
+| 음료수 | 450원 | 1,000원 | 550원 |
+| 도시락 | 3,200원 | 5,000원 | 1,800원 |
+| 우산 | 3,500원 | 6,000원 | 2,500원 |
 
-손님은 상권·날씨에 따른 **확률 가중치**로 상품을 선택합니다. 재고가 없으면 해당 손님의 구매는 무효 처리됩니다.
+손님은 상권·날씨에 따른 확률 가중치로 상품을 선택하며, 재고가 없으면 구매가 무효 처리됩니다.
 
 ### 상권
 
-| 상권 | 투자 비용 | 방문객 보너스 | 주요 효과 |
-|------|-----------|---------------|-----------|
-| 주택가 (기본) | 무료 | — | 시작 상권 |
-| 학원가 | 50,000원 | +20% | 삼각김밥·컵라면 ×1.5 |
-| 대학교 | 100,000원 | +50% | 음료수 ×1.4 |
-| 오피스 | 150,000원 | +30% | 도시락 ×1.8 |
-| 관광지 | 200,000원 | +60% | 전 상품 ×1.3 |
+| 상권 | 투자 비용 | 방문객 배수 (계산식: 1 + visitorBonus) | 주요 효과 |
+|------|-----------|---------------------------------------|-----------|
+| 주택가 (Resident, 기본) | 무료 | x1.0 (+0%) | 시작 상권 |
+| 학원가 (Academy) | 50,000원 | x1.8 (+80%) | 삼각김밥·컵라면 ×1.5 |
+| 대학교 (Campus) | 100,000원 | x2.5 (+150%) | 음료수 ×1.4 |
+| 오피스 (Business) | 150,000원 | x2.75 (+175%) | 도시락 ×1.8 |
+| 관광지 (Tourist) | 200,000원 | x3.5 (+250%) | 전 상품 ×1.3 |
 
 ### 대출
 
@@ -90,74 +92,53 @@ git clone https://github.com/SejongOpenSource/OpenSource.git
 
 1. [Unity Hub](https://unity.com/download)에서 **Unity 6000.3.14f1** 설치
 2. 클론한 프로젝트를 Unity Hub로 열기
-3. `Assets/Scenes/MainMenu.unity` 씬 실행
+3. `Assets/Scenes/MainMenu.unity` 실행
 4. Play 버튼으로 게임 시작
 
-### Unity Git 설정 (협업 시)
+### Unity Git 설정
 
 - **Version Control** → Visible Meta Files
 - **Asset Serialization** → Force Text
-- `Library/`, `Temp/`, `Logs/` 등은 `.gitignore`로 제외, `*.meta`는 반드시 커밋
-
-## 기술 스택
-
-| 분류 | 사용 기술 |
-|------|-----------|
-| 엔진 | Unity 6.3 LTS |
-| 렌더링 | Universal Render Pipeline (URP) 2D |
-| 입력 | Unity Input System |
-| UI | Unity uGUI |
-| 데이터 | ScriptableObject |
+- `Library/`, `Temp/`, `Logs/` 등은 `.gitignore`로 제외
+- `*.meta` 파일은 반드시 커밋
 
 ## 프로젝트 구조
 
-```
+```text
 Assets/
 ├── Scenes/
-│   ├── MainMenu.unity          # 메인 메뉴
-│   └── PlayerEconomy.unity     # 게임 플레이 씬
+│   ├── MainMenu.unity
+│   ├── PlayerEconomy.unity
+│   └── SampleScene.unity
 ├── Scripts/
-│   ├── Manager/                # GameManager, TurnManager, SalesAlgorithm 등
-│   ├── Player/                 # StoreManager, InventoryManager, Loan, WeatherSystem
-│   ├── Data/                   # ScriptableObject 데이터 정의
-│   └── UI/                     # 페이즈별 UI 컨트롤러
-├── Data/
-│   ├── Products/               # 상품 ScriptableObject
-│   └── CSV/District/           # 상권 ScriptableObject
-├── Prefabs/UI/                 # UI 프리팹
-└── Sprites/, Audio/            # 에셋
+│   ├── Manager/
+│   ├── Player/
+│   ├── Data/
+│   └── UI/
+├── Resources/
+└── Sprites/
 ```
 
-### 핵심 클래스
+## 개발 프로세스
 
-| 클래스 | 역할 |
-|--------|------|
-| `GameManager` | 전체 시스템 조율, 승패 판정 |
-| `TurnManager` | 턴·페이즈 상태 머신 |
-| `SalesAlgorithm` | 방문객 수 계산, 판매 시뮬레이션 |
-| `StoreManager` | 자본금, 상권, 대출 잔액 관리 |
-| `DataManager` | 상품·상권·날씨 데이터 조회 |
-
-## 개발 프로세스 (GitHub Flow)
-
-이 프로젝트는 **GitHub Flow** 기반으로 협업했습니다.
+이 프로젝트는 GitHub Flow 기반으로 협업합니다.
 
 ```
-main (항상 실행 가능한 상태 유지)
+main
   ↑
-  PR (코드 리뷰 · 승인)
+  PR
   ↑
-feature/xxx (이슈 단위 작업 브랜치)
+feat/xxx
 ```
 
 ### 작업 순서
 
-1. **Issue 생성** — `.github/ISSUE_TEMPLATE/issue_template.md` 양식 사용
-2. **브랜치 생성** — `feature/기능명` 형식
-3. **작업 및 커밋** — Conventional Commits 접두어 사용
-4. **Pull Request** — `.github/pull_request_template.md` 작성
-5. **코드 리뷰** — 팀원 리뷰 후 `main` 병합
-6. **브랜치 삭제** — 병합 후 GitHub Actions로 자동 삭제 (`.github/workflows/delete-merged-branch.yml`)
+1. Issue 생성 - `.github/ISSUE_TEMPLATE/issue_template.md` 사용
+2. 브랜치 생성 - `feature/기능명` 형식
+3. 작업 및 커밋 - Conventional Commits 사용
+4. Pull Request - `.github/pull_request_template.md` 작성
+5. 코드 리뷰 후 `main` 병합
+6. 병합 후 브랜치 자동 삭제 - `.github/workflows/delete-merged-branch.yml`
 
 ### 커밋 컨벤션
 
@@ -169,30 +150,51 @@ feature/xxx (이슈 단위 작업 브랜치)
 | `refactor:` | 리팩토링 |
 | `test:` | 테스트 |
 
-### 협업 규칙
+## 팀원
 
-- `main` 브랜치에 직접 push 금지
-- PR은 최소 1명 이상 리뷰 후 병합
-- 씬 파일(`.unity`)은 충돌 위험이 높아 담당자 1명이 관리
-- 스크립트·프리팹 단위로 작업 분담
+| GitHub | 역할 | 담당 |
+|--------|------|------|
+| [theFireFly-Night](https://github.com/theFireFly-Night) | PM | 프로젝트 관리, 씬 통합, PR 리뷰, 핵심 기능 |
+| [nonactress](https://github.com/nonactress) | 팀원 | 게임 코어 로직 (Manager, Data) |
+| [hlee0](https://github.com/hlee0) | 팀원 | UI 패널, HUD |
+| [dong11ro](https://github.com/dong11ro) | 팀원 | 핵심 기능 및 서브 기능 |
 
-## 사용 에셋
 
-- [Kenney.nl](https://kenney.nl/) (CC0)
-- Unity Asset Store 무료 팩
-- [OpenGameArt.org](https://opengameart.org/)
+## 📄 라이선스 및 크레딧 (License & Credits)
 
-## 라이선스
+본 프로젝트는 세종대학교 OpenSource 강의의 팀 프로젝트입니다. 프로젝트 코드와 구조에 대한 저작권은 팀원에게 있으며, 저장소에 포함된 외부 에셋은 각 원저작자의 라이선스를 준수합니다.
 
-본 프로젝트는 **세종대학교 OpenSource 강의** 팀 프로젝트입니다.  
-게임 코드 및 프로젝트 구조에 대한 저작권은 팀원에게 있습니다.  
-외부 에셋은 각 출처의 라이선스를 따릅니다.
+### 🎵 배경 음악 (BGM)
+* **메인 화면 및 인게임 배경음악**
+  * **에셋명:** [Free Music Pack - Lo-Fi, Indie, Metal, Horror, Orchestral Loops](https://assetstore.unity.com/packages/audio/music/orchestral/free-music-pack-lo-fi-indie-metal-horror-orchestral-loops-281109)
+  * **제작자:** WOW Sound
+  * **라이선스:** [Unity Standard Asset License Extension](https://unity.com/legal/as-terms) (상업적 이용 가능, 크레딧 표기 의무 없음)
 
-### Sound & Background Music
-* **Track:** CLEAR(Bit Shift)
-* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/kevin-macleod/bit-shift](https://uppbeat.io/t/kevin-macleod/bit-shift)
-* **License code:** `4Z0YGUJO9WIOCLVQ`
+### 🔊 효과음 (SFX)
+* **편의점 문 벨소리 (Door Chime)**
+  * **사운드명:** [Convenience Store Door Chime (32bit, 48kHz, Stereo)](https://freesound.org/people/zebragrrl/sounds/632225/)
+  * **제작자:** zebragrrl (Based on Taira Komori)
+  * **라이선스:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (출처 표기 필수, 상업적 이용 및 수정 가능)
 
-* **Track:** CLEAR(Pixeltown)
-* **Music from #Uppbeat (free for Creators!):** [https://uppbeat.io/t/color-parade/pixeltown](https://uppbeat.io/t/color-parade/pixeltown)
-* **License code:** `BUJFOVLN1RGMSZO0`
+* **냉장고 구동음 (Refrigerator Hum)**
+  * **사운드명:** [Humming Refrigerator](https://freesound.org/people/Ironlink15/sounds/353797/)
+  * **제작자:** Ironlink15
+  * **라이선스:** [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (Public Domain, 출처 표기 의무 없음)
+
+* **화폐 동전 소리 (Money Drop)**
+  * **사운드명:** [Loose Change Drop On Wooden Floor](https://freesound.org/people/modusmogulus/sounds/794903/)
+  * **제작자:** modusmogulus
+  * **라이선스:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (출처 표기 필수, 상업적 이용 및 수정 가능)
+
+* **바코드 스캐너 소리 (Barcode Scanner)**
+  * **사운드명:** [Barcode Scanner Beep](https://freesound.org/people/magnuswaker/sounds/555061/)
+  * **제작자:** magnuswaker
+  * **라이선스:** [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (Public Domain, 출처 표기 의무 없음)
+
+* **타이틀 UI / 게임 오버 효과음 (Title & Game Over SFX)**
+  * **사운드명:** [8-Bit Game Over Sound (Alternative)](https://freesound.org/people/Mrthenoronha/sounds/513427/)
+  * **제작자:** Mrthenoronha
+  * **라이선스:** [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (Public Domain, 출처 표기 의무 없음)
+
+---
+💡 본 프로젝트의 외부 리소스 라이선스 관련 문의나 이의가 있으실 경우, GitHub Issue를 통해 제보해 주시면 즉각 반영하도록 하겠습니다.
