@@ -15,7 +15,7 @@ MonoBehaviour:
   districtName: Campus
   zone: 2
   investmentCost: 100000
-  visitorBonus: 0.5
+  visitorBonus: 1.5
   onigiriMult: 1
   noodleMult: 1
   drinkMult: 1.4

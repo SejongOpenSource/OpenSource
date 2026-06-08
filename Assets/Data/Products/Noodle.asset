@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Noodle
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 1
-  itemName: 라면
-  cost: 700
+  itemName: "\uB77C\uBA74"
+  cost: 600
   price: 1300
   icon: {fileID: 0}
