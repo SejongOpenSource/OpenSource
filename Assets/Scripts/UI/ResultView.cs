@@ -4,36 +4,47 @@ using UnityEngine.UI;
 public class ResultView : MonoBehaviour
 {
     // 상품별 결과 Row UI 목록
+    // 각 Row는 상품명, 발주 수량, 판매 수량, 남은 재고를 표시함
     public ResultRowUI[] resultRows;
 
     // 시작 자본금 표시 텍스트
+    // 발주 비용이 차감되기 전의 금액을 표시
     public Text startMoneyValueText;
 
     // 오늘 매출 표시 텍스트
+    // SalesAlgorithm에서 계산된 당일 매출을 표시
     public Text todaySalesValueText;
 
     // 대출 이자 비용 표시 텍스트
+    // 현재는 별도 계산값이 없어 0원으로 표시
     public Text interestCostValueText;
 
     // 마감 자본금 표시 텍스트
+    // 현재 StoreManager가 들고 있는 실제 보유 금액을 표시
     public Text finalMoneyValueText;
 
     // 남은 대출금 표시 텍스트
+    // 현재 부채 금액을 표시
     public Text remainingDebtText;
 
     // 상환 금액 입력 필드
+    // 플레이어가 갚을 금액을 직접 입력함
     public InputField repayInputField;
 
     // 대출 상환 버튼
+    // 클릭 시 입력한 금액만큼 대출 상환을 시도함
     public Button repayLoanButton;
 
     // 다음 날로 진행 버튼
+    // 클릭 시 Result 페이즈를 종료하고 다음 턴으로 이동함
     public Button nextDayButton;
 
     // 실제 대출 상환 로직이 있는 Loan 스크립트
+    // Inspector에서 연결하거나 GameManager에서 자동 연결
     public Loan loan;
 
     // 결과 화면 UI Row 순서와 동일한 상품 순서
+    // enum 전체 순서에 의존하지 않고, 화면에 보이는 Row 순서대로 직접 지정
     private readonly ItemType[] resultItemTypes =
     {
         ItemType.Onigiri,
@@ -69,6 +80,7 @@ public class ResultView : MonoBehaviour
 
     private void OnEnable()
     {
+        // 결과 패널이 켜질 때 돈 효과음 재생
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlaySFX(SFXType.Money);
@@ -82,6 +94,8 @@ public class ResultView : MonoBehaviour
 
     private void OnDestroy()
     {
+        // 오브젝트가 제거될 때 버튼 이벤트 해제
+        // 중복 호출이나 불필요한 참조를 방지
         if (repayLoanButton != null)
         {
             repayLoanButton.onClick.RemoveListener(OnRepayLoanButtonClicked);
@@ -101,6 +115,7 @@ public class ResultView : MonoBehaviour
             return;
         }
 
+        // GameManager에서 Loan 컴포넌트를 가져와 자동 연결
         if (GameManager.Instance != null)
         {
             loan = GameManager.Instance.loan;
@@ -124,40 +139,51 @@ public class ResultView : MonoBehaviour
             return;
         }
 
+        // InventoryManager가 있어야 발주량, 판매량, 재고를 가져올 수 있음
         if (GameManager.Instance == null || GameManager.Instance.inventoryManager == null)
         {
             Debug.LogError("ResultView: GameManager 또는 InventoryManager를 찾을 수 없습니다.");
             return;
         }
 
+        // 실제 재고 데이터를 관리하는 InventoryManager 참조
         InventoryManager inventoryManager = GameManager.Instance.inventoryManager;
 
+        // UI Row 개수와 상품 종류 개수 중 더 작은 값만큼만 반복
         int rowCount = System.Math.Min(resultRows.Length, resultItemTypes.Length);
 
         for (int i = 0; i < rowCount; i++)
         {
+            // 비어 있는 Row는 건너뜀
             if (resultRows[i] == null)
             {
                 continue;
             }
 
+            // 현재 Row에 해당하는 상품 종류
             ItemType itemType = resultItemTypes[i];
 
             ItemData itemData = null;
 
+            // DataManager에서 상품 이름, 가격 등 상품 데이터 가져오기
             if (DataManager.Instance != null && DataManager.Instance.itemDataManager != null)
             {
                 itemData = DataManager.Instance.itemDataManager.GetItem(itemType);
             }
 
+            // 상품명 결정
             string productName = GetProductName(itemType, itemData);
 
+            // 이번 턴에 발주한 수량
             int orderedCount = inventoryManager.GetLastOrder(itemType);
+
+            // 이번 턴에 판매된 수량
             int soldCount = inventoryManager.GetLastSold(itemType);
 
             // InventoryManager가 저장하고 있는 현재 재고값 사용
             int remainingStock = inventoryManager.GetStock(itemType);
 
+            // Row UI에 결과 데이터 반영
             resultRows[i].SetResult(productName, orderedCount, soldCount, remainingStock);
         }
     }
@@ -178,7 +204,10 @@ public class ResultView : MonoBehaviour
             return;
         }
 
+        // 자산과 부채를 관리하는 StoreManager
         StoreManager storeManager = GameManager.Instance.storeManager;
+
+        // 발주 전 시작 자본금 정보를 가지고 있는 InventoryManager
         InventoryManager inventoryManager = GameManager.Instance.inventoryManager;
 
         int todaySales = 0;
@@ -195,11 +224,13 @@ public class ResultView : MonoBehaviour
         // 마감 자본금은 현재 StoreManager의 실제 자산 사용
         int finalMoney = storeManager.currentMoney;
 
+        // 시작 자본금 표시
         if (startMoneyValueText != null)
         {
             startMoneyValueText.text = $"{startMoney:N0}원";
         }
 
+        // 오늘 매출 표시
         if (todaySalesValueText != null)
         {
             todaySalesValueText.text = $"{todaySales:N0}원";
@@ -211,6 +242,7 @@ public class ResultView : MonoBehaviour
             interestCostValueText.text = "0원";
         }
 
+        // 마감 자본금 표시
         if (finalMoneyValueText != null)
         {
             finalMoneyValueText.text = $"{finalMoney:N0}원";
