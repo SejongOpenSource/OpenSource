@@ -1,7 +1,7 @@
 # ConvenienceStore
 
 세종대학교 OpenSource 강의에서 제작한 Unity 기반 2D 편의점 경영 시뮬레이션입니다.
-플레이어는 상권 투자, 상품 발주, 날씨 대응, 대출 관리, 재고 운영을 통해 30턴 안에 목표 매출 300만원을 달성해야 합니다.
+플레이어는 상권 투자, 상품 발주, 날씨 대응, 대출 관리, 재고 운영을 통해 30턴 안에 목표 매출 500만원을 달성해야 합니다.
 
 [![Repository](https://img.shields.io/badge/GitHub-SejongOpenSource%2FOpenSource-blue)](https://github.com/SejongOpenSource/OpenSource)
 
@@ -20,7 +20,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| 승리 조건 | 누적 매출 **300만원** 달성 |
+| 승리 조건 | 누적 매출 **500만원** 달성 |
 | 패배 조건 | 자본금 **0원 미만** 또는 **30턴 초과** |
 | 초기 자본금 | 50만원 |
 | 최대 턴 | 30턴 (1턴 = 1영업일) |
