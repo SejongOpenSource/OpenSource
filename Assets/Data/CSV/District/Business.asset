@@ -15,7 +15,7 @@ MonoBehaviour:
   districtName: Business
   zone: 3
   investmentCost: 150000
-  visitorBonus: 0.3
+  visitorBonus: 1.75
   onigiriMult: 1
   noodleMult: 1
   drinkMult: 1
