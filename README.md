@@ -9,7 +9,13 @@
 
 ## 스크린샷
 
-![스크린샷](docs/screenshot.png)
+| Upgrade (상권 선택) | Order (발주) |
+|---|---|
+| ![상권 선택](docs/screenshot_upgrade.png) | ![발주](docs/screenshot_order.png) |
+
+| Simulation (영업 진행) | Result (매출 요약) |
+|---|---|
+| ![영업 진행](docs/screenshot_simulation.png) | ![매출 요약](docs/screenshot_result.png) |
 
 ## 프로젝트 개요
 
