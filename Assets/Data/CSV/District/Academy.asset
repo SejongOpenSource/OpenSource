@@ -15,7 +15,7 @@ MonoBehaviour:
   districtName: Academy
   zone: 1
   investmentCost: 50000
-  visitorBonus: 0.2
+  visitorBonus: 0.8
   onigiriMult: 1.5
   noodleMult: 1.5
   drinkMult: 1

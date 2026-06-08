@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bento
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 3
-  itemName: 도시락
-  cost: 3500
-  price: 5500
+  itemName: "\uB3C4\uC2DC\uB77D"
+  cost: 3200
+  price: 5000
   icon: {fileID: 0}

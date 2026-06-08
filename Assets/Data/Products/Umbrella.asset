@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Umbrella
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 4
-  itemName: 우산
-  cost: 2000
-  price: 3500
+  itemName: "\uC6B0\uC0B0"
+  cost: 3500
+  price: 6000
   icon: {fileID: 0}

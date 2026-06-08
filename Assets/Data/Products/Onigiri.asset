@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Onigiri
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 0
-  itemName: 삼각김밥
-  cost: 800
+  itemName: "\uC0BC\uAC01\uAE40\uBC25"
+  cost: 400
   price: 1200
   icon: {fileID: 0}

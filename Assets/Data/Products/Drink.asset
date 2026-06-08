@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Drink
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemType: 2
-  itemName: 음료
-  cost: 500
+  itemName: "\uC74C\uB8CC"
+  cost: 450
   price: 1000
   icon: {fileID: 0}
