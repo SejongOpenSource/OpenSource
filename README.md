@@ -128,7 +128,7 @@ main
   ↑
   PR
   ↑
-fea/xxx
+feat/xxx
 ```
 
 ### 작업 순서
@@ -154,7 +154,7 @@ fea/xxx
 
 | GitHub | 역할 | 담당 |
 |--------|------|------|
-| [theFireFlt-Night](https://github.com/theFireFly-Night) | PM | 프로젝트 관리, 씬 통합, PR 리뷰, 핵심 기능 |
+| [theFireFly-Night](https://github.com/theFireFly-Night) | PM | 프로젝트 관리, 씬 통합, PR 리뷰, 핵심 기능 |
 | [nonactress](https://github.com/nonactress) | 팀원 | 게임 코어 로직 (Manager, Data) |
 | [hlee0](https://github.com/hlee0) | 팀원 | UI 패널, HUD |
 | [dong11ro](https://github.com/dong11ro) | 팀원 | 핵심 기능 및 서브 기능 |
