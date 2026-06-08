@@ -5,6 +5,7 @@
 
 [![Repository](https://img.shields.io/badge/GitHub-SejongOpenSource%2FOpenSource-blue)](https://github.com/SejongOpenSource/OpenSource)
 
+> `PROJECT_README.md`는 초기 기획 단계의 초안 문서입니다. 최신 정보는 이 `README.md`를 기준으로 합니다.
 
 ## 스크린샷
 
