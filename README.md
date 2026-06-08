@@ -5,6 +5,12 @@
 
 [![Repository](https://img.shields.io/badge/GitHub-SejongOpenSource%2FOpenSource-blue)](https://github.com/SejongOpenSource/OpenSource)
 
+> `PROJECT_README.md`는 초기 기획 단계의 초안 문서입니다. 최신 정보는 이 `README.md`를 기준으로 합니다.
+
+## 스크린샷
+
+![스크린샷](docs/screenshot.png)
+
 ## 프로젝트 개요
 
 | 항목 | 내용 |
@@ -25,6 +31,8 @@
 | 초기 자본금 | 5만원 |
 | 최대 턴 | 30턴 (1턴 = 1영업일) |
 
+### 점수 산정
+
 **점수 공식**: `(30 - 달성 턴) × 10,000 - 잔여 재고 원가 - 잔여 대출 잔액`
 
 ## 핵심 루프
@@ -44,11 +52,11 @@ Upgrade -> Order -> Simulation -> Result
 |--------|------|
 | `GameManager` | 전체 시스템 조율, 승패 이벤트 관리 |
 | `TurnManager` | 턴·페이즈 전환, 대출 이자 적용 |
-| `SalesAlgorithm` | 방문객 수 계산, 판매 시뮬레이션 |
+| `SalesAlgorithm` | 상품 선택 확률 계산 및 판매 시뮬레이션 실행 |
 | `StoreManager` | 자본금, 상권, 대출 잔액 관리 |
 | `InventoryManager` | 재고 수량 관리 |
 | `WeatherSystem` | 날씨 생성 |
-| `CustomerManager` | 방문객 수 계산 |
+| `CustomerManager` | 상권·날씨 기반 일일 방문객 수 산출 |
 | `DataManager` | 상품·상권·날씨 데이터 조회 |
 
 ## 데이터 구성
@@ -65,6 +73,16 @@ Upgrade -> Order -> Simulation -> Result
 
 손님은 상권·날씨에 따른 확률 가중치로 상품을 선택하며, 재고가 없으면 구매가 무효 처리됩니다.
 
+### 날씨 효과
+
+| 날씨 | 오전 발생 확률 | 방문객 수 보정 | 상품 판매 보정 |
+|------|---------------|----------------|----------------|
+| 맑음 (Sunny) | 35% | ×1.0 | 변동 없음 |
+| 흐림 (Cloudy) | 30% | ×0.8 | 변동 없음 |
+| 비 (Rainy) | 25% | ×0.9 | 우산 ×2.0 |
+| 폭염 (Heatwave) | 5% | ×1.05 | 음료수 ×1.5 |
+| 눈 (Snowy) | 5% | ×0.7 | 변동 없음 |
+
 ### 상권
 
 | 상권 | 투자 비용 | 방문객 배수 (계산식: 1 + visitorBonus) | 주요 효과 |
@@ -74,6 +92,8 @@ Upgrade -> Order -> Simulation -> Result
 | 대학교 (Campus) | 100,000원 | x2.5 (+150%) | 음료수 ×1.4 |
 | 오피스 (Business) | 150,000원 | x2.75 (+175%) | 도시락 ×1.8 |
 | 관광지 (Tourist) | 200,000원 | x3.5 (+250%) | 전 상품 ×1.3 |
+
+> 상권은 한 번 구매하면 영구 잠금 해제됩니다. 이미 구매한 상권은 이후 턴에 추가 비용 없이 재선택할 수 있으며, 동시에 적용되는 상권은 하나입니다.
 
 ### 대출
 
@@ -109,7 +129,7 @@ Assets/
 ├── Scenes/
 │   ├── MainMenu.unity
 │   ├── PlayerEconomy.unity
-│   └── SampleScene.unity
+│   └── SampleScene.unity        # Unity 기본 제공 씬 (미사용)
 ├── Scripts/
 │   ├── Manager/
 │   ├── Player/
