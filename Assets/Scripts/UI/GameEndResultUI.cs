@@ -259,7 +259,7 @@ public class GameEndResultUI : MonoBehaviour
     {
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.PlayBGM(BGMType.Title1, fade: true, fadeDuration: 1.1f);
+            SoundManager.Instance.PlayBGM(BGMType.Title, fade: true, fadeDuration: 1.1f);
         }
         
         ResetGameSession();
